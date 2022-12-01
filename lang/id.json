@@ -1,0 +1,60 @@
+{
+    "Employe" : "Karyawan",
+    "Owner" : "Pemilik",
+    "Profile" : "Profil",
+    "Personal Information" : "Informasi Pribadi",
+    "Name" : "Nama",
+    "Gender" : "Jenis Kelamin",
+    "Email" : "E-mail",
+    "Number Phone" : "Nomor Telepon",
+    "Address" : "Alamat",
+    "Settings Account" : "Pengaturan Akun",
+    "Change Password" : "Ganti Kata Sandi",
+    "Language" : "Bahasa",
+    "Active" : "Aktif",
+    "Users Management" : "Manajemen Pengguna",
+    "User Positions" : "Jabatan Pengguna",
+    "Products" : "Produk",
+    "Product" : "Produk",
+    "Products Management" : "Manajemen Produk",
+    "Product Categories" : "Kategori Produk",
+    "Users" : "Para Pengguna",
+    "User" : "Pengguna",
+    "Sallary" : "Gaji",
+    "Sallaries Management" : "Manajemen Gaji",
+    "Sallary By Position" : "Gaji Berdasarkan Posisi",
+    "Sallary By Product" : "Gaji Perdasarkan Produk",
+    "Invoices" : "Pembayaran Gaji",
+    "Create Invoice" : "Buat Pembayaran Gaji",
+    "Invoice Histories" : "Riwayat Gaji",
+    "Old Password" : "Kata Sandi Lama",
+    "New Password" : "Kata Sandi Baru",
+    "Confirm New Password" : "Konfirmasi Kata Sandi Baru",
+    "isIncorrectPassword" : "Kata sandi saat ini salah",
+
+
+
+
+
+
+
+
+
+
+
+    "Something went wrong, updating personal information" : "Terjadi kesalahan pada saat memperbarui informasi pribadi!",
+    "Your profile info has been updated successfully" : "Info profil Anda telah berhasil diperbarui.",
+    "Your password has been changed successfully" : "Kata sandi Anda telah berhasil diubah",
+    "Something went wrong when changing the password" : "Ada yang salah pada saat mengganti password",
+    "Something Wrong, At the time of uploading a new image!" : "Ada yang Salah, Pada saat mengunggah gambar baru!",
+    "Your profile picture has been updated successfully" : "Gambar profil Anda telah berhasil diperbarui.",
+    "Something went wrong while deleting your profile picture" : "Terjadi kesalahan saat menghapus gambar profil Anda!",
+    "Your profile picture has been deleted successfully" : "Gambar profil Anda telah berhasil dihapus.",
+    "Are You Sure" : "Apa Kamu Yakin?",
+    "You wont be able to revert this" : "Anda tidak akan dapat mengembalikan ini!",
+    "Yes, deleted it" : "Ya, Hapus ini",
+    "Cancel" : "Batalkan"
+
+
+
+}

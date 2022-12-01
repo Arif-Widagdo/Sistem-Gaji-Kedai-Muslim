@@ -1,0 +1,56 @@
+{
+    "Employe" : "Employe",
+    "Owner" : "Owner",
+    "Profile" : "Profile",
+    "Personal Information" : "Personal Information",
+    "Name" : "Name",
+    "Gender" : "Gender",
+    "Email" : "Email",
+    "Number Phone" : "Number Phone",
+    "Address" : "Address",
+    "Settings Account" : "Settings Account",
+    "Change Password" : "Change Passwordi",
+    "Language" : "Language",
+    "Active" : "Active",
+    "Users Management" : "Users Management",
+    "User Positions" : "User Positions",
+    "Products" : "Products",
+    "Product" : "Product",
+    "Products Management" : "Products Management",
+    "Product Categories" : "Product Categories",
+    "Users" : "Users",
+    "User" : "User",
+    "Sallary" : "Sallary",
+    "Sallaries Management" : "Sallaries Management",
+    "Sallary By Position" : "Sallary By Position",
+    "Sallary By Product" : "Sallary By Product",
+    "Invoices" : "Invoices",
+    "Create Invoice" : "Create Invoice",
+    "Invoice Histories" : "Invoice Histories",
+    "Old Password" : "Old Password",
+    "New Password" : "New Password",
+    "Confirm New Password" : "Confirm New Password",
+    "isIncorrectPassword" : "The current password is incorrect",
+
+
+
+
+
+
+
+
+
+    "Something went wrong, updating personal information" : "Something went wrong, updating personal information!",
+    "Your profile info has been updated successfully" : "Your profile info has been updated successfully.",
+    "Your password has been changed successfully" : "Your password has been changed successfully",
+    "Something went wrong when changing the password" : "Something went wrong when changing the password",
+    "Something Wrong, At the time of uploading a new image!" : "Something Wrong, At the time of uploading a new image!",
+    "Your profile picture has been updated successfully" : "Your profile picture has been updated successfully.",
+    "Something went wrong while deleting your profile picture" : "Something went wrong while deleting your profile picture!",
+    "Your profile picture has been deleted successfully" : "Your profile picture has been deleted successfully.",
+    "Are You Sure" : "Are You Sure?",
+    "You wont be able to revert this" : "You won't be able to revert this!",
+    "Yes, deleted it" : "Yes, deleted it",
+    "Cancel" : "Cancel"
+
+}
