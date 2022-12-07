@@ -7,6 +7,8 @@ use App\Http\Controllers\RouterController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Owner\OwnerController;
 use App\Http\Controllers\Employee\EmployeeController;
+use App\Http\Controllers\Owner\PositionController;
+use App\Http\Controllers\Owner\UserManagementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,7 +30,8 @@ Route::get('/locale/{locales}', function ($locale) {
 });
 
 Route::get('/', function () {
-    return view('welcome');
+    // return view('welcome');
+    return redirect()->route('login');
 });
 
 // Route::get('/dashboard', function () {
@@ -49,6 +52,15 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::group(['prefix' => 'owner', 'middleware' => 'isOwner'], function () {
         Route::get('/dashboard', [OwnerController::class, 'index'])->name('owner.dashboard');
         Route::get('/profile', [ProfileController::class, 'edit'])->name('owner.profile.edit');
+
+        // Route Users Position
+        Route::get('/check-positions/slug', [PositionController::class, 'checkSlug'])->name('admin.check.positions');
+        Route::delete('/positionst-deleteAll', [PositionController::class, 'deleteAll'])->name('admin.position.deleteAll');
+        Route::resource('/positions', PositionController::class)->except(['create', 'edit']);
+
+        // Route Users Management
+        Route::resource('/users', UserManagementController::class);
+        Route::delete('/users-management-deleteAll', [UserManagementController::class, 'deleteAll'])->name('admin.users.deleteAll');
     });
 
 

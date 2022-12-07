@@ -12,6 +12,7 @@
     "Change Password" : "Change Passwordi",
     "Language" : "Language",
     "Active" : "Active",
+    "Not Active" : "Not Active",
     "Users Management" : "Users Management",
     "User Positions" : "User Positions",
     "Products" : "Products",
@@ -31,7 +32,67 @@
     "New Password" : "New Password",
     "Confirm New Password" : "Confirm New Password",
     "isIncorrectPassword" : "The current password is incorrect",
+    "User Positions Management" : "Position Management",
+    "Position Names" : "Position Names",
+    "Position Name" : "Position Name",
+    "Created date" : "Created date",
+    "Status" : "Status",
+    "Actions" : "Actions",
+    "Create New Position" : "Create New Position", 
+    "Delete All Selected" : "Delete All Selected",
+    "Show" : "Show",
+    "Edit" : "Edit",
+    "Remove" : "Remove",
+    "Automatically" : "Automatically",
+    "Submit" : "Submit",
+    "New User Position Form" : "New User Position Form",
+    "Choose Status" : "Choose Status",
+    "Press" : "Press",
+    "or switch columns to insert slug values automatically" : "or switch columns to insert slug values automatically",
+    "Position Edit Form" : "Position Edit Form",
+    "Please complete the input on the form provided" : "Please complete the input on the form provided",
+    "Something went wrong while creating a new position" : "Something went wrong while creating a new position",
+    "New Position Created Successfully" : "New Position Created Successfully",
+    "Something went wrong when updating positions" : "Something went wrong when updating positions",
+    "Position edited successfully" : "Position edited successfully",
+    "Position successfully deleted" : "Position successfully deleted",
+    "Failed position deleted" : "Failed position deleted",
+    "The selected position failed to delete" : "The selected position failed to delete",
+    "The selected position successfully deleted" : "The selected position successfully deleted",
+    "Registration user successfully" : "Registration user successfuly!",
+    "Somethin went Wrong, creating user" : "Somethin went wrong Registration user!",
+    "User successfully deleted" : "User successfully deleted!",
+    "Are you sure?" : "Are you sure?",
+    "User Management" : "User Management",
+    "List of Users" : "List of Users",
+    "Create new user" : "Create new user",
+    "User Names" : "User Names",
+    "Email Address" : "Email Address",
+    "Positions" : "Positions",
+    "New User Registration Form" : "New User Registration Form",
+    "Data is Empty" : "Data is Empty",
+    "Enter" : "Enter",
+    "Select User Position" : "Select User Position",
+    "Select Gender" : "Select Gender",
+    "Male" : "Male",
+    "Female" : "Female",
+    "User Position" : "User Position",
 
+
+
+
+
+
+
+
+    "Quick Search" : "Quick Search:",
+    "DataTableLengthMenu" : "Show _MENU_ Data",
+    "All" : "All",
+    "DataTableInfo" : "Showing _START_ to _END_ of _TOTAL_ Data",
+    "DataTableInfoEmpty" : "Showing 0 to 0 of 0 Data",
+    "DataTabelInfoFiltered" : "(filtered from _MAX_ total Data)",
+    "Previous" : "Previous",
+    "Next" : "Next",
 
 
 
@@ -51,6 +112,7 @@
     "Are You Sure" : "Are You Sure?",
     "You wont be able to revert this" : "You won't be able to revert this!",
     "Yes, deleted it" : "Yes, deleted it",
-    "Cancel" : "Cancel"
+    "Cancel" : "Cancel",
+    "Wait a few minutes to try again" : "Wait a few minutes to try again!"
 
 }

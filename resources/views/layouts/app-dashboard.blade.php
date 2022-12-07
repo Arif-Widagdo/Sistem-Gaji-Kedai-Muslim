@@ -4,18 +4,19 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-      <!-- SEO Meta Tags -->
-         {{-- <meta name="description" content="Learn Basic Radiology Techniques here to improve radiological interpretation skills, and increase confidence." /> --}}
+    <!-- SEO Meta Tags -->
+    {{-- <meta name="description" content="" /> --}}
     <meta name="author" content="Arif Widagdo | arifwidagdo24@gmail.com" />
       
-          <!-- OG Meta Tags to improve the way the post looks when you share the page on Facebook, Twitter, LinkedIn -->
-         {{-- <meta property="og:site_name" content="ExRAY.web" /> <!-- website name -->
-         <meta property="og:site" content="" /> <!-- website link -->
-         <meta property="og:title" content="Elearning for X-Ray" /> <!-- title shown in the actual shared post -->
-         <meta property="og:description" content="Learn Basic Radiology Techniques here to improve radiological interpretation skills, and increase confidence." /> <!-- description shown in the actual shared post -->
-         <meta property="og:image" content="{{ asset('dist/img/logo.jpg') }}" /> <!-- image link, make sure it's jpg -->
-         <meta property="og:url" content="" /> <!-- where do you want your post to link to -->
-         <meta name="twitter:card" content="summary_large_image" /> <!-- to have large image post format in Twitter --> --}}
+    <!-- OG Meta Tags to improve the way the post looks when you share the page on Facebook, Twitter, LinkedIn -->
+    {{-- <meta property="og:site_name" content="Sistem Gaji Kedai Muslim" /> <!-- website name -->
+    <meta property="og:site" content="" /> <!-- website link -->
+    <meta property="og:title" content="Elearning for X-Ray" /> <!-- title shown in the actual shared post -->
+    <meta property="og:description" content="" /> <!-- description shown in the actual shared post -->
+    <meta property="og:image" content="{{ asset('dist/img/logo.jpg') }}" /> <!-- image link, make sure it's jpg -->
+    <meta property="og:url" content="" /> <!-- where do you want your post to link to -->
+    <meta name="twitter:card" content="summary_large_image" /> <!-- to have large image post format in Twitter --> --}}
+
     <meta name="csrf-token" content="{{ csrf_token() }}">
         
     <base href="{{{ URL::to('/') }}}">
@@ -31,7 +32,13 @@
     <!-- Google Font: Source Sans Pro -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700;900&family=Ubuntu:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700|Nunito:300,300i,400,400i,600,600i,700,700i,900|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i&display=fallback">
+
+{{-- 
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700;900|Nunito:wght@400;600;700&display=swap|family=Ubuntu:wght@700&display=swap" rel="stylesheet">
+ --}}
+
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset("plugins/fontawesome-free/css/all.min.css") }}">
@@ -41,7 +48,9 @@
     {{-- <link rel="stylesheet" href="{{ asset('plugins/ijabo-crop-tool/ijaboCropTool.min.css') }}"> --}}
     @yield('links')
     <!-- Theme style -->
-    <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('dist/css/adminlte.css') }}">
+    <!-- Toaster -->
+    <link rel="stylesheet" href="{{ asset('dist/css/animate.min.css') }}">
     <!-- SweetAlert 2 | Display Message -->
     <link rel="stylesheet" href={{ asset('plugins/sweetalert2/sweetalert2.css') }}>
     <!-- Toaster -->
@@ -91,6 +100,16 @@
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
+                    @if(session()->has('success'))
+                    <div class="successToast"></div>
+                    @elseif(session()->has('error'))
+                    <div class="errorToast"></div>
+                    @endif
+                    
+                    <div class="" id="successToast"></div>
+                    <div class="" id="errorToast"></div>
+                    <div class="" id="infoToast"></div>
+
                     {{ $slot }}
                 </div>
                 <!--/. container-fluid -->
@@ -135,27 +154,58 @@
                 }
             });
         
-            $(function () {
-                var Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000
-                });
+            var Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+            });
     
-                $('.successToast').each(function () {
+            $('.successToast').each(function () {
+                Toast.fire({
+                    icon: 'success',
+                    title: '{{ Session::get("success") }}'
+                })
+            });
+                
+            $('.errorToast').each(function () {
+                Toast.fire({
+                    icon: 'error',
+                    title: '{{ Session::get("error") }}'
+                })
+            });
+
+            function alertToastInfo(msg) {
+                $('#infoToast').addClass("infoToast");
+                return $('.infoToast').each(function () {
+                    Toast.fire({
+                        icon: 'info',
+                        title: msg
+                    })
+                });
+            }
+
+            function alertToastSuccess(msg) {
+                $('#successToast').addClass("successToast");
+                return $('.successToast').each(function () {
                     Toast.fire({
                         icon: 'success',
-                        title: '{{ Session::get("success") }}'
+                        title: msg
                     })
                 });
-                $('.errorToast').each(function () {
+            }
+
+            function alertToastError(msg) {
+                $('#errorToast').addClass("errorToast");
+                return $('.errorToast').each(function () {
                     Toast.fire({
                         icon: 'error',
-                        title: '{{ Session::get("error") }}'
+                        title: msg
                     })
                 });
-            });
+            }
+
+          
         </script>
 
 

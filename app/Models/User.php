@@ -54,7 +54,7 @@ class User extends Authenticatable
     public function getPictureAttribute($value)
     {
         if ($value) {
-            return asset('dist/img/users/' . $value);
+            return asset('storage/img/users/' . $value);
         } else {
             return asset('dist/img/users/no-image.jpeg');
         }

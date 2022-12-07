@@ -23,21 +23,25 @@ class DatabaseSeeder extends Seeder
             'id' => Uuid::uuid4()->toString(),
             'name' => 'Owner',
             'slug' => 'owner',
+            'status_act' => 1,
         ]);
         \App\Models\Position::factory()->create([
             'id' => Uuid::uuid4()->toString(),
             'name' => 'Setrika',
             'slug' => 'setrika',
+            'status_act' => 1,
         ]);
         \App\Models\Position::factory()->create([
             'id' => Uuid::uuid4()->toString(),
             'name' => 'Finishing',
             'slug' => 'finishing',
+            'status_act' => 1,
         ]);
         \App\Models\Position::factory()->create([
             'id' => Uuid::uuid4()->toString(),
             'name' => 'Packing',
             'slug' => 'packing',
+            'status_act' => 1,
         ]);
 
         $positions = \App\Models\Position::all();

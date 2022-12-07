@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('positions', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->string('slug')->unique();
+            $table->boolean('status_act');
             $table->timestamps();
         });
     }

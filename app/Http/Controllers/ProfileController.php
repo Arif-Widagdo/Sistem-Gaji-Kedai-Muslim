@@ -81,7 +81,7 @@ class ProfileController extends Controller
 
     public function updatePicture(Request $request)
     {
-        $path = 'dist/img/users/';
+        $path = 'storage/img/users/';
         $file = $request->file('user_image');
         $new_name = 'UIMG_' . date('Ymd') . uniqid() . '.jpg';
 
@@ -111,7 +111,7 @@ class ProfileController extends Controller
 
     function deletePicture()
     {
-        $path = 'dist/img/users/';
+        $path = 'storage/img/users/';
         $oldPicture = User::find(Auth::user()->id)->getAttributes()['picture'];
 
         if ($oldPicture != '') {
@@ -120,16 +120,6 @@ class ProfileController extends Controller
             }
         }
         $deleted = User::find(Auth::user()->id)->update(['picture' =>  null]);
-
-
-
-        // if (!$deleted) {
-        //     return response()->json(['status' => 0, 'msg' => __('Something went wrong while deleting your profile picture')]);
-        // } else {
-        //     return response()->json(['status' => 1, 'msg' => __('Your profile picture has been deleted successfully')]);
-        // }
-
-
 
         if (!$deleted) {
             return redirect()->back()->with('success', __('Something went wrong while deleting your profile picture'));

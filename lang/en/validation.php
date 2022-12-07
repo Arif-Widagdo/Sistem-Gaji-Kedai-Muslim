@@ -171,7 +171,14 @@ return [
         'cnewpassword' => [
             'required' => 'ReEnter your new password',
             'same' => 'New password and Confirm password must match'
-        ]
+        ],
+
+        'status_act' => [
+            'required' => 'Activation status is required!',
+        ],
+        'id_position' => [
+            'required' => 'Position must be required!',
+        ],
     ],
 
     /*
