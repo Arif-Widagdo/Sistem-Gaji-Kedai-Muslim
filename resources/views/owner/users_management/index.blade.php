@@ -22,15 +22,13 @@
 
     <!-- Main row -->
     <div class="row animate__animated animate__slideInUp">
-        <!-- Left col -->
         <div class="col-md-12">
-            @if($users->count() > 0)
             <div class="card card-purple card-outline">
                 <form method="post">
                     @method('delete')
                     @csrf
                     <div class="card-header">
-                        <button formaction="{{ route('admin.users.deleteAll') }}" class="btn btn-danger float-left" type="submit" hidden id="btn-delet-all" onclick="return confirm('{{ __('Are you sure?') }}')">
+                        <button formaction="{{ route('owner.users.deleteAll') }}" class="btn btn-danger float-left" type="submit" hidden id="btn-delet-all" onclick="return confirm('{{ __('Are you sure?') }}')">
                             <i class="fas fa-solid fa-trash"></i> {{ __('Delete All Selected') }}
                         </button>
                         <button type="button" class="btn btn-purple float-right" data-toggle="modal"
@@ -38,7 +36,9 @@
                             {{ __('Create new user') }} <i class="fas fa-plus-circle"></i>
                         </button>
                     </div>
+                    @if($users->count() > 0)
                     <div class="card-body">
+                       
                         <table id="table-positions" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
@@ -77,7 +77,7 @@
 
                                     <td class="text-center">
                                         <div class="d-inline-flex align-items-center text-center">
-                                            <a class="btn btn-sm btn-info ml-1 d-inline-flex align-items-center font-small" data-toggle="modal" data-target="#modal-show">
+                                            <a class="btn btn-sm btn-info ml-1 d-inline-flex align-items-center font-small" data-toggle="modal" data-target="#modal-show{{ $user->id }}">
                                                 {{ __('Show') }} <i class="fas fa-eye ml-2"></i>
                                             </a>
                                             <a data-toggle="modal" data-target="#modal-edit" class="btn btn-sm btn-warning ml-1 d-inline-flex align-items-center font-small">
@@ -96,14 +96,13 @@
                                 @endforeach
                             </tbody>
                         </table>
+                       
                     </div>
+                    @else
+                    @endif
                 </form>
             </div>
-            @else
-                {{ __('Data is Empty') }}
-            @endif
         </div>
-        <!-- /.col -->
     </div>
     <!-- /.row -->
 
@@ -174,6 +173,92 @@
     </div>
     <!-- /.modal -->
 
+     <!---- Modal Show --->
+     @foreach ($users as $user)
+     <div class="modal fade" id="modal-show{{ $user->id }}">
+         <div class="modal-dialog modal-lg" >
+             <div class="modal-content rounded-3">
+                 <div class="modal-body ">
+                     <div class="card-body box-profile">
+                         <div class="text-center">
+                             <a target="_blank" href="{{ $user->picture }}" data-toggle="lightbox" data-title="bumdes" data-gallery="gallery">
+                                 <img class="profile-user-img img-fluid img-circle" src="{{ $user->picture }}"
+                                     alt="User profile picture">
+                             </a>
+                         </div>
+                         <p class="text-muted text-center mb-0">
+                            {{ $user->userPosition->name }}
+                         </p>
+                         <h3 class="profile-username text-center mt-0 mb-4">
+                            {{ $user->name }}
+                         </h3>
+                         <div class="row">
+                             <div class="col-lg-12">
+                                 <ul class="list-group list-group-unbordered mb-3">
+                                    <li class="list-group-item d-flex align-items-center">
+                                        <p class="col-lg-4 text-bold">{{ __('Name') }}</p> <p class="col-lg-8">: {{ $user->name }}</p>
+                                    </li>
+                                    <li class="list-group-item d-flex align-items-center">
+                                        <p class="col-lg-4 text-bold">{{ __('User Position') }}</p> <p class="col-lg-8">: {{ $user->userPosition->name }}</p>
+                                    </li>
+                                    <li class="list-group-item d-flex align-items-center">
+                                        <p class="col-lg-4 text-bold">{{ __('Created date') }}</p> <p class="col-lg-8">: {{ $user->created_at }}</p>
+                                    </li>
+                                    <li class="list-group-item d-flex align-items-center">
+                                        <p class="col-lg-4 text-bold">{{ __('Email') }}</p> <p class="col-lg-8">: {{ $user->email }}</p>
+                                    </li>
+                                    <li class="list-group-item d-flex align-items-center">
+                                        <p class="col-lg-4 text-bold">{{ __('Gender') }}</p> 
+                                        <p class="col-lg-8">: 
+                                             @if($user->gender == 'M')
+                                                 {{ __('Male') }}
+                                             @else
+                                                 {{ __('Female') }}
+                                             @endif
+                                        </p>
+                                    </li>
+                                    <li class="list-group-item d-flex align-items-center">
+                                        <p class="col-lg-4 text-bold">{{ __('Telp') }}</p> 
+                                        <p class="col-lg-8">: {{ $user->telp }}
+                                            @if($user->telp != '')
+                                            <span>
+                                                <a href="https://api.whatsapp.com/send/?phone={{ $user->telp }}&text=Hello {{ $user->name }}&type=phone_number&app_absent=0" 
+                                                    target="_blank"
+                                                    class="bg-primary pb-2 pt-2 pr-2 pl-1 rounded-pill">
+                                                    <i class="fas fa-phone bg-light rounded-circle p-2"></i> {{ __('Call') }} {{ $user->name }} {{ __('Now') }}
+                                                </a>
+                                            </span>
+                                            @endif
+                                        </p>
+                                    </li>
+                                 </ul>
+                             </div>
+                           
+                             <div class="col-lg-12">
+                                 <li class="list-group-item d-flex flex-column p-2">
+                                     <p class="text-bold">{{ __('Address') }}</p> <p class=""> 
+                                         @if($user->address != '')                               
+                                         {{ $user->address }}
+                                         @endif
+                                     </p>
+                                 </li>
+                             </div>
+                         </div>
+                        
+                     </div>
+                     <!-- /.card-body -->
+                 </div>
+                 <div class="modal-footer float-sm-right">
+                     <button type="button" class="btn btn-default " data-dismiss="modal">{{ __('CLose') }}</button>
+                 </div>
+             </div>
+             <!-- /.modal-content -->
+         </div>
+         <!-- /.modal-dialog -->
+     </div>
+     @endforeach
+     <!-- /.modal -->
+
 
     @section('scripts')
     <!-- DataTables  & Plugins -->
@@ -209,7 +294,7 @@
             ],
             "order": [],
             "columnDefs": [{
-                "targets": [0, 4],
+                "targets": [0, 5],
                 "orderable": false,
             }],
             "oLanguage": {

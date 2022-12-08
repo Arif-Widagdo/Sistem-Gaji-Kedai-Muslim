@@ -77,7 +77,22 @@
     "Male" : "Laki - Laki",
     "Female" : "Perempuan",
     "User Position" : "Jabatan Pengguna",
-
+    "Save Changes" : "Simpan Perubahan",
+    "Update Password" : "Perbaharui Password",
+    "Category Management" : "Manajemen Kategori",
+    "Category Names" : "Nama Kategori",
+    "Create New Category" : "Buat Baru Kategori",
+    "New Category Form" : "Formulir Kategori Baru",
+    "Category Name" : "Nama Kategori",
+    "Something went wrong while creating a new category" : "Ada yang salah pada saat membuat kategori baru",
+    "New Category Created Successfully" : "Kategori Baru Berhasil dibuat",
+    "Category successfully deleted" : "Kategori berhasil dihapus",
+    "Failed category deleted" : "Kategori gagal dihapus",
+    "The selected category failed to delete" : "Kategori yang dipilih gagal dihapus",
+    "The selected category successfully deleted" : "Kategori yang dipilih berhasil dihapus",
+    "Category Edit Form" : "Formulir Edit Kategori",
+    "Call" : "Hubungi",
+    "Now" : "Sekarang",
 
 
 

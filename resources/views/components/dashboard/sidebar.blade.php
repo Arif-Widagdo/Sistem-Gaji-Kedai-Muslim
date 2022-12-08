@@ -59,8 +59,10 @@
           </li>
          
           <li class="nav-header">{{ __('Product') }}</li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
+          <li class="nav-item {{ (request()->is('owner/categories')) 
+              ? 
+            'menu-open' : '' }}">
+            <a href="{{ route('categories.index') }}" class="nav-link {{ request()->is('owner/categories') ? 'active' : '' }}">
               <i class="nav-icon fas fa-boxes"></i>
               <p>
                 {{ __('Products Management') }}
@@ -69,7 +71,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../layout/top-nav.html" class="nav-link">
+                <a href="{{ route('categories.index') }}" class="nav-link {{ request()->is('owner/categories') ? 'active' : '' }}"">
                   <i class="far fa-circle nav-icon"></i>
                   <p>{{ __('Product Categories') }}</p>
                 </a>

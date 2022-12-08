@@ -22,8 +22,8 @@ class UserManagementController extends Controller
      */
     public function index()
     {
-        return view('owner.users_management', [
-            'users' => User::latest()->get(),
+        return view('owner.users_management.index', [
+            'users' => User::where('id', '!=', auth()->user()->id)->latest()->get(),
             'position' => Position::all()
         ]);
     }
@@ -67,12 +67,19 @@ class UserManagementController extends Controller
             $createAvatar = makeAvatar($fontPath, $dest, $char);
             $picture = $createAvatar == true ? $newAvatarName : '';
 
+            $telp = $request->telp;
+            if ($request->telp[0] == 0) {
+                $telp = '62' . substr($request->telp, strlen(0));
+            } else if ($request->telp[0] == 8) {
+                $telp = '62' . $request->telp;
+            }
+
             $user = User::create([
                 'id' => Uuid::uuid4()->toString(),
                 'name' => $request->name,
                 'email' => $request->email,
                 'id_position' => $request->id_position,
-                'telp' => $request->telp,
+                'telp' => $telp,
                 'address' => $request->address,
                 'status_act' => 1,
                 'gender' => $request->gender,

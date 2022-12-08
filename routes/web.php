@@ -7,6 +7,7 @@ use App\Http\Controllers\RouterController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Owner\OwnerController;
 use App\Http\Controllers\Employee\EmployeeController;
+use App\Http\Controllers\Owner\CategoryController;
 use App\Http\Controllers\Owner\PositionController;
 use App\Http\Controllers\Owner\UserManagementController;
 
@@ -54,13 +55,18 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('owner.profile.edit');
 
         // Route Users Position
-        Route::get('/check-positions/slug', [PositionController::class, 'checkSlug'])->name('admin.check.positions');
-        Route::delete('/positionst-deleteAll', [PositionController::class, 'deleteAll'])->name('admin.position.deleteAll');
+        Route::get('/check-positions/slug', [PositionController::class, 'checkSlug'])->name('owner.check.positions');
+        Route::delete('/positionst-deleteAll', [PositionController::class, 'deleteAll'])->name('owner.position.deleteAll');
         Route::resource('/positions', PositionController::class)->except(['create', 'edit']);
 
         // Route Users Management
         Route::resource('/users', UserManagementController::class);
-        Route::delete('/users-management-deleteAll', [UserManagementController::class, 'deleteAll'])->name('admin.users.deleteAll');
+        Route::delete('/users-management-deleteAll', [UserManagementController::class, 'deleteAll'])->name('owner.users.deleteAll');
+
+        // Route Category Product
+        Route::get('/check-category/slug', [CategoryController::class, 'checkSlug'])->name('owner.check.category');
+        Route::delete('/check-category-deleteAll', [CategoryController::class, 'deleteAll'])->name('owner.category.deleteAll');
+        Route::resource('/categories', CategoryController::class)->except(['show', 'create', 'edit']);
     });
 
 

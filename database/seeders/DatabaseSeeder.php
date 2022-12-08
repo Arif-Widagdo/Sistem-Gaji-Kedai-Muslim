@@ -57,5 +57,36 @@ class DatabaseSeeder extends Seeder
                 'password' => Hash::make('password'),
             ]);
         }
+
+        \App\Models\Category::factory()->create([
+            'id' => Uuid::uuid4()->toString(),
+            'name' => 'Gamis',
+            'slug' => 'gamis',
+        ]);
+        \App\Models\Category::factory()->create([
+            'id' => Uuid::uuid4()->toString(),
+            'name' => 'Koko',
+            'slug' => 'koko',
+        ]);
+        \App\Models\Category::factory()->create([
+            'id' => Uuid::uuid4()->toString(),
+            'name' => 'Sirwal',
+            'slug' => 'sirwal',
+        ]);
+        \App\Models\Category::factory()->create([
+            'id' => Uuid::uuid4()->toString(),
+            'name' => 'Mukena',
+            'slug' => 'mukena',
+        ]);
+        \App\Models\Category::factory()->create([
+            'id' => Uuid::uuid4()->toString(),
+            'name' => 'Hijab Syari',
+            'slug' => 'hijab-syari',
+        ]);
+        \App\Models\Category::factory()->create([
+            'id' => Uuid::uuid4()->toString(),
+            'name' => 'Sarung',
+            'slug' => 'sarung',
+        ]);
     }
 }

@@ -1,4 +1,4 @@
-<x-app-dashboard title="{{ __('Dhasboard') }}">
+<x-app-dashboard title="{{ __('Dashboard') }}">
 
    <!-- Info boxes -->
    <div class="row">

@@ -35,6 +35,7 @@
     <link rel="stylesheet"
     href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700|Nunito:300,300i,400,400i,600,600i,700,700i,900|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i&display=fallback">
 
+    <link rel="icon" href="{{ asset('dist/img/logos/logo.png') }}">
 {{-- 
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700;900|Nunito:wght@400;600;700&display=swap|family=Ubuntu:wght@700&display=swap" rel="stylesheet">
  --}}

@@ -77,8 +77,21 @@
     "Male" : "Male",
     "Female" : "Female",
     "User Position" : "User Position",
-
-
+    "Save Changes" : "Save Changes",
+    "Category Management" : "Category Management",
+    "Category Names" : "Category Names",
+    "Create New Category" : "Create New Category",
+    "New Category Form" : "New Category Form",
+    "Category Name" : "Category Name",
+    "Something went wrong while creating a new category" : "Something went wrong while creating a new category",
+    "New Category Created Successfully" : "New Category Created Successfully",
+    "Category successfully deleted" : "Category successfully deleted",
+    "Failed category deleted" : "Failed category deleted",
+    "The selected category failed to delete" : "The selected category failed to delete",
+    "The selected category successfully deleted" : "The selected category successfully deleted",
+    "Category Edit Form" : "Category Edit Form",
+    "Call" : "Call",
+    "Now" : "Now",
 
 
 
