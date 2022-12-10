@@ -9,6 +9,8 @@ use App\Http\Controllers\Owner\OwnerController;
 use App\Http\Controllers\Employee\EmployeeController;
 use App\Http\Controllers\Owner\CategoryController;
 use App\Http\Controllers\Owner\PositionController;
+use App\Http\Controllers\Owner\ProductController;
+use App\Http\Controllers\Owner\ServiceController;
 use App\Http\Controllers\Owner\UserManagementController;
 
 /*
@@ -60,13 +62,18 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::resource('/positions', PositionController::class)->except(['create', 'edit']);
 
         // Route Users Management
-        Route::resource('/users', UserManagementController::class)->except(['create', 'edit']);;
+        Route::resource('/users', UserManagementController::class)->except(['create', 'edit']);
         Route::delete('/users-management-deleteAll', [UserManagementController::class, 'deleteAll'])->name('owner.users.deleteAll');
 
         // Route Category Product
         Route::get('/check-category/slug', [CategoryController::class, 'checkSlug'])->name('owner.check.category');
         Route::delete('/check-category-deleteAll', [CategoryController::class, 'deleteAll'])->name('owner.category.deleteAll');
         Route::resource('/categories', CategoryController::class)->except(['show', 'create', 'edit']);
+
+        // Route Service Management
+        Route::resource('/services', ServiceController::class)->except(['create', 'edit']);
+        // Route Product Management
+        Route::resource('/products', ProductController::class)->except(['create', 'edit']);
     });
 
 

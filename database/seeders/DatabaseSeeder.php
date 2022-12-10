@@ -43,6 +43,12 @@ class DatabaseSeeder extends Seeder
             'slug' => 'packing',
             'status_act' => 1,
         ]);
+        \App\Models\Position::factory()->create([
+            'id' => Uuid::uuid4()->toString(),
+            'name' => 'Pasang Kancing',
+            'slug' => 'pasang-kancing',
+            'status_act' => 1,
+        ]);
 
         $positions = \App\Models\Position::all();
 

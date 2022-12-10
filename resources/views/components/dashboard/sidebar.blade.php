@@ -31,7 +31,7 @@
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         @if(Auth::user()->userPosition->name === 'Owner')
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <ul class="nav nav-pills nav-sidebar flex-column mb-10" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
             <a href="{{ route('dashboard') }}" class="nav-link {{ request()->is('owner/dashboard') ? 'active' : '' }}">
               <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -57,12 +57,21 @@
               </p>
             </a>
           </li>
-         
+          <li class="nav-header">{{ __('Sallary') }}</li>
+          <li class="nav-item">
+            <a href="{{ route('services.index') }}" class="nav-link {{ request()->is('owner/services') ? 'active' : '' }}">
+              <i class="nav-icon fas fa-hand-holding-usd"></i>
+              <p>
+                {{ __('Sallaries Management') }}
+              </p>
+            </a>
+          </li>
           <li class="nav-header">{{ __('Product') }}</li>
-          <li class="nav-item {{ (request()->is('owner/categories')) 
+          <li class="nav-item {{ (request()->is('owner/categories'))
+          || (request()->is('owner/products'))  
               ? 
             'menu-open' : '' }}">
-            <a href="{{ route('categories.index') }}" class="nav-link {{ request()->is('owner/categories') ? 'active' : '' }}">
+            <a href="{{ route('categories.index') }}" class="nav-link {{ request()->is('owner/categories') || (request()->is('owner/products'))   ? 'active' : '' }}">
               <i class="nav-icon fas fa-boxes"></i>
               <p>
                 {{ __('Products Management') }}
@@ -71,43 +80,20 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ route('categories.index') }}" class="nav-link {{ request()->is('owner/categories') ? 'active' : '' }}"">
+                <a href="{{ route('categories.index') }}" class="nav-link {{ request()->is('owner/categories') ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>{{ __('Product Categories') }}</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../layout/top-nav-sidebar.html" class="nav-link">
+                <a href="{{ route('products.index') }}" class="nav-link {{ request()->is('owner/products') ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>{{ __('Products') }}</p>
                 </a>
               </li>
             </ul>
           </li>
-          <li class="nav-header">{{ __('Sallary') }}</li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-hand-holding-usd"></i>
-              <p>
-               {{ __('Sallaries Management') }}
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="../charts/chartjs.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>{{ __('Sallary By Position') }}</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../charts/flot.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>{{ __('Sallary By Product') }}</p>
-                </a>
-              </li>
-            </ul>
-          </li>
+          
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-file-invoice-dollar"></i>
@@ -134,37 +120,14 @@
         </ul>
         @else
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-          <li class="nav-item">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Dashboard
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview active">
-              <li class="nav-item">
-                <a href="../../index.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v1</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../../index2.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v2</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../../index3.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v3</p>
-                </a>
-              </li>
-            </ul>
-          </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link {{ request()->is('employee/dashboard') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                  {{ __('Dashboard') }}
+                </p>
+              </a>
+            </li>
         </ul>
           
         @endif

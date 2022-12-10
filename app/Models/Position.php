@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
+use App\Models\Service;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -29,6 +30,11 @@ class Position extends Model
     public function userPosition()
     {
         return $this->hasMany(User::class);
+    }
+
+    public function service()
+    {
+        return $this->hasMany(Service::class);
     }
 
     public function getRouteKeyName()

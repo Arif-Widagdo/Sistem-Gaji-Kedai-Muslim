@@ -52,7 +52,6 @@
                                                     data-toggle="dropdown"
                                                     title="{{ __('Change Picture') }}"  data-placement="right"
                                                     >
-
                                                     <i class="fas fa-pen mr-1"></i>
                                                     <span class="sr-only">Toggle Dropdown</span>
                                                 </button>
