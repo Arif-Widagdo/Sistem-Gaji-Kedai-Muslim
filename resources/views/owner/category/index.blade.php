@@ -130,16 +130,16 @@
     </div>
     <!-- /.modal -->
 
-    @foreach ($categories as $category_edit)
     <!--- Modal Edit -->
+    @foreach ($categories as $category_edit)
     <div class="modal fade" id="modal-edit{{ $category_edit->slug }}">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header bg-dark">
-                    <h4 class="modal-title">
-                        <i class="fas fa-edit"></i> {{ __('Category Edit Form') }}
-                    </h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <div class="modal-header bg-dark" style="border-bottom:2px solid #FFC107 !important;">
+                    <h3 class="modal-title">
+                        <span class="badge badge-warning"><i class="fas fa-edit"></i> {{ __('Category Edit Form') }} </span>
+                    </h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color:#FFC107">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -299,7 +299,6 @@
                         .then(data => slug_edit.value = data.slug)
                 });
 
-
                 $('#form_edit_category'+i).on('submit', function (e) {
                     e.preventDefault();
                     $.ajax({
@@ -316,7 +315,7 @@
                             if (data.status == 0) {
                                 $.each(data.error, function (prefix, val) {
                                     $('span.' + prefix + '_edit_error').text(val[0]);
-                                    $('input.error_input_edit_' + prefix).addClass('is-invalid');
+                                    $('input.error_input_' + prefix+'_edit').addClass('is-invalid');
                                 });
                                 alertToastInfo(data.msg)
                             } else {

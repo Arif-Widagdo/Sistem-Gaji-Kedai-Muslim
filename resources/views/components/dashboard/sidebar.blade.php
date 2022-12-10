@@ -1,8 +1,8 @@
 <aside class="main-sidebar sidebar-light-purple elevation-4" >
     <!-- Brand Logo -->
     <a href="/" class="brand-link" style="border-bottom:2px solid #6F42C1 !important;">
-      <img src="{{ asset('dist/img/logos/logo.png') }}" alt="AdminLTE Logo" class="brand-image elevation-1 rounded" >
-      <span class="brand-text font-weight-light text-purple" style="font-weight: 700 !important;">Kedai Muslim</span>
+      <img src="{{ asset('dist/img/logos/purpleLogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" >
+      <span class="brand-text font-weight-light text-purple" style="font-family: 'Kalam', cursive; font-weight: 700 !important; line-height:0;">Kedai Muslim</span>
     </a>
     <!-- Sidebar -->
     <div class="sidebar">

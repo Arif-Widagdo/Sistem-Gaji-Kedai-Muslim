@@ -6,7 +6,12 @@
     <link rel="stylesheet" href={{ asset("plugins/datatables-buttons/css/buttons.bootstrap4.min.css") }}>
     @endsection
 
-  
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('User Positions Management') }}
+        </h2>
+    </x-slot>
+
     <div class="row d-none">
         <div class="col-12">
             <input type="text" id="countPosition" class="w-100" value="{{ $positions->count() }}">
@@ -18,7 +23,7 @@
     <div class="row animate__animated animate__slideInLeft">     
         <!-- Left col -->
         <div class="col-md-12">
-            @if($positions->count() > 0)
+            
             <div class="card card-purple card-outline">
                 <form method="post">
                     @method('delete')
@@ -31,6 +36,7 @@
                             {{ __('Create New Position') }} <i class="fas fa-plus-circle"></i>
                         </button>
                     </div>
+                    @if($positions->count() > 0)
                     <div class="card-body">
                         <table id="table-positions" class="table table-bordered table-hover">
                             <thead>
@@ -56,15 +62,16 @@
                                     <td>
                                         {{ $position->created_at }}
                                     </td>
-                                    <td class="text-center">@if($position->status_act == 1)
-                                        <span class="badge badge-success">{{ __('Active') }}</span>
+                                    <td class="text-center">
+                                        @if($position->status_act == 1)
+                                        <i class="fas fa-check-circle text-success text-lg shadow rounded-circle" ></i>
                                         @else
-                                        <span class="badge badge-danger">{{ __('Not Active') }}</span>
+                                        <i class="fas fa-times-circle text-danger text-lg shadow rounded-circle"></i>
                                         @endif
                                     </td>
                                     <td class="text-center">
                                         <div class="d-inline-flex align-items-center text-center">
-                                            <a class="btn btn-sm btn-info ml-1 d-inline-flex align-items-center font-small" data-toggle="modal" data-target="#modal-show{{ $position->id }}">
+                                            <a class="btn btn-sm btn-info ml-1 d-inline-flex align-items-center font-small" href="{{ route('positions.show', $position->slug) }}">
                                             {{ __('Show') }} <i class="fas fa-eye ml-2"></i>
                                             </a>
                                             @if($position->name != 'Owner')
@@ -90,11 +97,10 @@
                             </tbody>
                         </table>
                     </div>
+                    @endif
                 </form>
             </div>
-            @else
-            Data Kosong
-            @endif
+          
         </div>
         <!-- /.col -->
     </div>
@@ -158,11 +164,11 @@
     <div class="modal fade" id="modal-edit{{ $position_edit->slug }}">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header bg-dark">
-                    <h4 class="modal-title">
-                        <i class="fas fa-edit"></i> {{ __('Position Edit Form') }}
-                    </h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <div class="modal-header bg-dark" style="border-bottom:2px solid #FFC107 !important;">
+                    <h3 class="modal-title">
+                        <span class="badge badge-warning"><i class="fas fa-edit"></i> {{ __('Position Edit Form') }} </span>
+                    </h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color:#FFC107">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>

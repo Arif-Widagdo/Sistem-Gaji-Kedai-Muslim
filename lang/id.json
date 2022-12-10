@@ -54,7 +54,7 @@
     "Something went wrong while creating a new position" : "Ada yang salah pada saat membuat jabatan baru",
     "New Position Created Successfully" : "Jabatan Baru Berhasil dibuat",
     "Something went wrong when updating positions" : "Terjadi kesalahan saat memperbarui jabatan",
-    "Position edited successfully" : "Jabatan berhasil diedit",
+    "Position edited successfully" : "Jabatan berhasil diperbaharui",
     "Position successfully deleted" : "Jabatan berhasil dihapus",
     "Failed position deleted" : "Posisi gagal dihapus",
     "The selected position failed to delete" : "Posisi yang dipilih gagal dihapus",
@@ -93,7 +93,15 @@
     "Category Edit Form" : "Formulir Edit Kategori",
     "Call" : "Hubungi",
     "Now" : "Sekarang",
-
+    "List of users by" : "Daftar pengguna berdasarkan",
+    "Position" : "Jabatan",
+    "Change Position As" : "Ubah Jabatan Sebagai",
+    "Activation Status" : "Status Aktivasi",
+    "Blocked" : "Blokir",
+    "Change Activation Status" : "Ubah Status Aktivasi",
+    "User Edit Form" : "Formulir Edit Pengguna",
+    "Change Picture" : "Ganti Gambar",
+    "Delete Picture" : "Hapus Gambar",
 
 
 
@@ -124,18 +132,20 @@
 
 
     "Something went wrong, updating personal information" : "Terjadi kesalahan pada saat memperbarui informasi pribadi!",
-    "Your profile info has been updated successfully" : "Info profil Anda telah berhasil diperbarui.",
+    "Your profile info has been updated successfully" : "Info profil Anda telah berhasil diperbaharui.",
     "Your password has been changed successfully" : "Kata sandi Anda telah berhasil diubah",
     "Something went wrong when changing the password" : "Ada yang salah pada saat mengganti password",
     "Something Wrong, At the time of uploading a new image!" : "Ada yang Salah, Pada saat mengunggah gambar baru!",
-    "Your profile picture has been updated successfully" : "Gambar profil Anda telah berhasil diperbarui.",
+    "Your profile picture has been updated successfully" : "Gambar profil Anda telah berhasil diperbaharui.",
     "Something went wrong while deleting your profile picture" : "Terjadi kesalahan saat menghapus gambar profil Anda!",
     "Your profile picture has been deleted successfully" : "Gambar profil Anda telah berhasil dihapus.",
     "Are You Sure" : "Apa Kamu Yakin?",
     "You wont be able to revert this" : "Anda tidak akan dapat mengembalikan ini!",
     "Yes, deleted it" : "Ya, Hapus ini",
     "Cancel" : "Batalkan",
-    "Wait a few minutes to try again" : "Tunggu beberapa menit untuk mencoba lagi!"
+    "Wait a few minutes to try again" : "Tunggu beberapa menit untuk mencoba lagi!",
+    "User successfully updated" : "Pengguna berhasil diperbaharui",
+    "User failed update" : "Pengguna gagal diperbaharui"
 
 
 

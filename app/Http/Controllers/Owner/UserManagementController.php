@@ -24,18 +24,8 @@ class UserManagementController extends Controller
     {
         return view('owner.users_management.index', [
             'users' => User::where('id', '!=', auth()->user()->id)->latest()->get(),
-            'position' => Position::all()
+            'positions' => Position::all()
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -108,16 +98,6 @@ class UserManagementController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(User $user)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -128,7 +108,16 @@ class UserManagementController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $query = User::find($user->id)->update([
+            'id_position' => $request->id_position,
+            'status_act' => $request->status_act,
+        ]);
+
+        if ($query) {
+            return redirect()->back()->with('success', __('User successfully updated'));
+        } else {
+            return redirect()->back()->with('error', __('User failed update'));
+        }
     }
 
     /**

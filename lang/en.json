@@ -92,9 +92,15 @@
     "Category Edit Form" : "Category Edit Form",
     "Call" : "Call",
     "Now" : "Now",
-
-
-
+    "List of users by" : "List of users by",
+    "Position" : "Position",
+    "Change Position As" : "Change Position As",
+    "Activation Status" : "Activation Status",
+    "Blocked" : "Blocked",
+    "Change Activation Status" : "Change Activation Status",
+    "User Edit Form" : "User Edit Form",
+    "Change Picture" : "Change Picture",
+    "Delete Picture" : "Delete Picture",
 
 
 
@@ -126,6 +132,7 @@
     "You wont be able to revert this" : "You won't be able to revert this!",
     "Yes, deleted it" : "Yes, deleted it",
     "Cancel" : "Cancel",
-    "Wait a few minutes to try again" : "Wait a few minutes to try again!"
-
+    "Wait a few minutes to try again" : "Wait a few minutes to try again!",
+    "User successfully updated" : "User successfully updated",
+    "User failed update" : "User failed update"
 }

@@ -32,7 +32,26 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        if (auth()->user()->userPosition->status_act == 1) {
+            if (Auth::user()->status_act == 1) {
+                return redirect()->intended(RouteServiceProvider::HOME);
+            } else {
+                Auth::guard('web')->logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+                return redirect('/login')->with('status', 'User Blocked');
+            }
+        } else {
+            if (Auth::user()->status_act == 1 && auth()->user()->userPosition->status_act == 1) {
+                return redirect()->intended(RouteServiceProvider::HOME);
+            }
+
+            Auth::guard('web')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            return redirect('/login')->with('status', 'Jabatan dinonaktifkan');
+        }
+        // return redirect()->intended(RouteServiceProvider::HOME);
     }
 
     /**

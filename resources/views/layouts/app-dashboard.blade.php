@@ -33,9 +33,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700|Nunito:300,300i,400,400i,600,600i,700,700i,900|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i&display=fallback">
+    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700|Nunito:300,300i,400,400i,600,600i,700,700i,900|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i|Kalam:wght@700&display=fallback">
 
-    <link rel="icon" href="{{ asset('dist/img/logos/logo.png') }}">
+
+
+
+    <link rel="icon" href="{{ asset('dist/img/logos/purpleLogo.png') }}">
 {{-- 
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700;900|Nunito:wght@400;600;700&display=swap|family=Ubuntu:wght@700&display=swap" rel="stylesheet">
  --}}
@@ -66,7 +69,7 @@
 
 </head>
 
-<body class="hold-transition sidebar-mini {{ (request()->is('**/profile')) ? 'sidebar-collapse' : '' }}">
+<body class="hold-transition sidebar-mini {{ (request()->is('**/profile')) || (request()->is('owner/positions/**')) ? 'sidebar-collapse' : '' }}">
     <!-- Site wrapper -->
     <div class="wrapper">
 
@@ -111,6 +114,8 @@
                     <div class="" id="errorToast"></div>
                     <div class="" id="infoToast"></div>
 
+                    <audio id="notifSucccess" src="{{ asset('dist/sound/notifSuccess.mp3') }}" preload="auto"></audio>
+                    <audio id="notifFail" src="{{ asset('dist/sound/confirmation.wav') }}" preload="auto"></audio>
                     {{ $slot }}
                 </div>
                 <!--/. container-fluid -->
@@ -143,6 +148,8 @@
     <script src="{{ asset('dist/js/sweetalert2.all.min.js') }}"></script>
     <!-- Toaster -->
     <script src="{{ asset('dist/js/toastr.min.js') }}"></script>
+    <!-- Ring Notif -->
+    <script src="{{ asset('dist/js/mk-notifications.js') }}"></script>
 
 
 
@@ -163,6 +170,7 @@
             });
     
             $('.successToast').each(function () {
+                document.getElementById('notifSucccess').play();
                 Toast.fire({
                     icon: 'success',
                     title: '{{ Session::get("success") }}'
@@ -170,14 +178,18 @@
             });
                 
             $('.errorToast').each(function () {
+                document.getElementById('notifFail').play();
                 Toast.fire({
                     icon: 'error',
                     title: '{{ Session::get("error") }}'
                 })
             });
 
+            
+
             function alertToastInfo(msg) {
                 $('#infoToast').addClass("infoToast");
+                document.getElementById('notifFail').play();
                 return $('.infoToast').each(function () {
                     Toast.fire({
                         icon: 'info',
@@ -188,16 +200,19 @@
 
             function alertToastSuccess(msg) {
                 $('#successToast').addClass("successToast");
+                document.getElementById('notifSucccess').play();
                 return $('.successToast').each(function () {
                     Toast.fire({
                         icon: 'success',
                         title: msg
                     })
                 });
+                
             }
 
             function alertToastError(msg) {
                 $('#errorToast').addClass("errorToast");
+                document.getElementById('notifFail').play();
                 return $('.errorToast').each(function () {
                     Toast.fire({
                         icon: 'error',

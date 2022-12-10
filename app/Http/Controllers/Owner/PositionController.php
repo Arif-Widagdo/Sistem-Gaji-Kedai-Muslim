@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Owner;
 
+use App\Models\User;
 use Ramsey\Uuid\Uuid;
 use App\Models\Position;
 use Illuminate\Support\Str;
@@ -62,7 +63,11 @@ class PositionController extends Controller
      */
     public function show(Position $position)
     {
-        //
+        return view('owner.position_management.details_positions', [
+            'users_position' => User::where('id_position', $position->id)->latest()->get(),
+            'position' => Position::where('id', $position->id)->first(),
+            'positions' => Position::latest()->get()
+        ]);
     }
 
     /**

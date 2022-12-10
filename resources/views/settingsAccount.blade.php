@@ -30,13 +30,13 @@
 
     <div class="row">
         <div class="col-12">
-            <div class="card border">
+            <div class="card border ">
                 <div class="card-body ">
                     <div class="row">
                         <div class="col-lg-4 bg-light mb-3">
                             <div class="nav flex-column nav-tabs nav-tabs-right h-100" id="vert-tabs-right-tab"
                                 role="tablist" aria-orientation="vertical">
-                                <div class="card card-widget widget-user-2 ">
+                                <div class="card card-widget widget-user-2 card-outline card-purple">
                                     <!-- Add the bg color to the header using any of the bg-* classes -->
                                     <div class="widget-user-header elevation-1">
                                         <div class="row" style="position: relative !important;">
@@ -48,8 +48,11 @@
                                                 style="position: absolute !important; right:0 !important; top:0;">
                                                 
                                                 <button type="button"
-                                                    class="btn btn-default btn-sm dropdown-toggle dropdown-icon"
-                                                    data-toggle="dropdown">
+                                                    class="btn btn-default btn-sm dropdown-toggle dropdown-icon "
+                                                    data-toggle="dropdown"
+                                                    title="{{ __('Change Picture') }}"  data-placement="right"
+                                                    >
+
                                                     <i class="fas fa-pen mr-1"></i>
                                                     <span class="sr-only">Toggle Dropdown</span>
                                                 </button>
@@ -57,13 +60,13 @@
                                                     <input type="file" name="user_image" id="user_image"
                                                         accept="image/png, image/gif, image/jpeg"
                                                         style="opacity:0;height:1px;display:none">
-                                                    <a href="javascript:void(0)" id="change_picture_btn" class="dropdown-item" href="#"><i class="fas fa-user-edit mr-1"></i><span>{{ __('Change Pictures') }}</span></a>
+                                                    <a href="javascript:void(0)" id="change_picture_btn" class="dropdown-item" href="#"><i class="fas fa-user-edit mr-1"></i><span>{{ __('Change Picture') }}</span></a>
                                                     @if(Auth::user()->picture != Url('dist/img/users/no-image.jpeg'))
                                                     <form action="{{ route('profile.deletePicture') }}" method="post"
                                                         class="d-inline" id="deleted-picture">
                                                         @csrf
                                                         <button class="dropdown-item" onclick="return confirm('{{ __('Are you sure?') }}')">
-                                                            <i class="fas fa-solid fa-trash mr-2"></i><span>{{ __('Delete Pictures') }}</span>
+                                                            <i class="fas fa-solid fa-trash mr-2"></i><span>{{ __('Delete Picture') }}</span>
                                                         </button>
                                                     </form>
                                                     @endif
@@ -104,7 +107,7 @@
                         <div class="col-lg-8">
                             <div class="tab-content" id="vert-tabs-right-tabContent">
                                 <div class="tab-pane fade show active" id="vert-tabs-right-personal-information" role="tabpanel" aria-labelledby="vert-tabs-right-personal-information-tab">
-                                    <div class="card">
+                                    <div class="card card-outline card-purple">
                                         <div class="card-header">
                                             {{ __('Personal Information') }}
                                         </div>
@@ -112,11 +115,11 @@
                                             <ul class="list-group list-group-unbordered " style="list-style-type: none;">
                                                 <li class="d-lg-flex align-items-center ">
                                                     <p class="col-lg-4 ">{{ __('Name') }}</p>
-                                                    <p class="col-lg-8 text-bold"> {{ Auth::user()->name }}</p>
+                                                    <p class="col-lg-8 text-bold border-left"> {{ Auth::user()->name }}</p>
                                                 </li>
                                                 <li class="d-lg-flex align-items-center">
                                                     <p class="col-lg-4 ">{{ __('Gender') }}</p>
-                                                    <p class="col-lg-8 text-bold">
+                                                    <p class="col-lg-8 text-bold border-left">
                                                         @if(Auth::user()->gender == 'M')
                                                         {{ __('Male') }}
                                                         @else
@@ -126,27 +129,28 @@
                                                 </li>
                                                 <li class="d-lg-flex align-items-center">
                                                     <p class="col-lg-4 ">{{ __('Email') }}</p>
-                                                    <p class="col-lg-8 text-bold"> {{ Auth::user()->email }}</p>
+                                                    <p class="col-lg-8 text-bold border-left"> {{ Auth::user()->email }}</p>
                                                 </li>
                                                 <li class="d-lg-flex align-items-center">
                                                     <p class="col-lg-4 ">{{ __('Telp') }}</p>
-                                                    <p class="col-lg-8 text-bold"> {{ Auth::user()->telp }}</p>
+                                                    <p class="col-lg-8 text-bold border-left"> {{ Auth::user()->telp }}</p>
                                                 </li>
                                                 <li class="d-lg-flex align-items-center">
                                                     <p class="col-lg-4 ">{{ __('Address') }}</p>
-                                                    <p class="col-lg-8 text-bold"> {{ Auth::user()->address }}</p>
+                                                    <p class="col-lg-8 text-bold border-left"> {{ Auth::user()->address }}</p>
                                                 </li>
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="tab-pane fade" id="vert-tabs-right-settings" role="tabpanel"
                                     aria-labelledby="vert-tabs-right-settings-tab">
-                                    <div class="card">
+                                    <div class="card card-outline card-purple">
                                         <div class="card-header p-2">
                                             <ul class="nav nav-pills">
-                                                <li class="nav-item"><a class="nav-link active" href="#personal_information" data-toggle="tab">{{ __('Personal Information') }}</a></li>
-                                                <li class="nav-item"><a class="nav-link" href="#change_password" data-toggle="tab">{{ __('Change Password') }}</a></li>
+                                                <li class="nav-item"><a class="nav-link active" href="#personal_information" data-toggle="tab" title="{{ __('Personal Information') }}"  data-placement="right">{{ __('Personal Information') }}</a></li>
+                                                <li class="nav-item"><a class="nav-link" href="#change_password" data-toggle="tab" title="{{ __('Change Password') }}"  data-placement="right">{{ __('Change Password') }}</a></li>
                                             </ul>
                                         </div><!-- /.card-header -->
                                         <div class="card-body">
@@ -189,7 +193,7 @@
                                                                     </div>
                                                                     <input class="form-control square error_input_telp"
                                                                         name="telp" type="number" min="0"
-                                                                        placeholder="{{ __('Enter') }} {{ __('Store Contact') }}"
+                                                                        placeholder="{{ __('Enter') }} {{ __('Number Phone') }}"
                                                                         value="{{ Auth::user()->telp }}">
                                                                 </div>
                                                                 <span class="text-danger error-text telp_error"></span>
@@ -338,18 +342,13 @@
                                     $('textarea.error_input_' + prefix).addClass('is-invalid');
                                     $('select.error_input_' + prefix).addClass('is-invalid');
                                 });
-                                $('#errorToast').addClass("errorToast");
-                                return $('.errorToast').each(function () {
-                                    Toast.fire({
-                                        icon: 'error',
-                                        title: data.msg
-                                    })
-                                });
+                                alertToastInfo(data.msg)
                             } else {
                                 $('.name_user').each(function () {
                                     $(this).html($('#fromInfo').find($(
                                         'input[name="name"]')).val());
                                 });
+                                document.getElementById('notifSucccess').play();
                                 Swal.fire({
                                     position: 'center',
                                     icon: 'success',
@@ -387,18 +386,13 @@
                                     $('span.' + prefix + '_error').text(val[0]);
                                     $('input.error_input_' + prefix).addClass('is-invalid');
                                 });
-                                $('#errorToast').addClass("errorToast");
-                                return $('.errorToast').each(function () {
-                                    Toast.fire({
-                                        icon: 'error',
-                                        title: data.msg
-                                    })
-                                });
+                                alertToastInfo(data.msg)
                             } else {
                                 $('#changePasswordForm')[0].reset();
                                 $('input.error_input_oldpassword').removeClass('is-invalid');
                                 $('input.error_input_newpassword').removeClass('is-invalid');
                                 $('input.error_input_cnewpassword').removeClass('is-invalid');
+                                document.getElementById('notifSucccess').play();
                                 Swal.fire({
                                     position: 'center',
                                     icon: 'success',

@@ -60,7 +60,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::resource('/positions', PositionController::class)->except(['create', 'edit']);
 
         // Route Users Management
-        Route::resource('/users', UserManagementController::class);
+        Route::resource('/users', UserManagementController::class)->except(['create', 'edit']);;
         Route::delete('/users-management-deleteAll', [UserManagementController::class, 'deleteAll'])->name('owner.users.deleteAll');
 
         // Route Category Product
