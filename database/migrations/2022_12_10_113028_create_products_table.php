@@ -17,8 +17,8 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('name');
             $table->foreignUuid('id_category')->index()->references('id')->on('categories')->onDelete('cascade');
-            $table->foreignUuid('id_pengguna')->index()->references('id')->on('users')->onDelete('cascade');
-            $table->integer('count'); //Addition
+            $table->foreignUuid('id_user')->index()->references('id')->on('users')->onDelete('cascade');
+            $table->integer('quantity'); //Addition
             $table->date('completed_date');
             $table->timestamps();
         });

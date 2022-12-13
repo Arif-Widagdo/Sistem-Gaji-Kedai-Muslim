@@ -155,6 +155,30 @@ return [
         'id_position' => [
             'required' => 'Jabatan pengguna wajib di isi!',
         ],
+        'id_category' => [
+            'required' => 'Kategori wajib di isi!',
+        ],
+        'id_user' => [
+            'required' => 'Pekerja wajib di isi!',
+        ],
+        'quantity' => [
+            'required' => 'Kuantitas wajib di isi!',
+        ],
+        'completed_date' => [
+            'required' => 'Tanggal dikerjakan wajib di isi!',
+        ],
+        'name' => [
+            'required' => 'Nama wajib di isi!',
+        ],
+        'slug' => [
+            'required' => 'Slug wajib di isi, Tekan Tab atau berpindah kolom untuk menyisipkan nilai slug secara otomatis!',
+        ],
+        'gender' => [
+            'required' => 'Jenis Kelamin wajib di isi!',
+        ],
+        'sallary' => [
+            'required' => 'Gaji wajib di isi!',
+        ],
     ],
 
     /*

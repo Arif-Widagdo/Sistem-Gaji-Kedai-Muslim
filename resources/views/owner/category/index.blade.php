@@ -6,7 +6,16 @@
     <link rel="stylesheet" href={{ asset("plugins/datatables-buttons/css/buttons.bootstrap4.min.css") }}>
     @endsection
 
-  
+    <x-slot name="header">
+        {{ __('Product Category List') }}
+    </x-slot>
+    <x-slot name="links">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item active">{{ __('Category Management') }}</li>
+        </ol>
+    </x-slot>
+
+
     <div class="row d-none">
         <div class="col-12">
             <input type="text" id="countPosition" class="w-100" value="{{ $categories->count() }}">
@@ -100,22 +109,21 @@
                 <form class="form-horizontal" method="POST" action="{{ route('categories.store') }}" id="form_create_category" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="form-group mb-1 ">
-                                    <label for="name" class="col-form-label">{{ __('Category Name') }} <span class="text-danger">*</span></label>
-                                    <input type="text" id="name" class="form-control error_input_name" placeholder="{{ __('Enter') }} {{ __('Category Name') }}" name="name">
-                                    <span class="text-danger error-text name_error"></span>
-                                </div>
-                                <div class="form-group mb-1 ">
-                                    <div class="col-form-label d-flex justify-content-between align-items-center">
-                                        <label for="slug" class="col-form-label col-2 ">{{ __('Slug') }} <span class="text-danger">*</span></label>
-                                        <small class="col-10 text-right">{{ __('Press') }} <kbd>Tab</kbd> {{ __('or switch columns to insert slug values automatically') }}</small>
-                                    </div>
-                                    <input type="disabled" id="slug" class="form-control error_input_slug" placeholder="{{ __('Automatically') }}" name="slug" disable readonly>
-                                    <span class="text-danger error-text slug_error"></span>
-                                </div>
+                        <div class="border-bottom text-danger" style="border-color: #6F42C1 !important">
+                            {{ __('* required fileds') }}
+                        </div>
+                        <div class="form-group mb-1 ">
+                            <label for="name" class="col-form-label">{{ __('Category Name') }} <span class="text-danger">*</span></label>
+                            <input type="text" id="name" class="form-control error_input_name" placeholder="{{ __('Enter') }} {{ __('Category Name') }}" name="name">
+                            <span class="text-danger error-text name_error"></span>
+                        </div>
+                        <div class="form-group mb-1 ">
+                            <div class="col-form-label d-flex justify-content-between align-items-center">
+                                <label for="slug" class="col-form-label col-2 ">{{ __('Slug') }} <span class="text-danger">*</span></label>
+                                <small class="col-10 text-right">{{ __('Press') }} <kbd>Tab</kbd> {{ __('or switch columns to insert slug values automatically') }}</small>
                             </div>
+                            <input type="disabled" id="slug" class="form-control error_input_slug" placeholder="{{ __('Automatically') }}" name="slug" disable readonly>
+                            <span class="text-danger error-text slug_error"></span>
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between">
@@ -147,22 +155,21 @@
                     @csrf
                     @method('PATCH')
                     <div class="modal-body">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="form-group mb-1 ">
-                                    <label for="name_edit" class="col-form-label">{{ __('Position Name') }} <span class="text-danger">*</span></label>
-                                    <input type="text" id="name_edit{{ $loop->iteration }}" class="form-control error_input_name_edit" placeholder="{{ __('Enter') }} {{ __('Position Name') }}" name="name" value="{{ $category_edit->name }}">
-                                    <span class="text-danger error-text name_edit_error"></span>
-                                </div>
-                                <div class="form-group mb-1 ">
-                                    <div class="col-form-label d-flex justify-content-between align-items-center">
-                                        <label for="slug_edit" class="col-form-label col-2 ">{{ __('Slug') }} <span class="text-danger">*</span></label>
-                                        <small class="col-10 text-right">{{ __('Press') }} <kbd>Tab</kbd> {{ __('or switch columns to insert slug values automatically') }}</small>
-                                    </div>
-                                    <input type="disabled" id="slug_edit{{ $loop->iteration }}" class="form-control error_input_slug_edit" placeholder="{{ __('Automatically') }}" name="slug" disable readonly value="{{ $category_edit->slug }}">
-                                    <span class="text-danger error-text slug_edit_error"></span>
-                                </div>
+                        <div class="border-bottom border-dark text-danger">
+                            {{ __('* required fileds') }}
+                        </div>
+                        <div class="form-group mb-1 ">
+                            <label for="name_edit" class="col-form-label">{{ __('Position Name') }} <span class="text-danger">*</span></label>
+                            <input type="text" id="name_edit{{ $loop->iteration }}" class="form-control error_input_name_edit" placeholder="{{ __('Enter') }} {{ __('Position Name') }}" name="name" value="{{ $category_edit->name }}">
+                            <span class="text-danger error-text name_edit_error"></span>
+                        </div>
+                        <div class="form-group mb-1 ">
+                            <div class="col-form-label d-flex justify-content-between align-items-center">
+                                <label for="slug_edit" class="col-form-label col-2 ">{{ __('Slug') }} <span class="text-danger">*</span></label>
+                                <small class="col-10 text-right">{{ __('Press') }} <kbd>Tab</kbd> {{ __('or switch columns to insert slug values automatically') }}</small>
                             </div>
+                            <input type="disabled" id="slug_edit{{ $loop->iteration }}" class="form-control error_input_slug_edit" placeholder="{{ __('Automatically') }}" name="slug" disable readonly value="{{ $category_edit->slug }}">
+                            <span class="text-danger error-text slug_edit_error"></span>
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between">

@@ -10,9 +10,7 @@
     @endsection
 
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('List of Users') }}
-        </h2>
+        {{ __('List of Users') }}
     </x-slot>
     <x-slot name="links">
         <ol class="breadcrumb float-sm-right">
@@ -126,6 +124,9 @@
                     enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
+                        <div class="border-bottom text-danger" style="border-color: #6F42C1 !important">
+                            {{ __('* required fileds') }}
+                        </div>
                         <div class="form-group mb-1">
                             <label for="name" class="col-form-label">{{ __('Name') }} <span class="text-danger">*</span></label>
                             <input type="text" id="name" class="form-control error_input_name"
@@ -282,6 +283,9 @@
                     @method('put')
                     @csrf
                     <div class="modal-body">
+                        <div class="border-bottom border-dark text-danger">
+                            {{ __('* required fileds') }}
+                        </div>
                         <div class="form-group mb-1">
                             <label for="role" class="col-form-label">{{ __('Change Position As') }} <span class="text-danger">*</span></label>
                             <select class="form-control error_input_id_position select2" style="width: 100%;" name="id_position">
@@ -412,6 +416,9 @@
                             $('input.error_input_' + prefix).addClass('is-invalid');
                             $('select.error_input_' + prefix).addClass('is-invalid');
                             $('textarea.error_input_' + prefix).addClass('is-invalid');
+                            $(".select2").css("border", "1.5px solid red", "important");
+                            $(".select2").css("border-style", "solid double");
+                            $(".select2").css("border-radius", "5px");
                         });
                         alertToastInfo(data.msg)
                     } else {

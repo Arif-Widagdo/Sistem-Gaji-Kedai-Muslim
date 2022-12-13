@@ -179,6 +179,30 @@ return [
         'id_position' => [
             'required' => 'Position must be required!',
         ],
+        'id_category' => [
+            'required' => 'Category must be required!',
+        ],
+        'id_user' => [
+            'required' => 'Worker must be required!',
+        ],
+        'quantity' => [
+            'required' => 'Quantity must be required!',
+        ],
+        'completed_date' => [
+            'required' => 'Completed date must be required!',
+        ],
+        'name' => [
+            'required' => 'Name must be required!',
+        ],
+        'slug' => [
+            'required' => 'Slug wajib di isi, Press Tab or move column to automatically insert slug values!',
+        ],
+        'gender' => [
+            'required' => 'Gender must be required!',
+        ],
+        'sallary' => [
+            'required' => 'Sallary must be required!',
+        ],
     ],
 
     /*

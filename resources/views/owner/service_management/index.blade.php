@@ -1,4 +1,4 @@
-<x-app-dashboard title="{{ __('Dashboard') }}">
+<x-app-dashboard title="{{ __('Sallaries Management') }}">
 
     @section('links')
     <!-- DataTables -->
@@ -10,6 +10,15 @@
     <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
     @endsection
 
+
+    <x-slot name="header">
+        {{ __('List of Sallary by Product and Position') }}
+    </x-slot>
+    <x-slot name="links">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item active">{{ __('Sallaries Management') }}</li>
+        </ol>
+    </x-slot>
 
     <!-- Main row -->
     <div class="row animate__animated animate__slideInUp">
@@ -24,7 +33,7 @@
                         </button>
                         <button type="button" class="btn btn-purple float-right" data-toggle="modal"
                             data-target="#modal-create-user">
-                            {{ __('Create new user') }} <i class="fas fa-plus-circle"></i>
+                            {{ __('Create new sallary') }} <i class="fas fa-plus-circle"></i>
                         </button>
                     </div>
                     @if($services->count() > 0)
@@ -85,7 +94,7 @@
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header bg-purple">
-                    <h5 class="modal-title"><i class="fas fa-user-plus"></i> {{ __('New Sallary Form') }}</h5>
+                    <h5 class="modal-title"><i class="fas fa-coins"></i> {{ __('New Sallary Form') }}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -94,6 +103,9 @@
                     enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
+                        <div class="border-bottom text-danger" style="border-color: #6F42C1 !important">
+                            {{ __('* required fileds') }}
+                        </div>
                         <div class="form-group mb-1">
                             <label for="id_position" class="col-form-label">{{ __('Position') }} <span class="text-danger">*</span></label>
                             <select class="form-control error_input_id_position select2" style="width: 100%;" name="id_position">
@@ -121,7 +133,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">Rp. </span>
                                     </div>
-                                    <input class="form-control square error_input_telp" name="sallary" type="number" min="0" placeholder="{{ __('Enter') }} {{ __('Sallary') }}" value="{{ Auth::user()->telp }}">
+                                    <input class="form-control square error_input_sallary" name="sallary" type="number" min="0" placeholder="{{ __('Enter') }} {{ __('Sallary') }}" value="{{ Auth::user()->telp }}">
                                 </div>
                                 <span class="text-danger error-text sallary_error"></span>
                             </div>
@@ -227,10 +239,13 @@
                         $.each(data.error, function (prefix, val) {
                             $('span.' + prefix + '_error').text(val[0]);
                             $('input.error_input_' + prefix).addClass('is-invalid');
-                            $('select.error_input_' + prefix).addClass('is-invalid');
-                            $('textarea.error_input_' + prefix).addClass('is-invalid');
+                            $(".select2").css("border", "1.5px solid red", "important");
+                            $(".select2").css("border-style", "solid double");
+                            $(".select2").css("border-radius", "5px");
                         });
                         alertToastInfo(data.msg)
+                    }  else if (data.status == 'exists') {
+                        alertToastError(data.msg)
                     } else {
                         $('#form_create_service')[0].reset();
                         setTimeout(function () {

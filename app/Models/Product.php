@@ -15,9 +15,9 @@ class Product extends Model
     protected $fillable = [
         'id',
         'id_category',
-        'id_pengguna',
+        'id_user',
         'name',
-        'count',
+        'quantity',
         'completed_date',
     ];
 
@@ -33,6 +33,6 @@ class Product extends Model
 
     public function worker()
     {
-        return $this->belongsTo(User::class, 'id_pengguna');
+        return $this->belongsTo(User::class, 'id_user');
     }
 }

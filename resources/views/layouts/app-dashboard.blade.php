@@ -60,13 +60,6 @@
     <!-- Toaster -->
     <link rel="stylesheet" href="{{ asset('plugins/toastr/toastr.min.css') }}">
 
-
-
-
-
-
-
-
 </head>
 
 <body class="hold-transition sidebar-mini {{ (request()->is('**/profile')) || (request()->is('owner/positions/**')) ? 'sidebar-collapse' : '' }}">
@@ -88,12 +81,12 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         @if (isset($header))
-                        <div class="col-sm-6">
-                            <h3 class="m-0 font-weight-bold">{{ $header }}</h3>
+                        <div class="col-lg-7">
+                            <h3 class="m-0 font-weight-bold" style="font-family: 'Nunito';">{{ $header }}</h3>
                         </div><!-- /.col -->
                         @endif
                         @if (isset($links))
-                        <div class="col-sm-6">
+                        <div class="col-lg-5">
                             {{ $links }}
                         </div><!-- /.col -->
                         @endif

@@ -46,9 +46,9 @@ class ProductController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'id_category' => ['required'],
-            'id_pengguna' => ['required'],
+            'id_user' => ['required'],
             'name' => ['required', 'max:100'],
-            'count' => ['required', 'min:0'],
+            'quantity' => ['required', 'min:1'],
             'completed_date' => ['required']
         ]);
 
@@ -58,9 +58,9 @@ class ProductController extends Controller
             $store = Product::create([
                 'id' => Uuid::uuid4()->toString(),
                 'id_category' => $request->id_category,
-                'id_pengguna' => $request->id_pengguna,
+                'id_user' => $request->id_user,
                 'name' => $request->name,
-                'count' => $request->count,
+                'quantity' => $request->quantity,
                 'completed_date' => $request->completed_date
             ]);
             if (!$store->save()) {

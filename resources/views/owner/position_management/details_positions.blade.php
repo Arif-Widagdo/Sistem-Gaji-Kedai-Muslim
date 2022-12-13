@@ -10,13 +10,11 @@
     @endsection
 
     <x-slot name="header">
-        <h4 class="font-semibold text-xl text-gray-800 leading-tight">
-            @if(app()->getLocale()=='id')
+        @if(app()->getLocale()=='id')
             {{ __('List of users by') }} {{ __('Position') }} {{ $position->name }}
-            @else
+        @else
             {{ __('List of users by') }} {{ $position->name }} {{ __('Position') }}
-            @endif
-        </h4>
+        @endif
     </x-slot>
     <x-slot name="links">
         <ol class="breadcrumb float-sm-right">
@@ -126,6 +124,9 @@
                     enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
+                        <div class="border-bottom text-danger" style="border-color: #6F42C1 !important">
+                            {{ __('* required fileds') }}
+                        </div>
                         <div class="form-group mb-1">
                             <label for="name" class="col-form-label">{{ __('Name') }} <span class="text-danger">*</span></label>
                             <input type="text" id="name" class="form-control error_input_name"
@@ -278,6 +279,9 @@
                     @method('put')
                     @csrf
                     <div class="modal-body">
+                        <div class="border-bottom border-dark text-danger">
+                            {{ __('* required fileds') }}
+                        </div>
                         <div class="form-group mb-1">
                             <label for="role" class="col-form-label">{{ __('Change Position As') }} <span class="text-danger">*</span></label>
                             <select class="form-control error_input_id_position select2" style="width: 100%;" name="id_position">

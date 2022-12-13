@@ -1,4 +1,4 @@
-<x-app-dashboard title="{{ __('Dashboard') }}">
+<x-app-dashboard title="{{ __('Products Management') }}">
 
     @section('links')
     <!-- DataTables -->
@@ -9,7 +9,15 @@
     <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
     @endsection
-
+   
+    <x-slot name="header">
+        {{ __('List of Product') }}
+    </x-slot>
+    <x-slot name="links">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item active">{{ __('Products Management') }}</li>
+        </ol>
+    </x-slot>
 
     <!-- Main row -->
     <div class="row animate__animated animate__slideInUp">
@@ -24,7 +32,7 @@
                         </button>
                         <button type="button" class="btn btn-purple float-right" data-toggle="modal"
                             data-target="#modal-create-user">
-                            {{ __('Create new product') }} <i class="fas fa-plus-circle"></i>
+                            {{ __('Create New Product') }} <i class="fas fa-plus-circle"></i>
                         </button>
                     </div>
                     @if($products->count() > 0)
@@ -33,8 +41,8 @@
                             <thead>
                                 <tr>
                                     <th class="text-center"><input type="checkbox" class="selectall" style="max-width: 15px !important;"></th>
-                                    <th>Kategori Produk</th>
                                     <th>Pekerja</th>
+                                    <th>Kategori Produk</th>
                                     <th>Jumlah</th>
                                     <th>Tanggal Dikerjakan</th>
                                     <th class="text-center">{{ __('Actions') }}</th>
@@ -45,13 +53,13 @@
                                 <tr>
                                     <td class="text-center" style="width: 15px !important;"><input type="checkbox" name="ids[]" class="selectbox" value="{{ $product->id }}"></td>
                                     <td>
-                                        {{ $product->category->name }}
-                                    </td>
-                                    <td>
                                         {{ $product->worker->name }}
                                     </td>
                                     <td>
-                                        {{ $product->count }}
+                                        {{ $product->category->name }}
+                                    </td>
+                                    <td>
+                                        {{ $product->quantity }}
                                     </td>
                                     <td>
                                         {{ $product->completed_date }}
@@ -88,7 +96,7 @@
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header bg-purple">
-                    <h5 class="modal-title"><i class="fas fa-user-plus"></i> {{ __('New Sallary Form') }}</h5>
+                    <h5 class="modal-title"><i class="fas fa-user-plus"></i> {{ __('New Product Form') }}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -97,15 +105,18 @@
                     enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
+                        <div class="border-bottom text-danger" style="border-color: #6F42C1 !important">
+                            {{ __('* required fileds') }}
+                        </div>
                         <div class="form-group mb-1">
-                            <label for="id_pengguna" class="col-form-label">Pekerja <span class="text-danger">*</span></label>
-                            <select class="form-control error_input_id_pengguna select2" style="width: 100%;" name="id_pengguna">
+                            <label for="id_user" class="col-form-label">Pekerja <span class="text-danger">*</span></label>
+                            <select class="form-control error_input_id_user select2" style="width: 100%;" name="id_user">
                                 <option selected="selected" disabled>Pilih Pekerja</option>
                                 @foreach ($users as $user)
                                 <option value="{{ $user->id }}">{{ $user->name }}</option>
                                 @endforeach
                             </select>
-                            <span class="text-danger error-text id_pengguna_error"></span>
+                            <span class="text-danger error-text id_user_error"></span>
                         </div>
                        
                         <div class="form-group mb-1">
@@ -124,9 +135,9 @@
                             <span class="text-danger error-text name_error"></span>
                         </div>
                         <div class="form-group mb-1 ">
-                            <label for="count" class="col-form-label">Jumlah Produk <span class="text-danger">*</span></label>
-                            <input type="text" id="count" class="form-control error_input_count" placeholder="Masukan Jumlah Produk yang diselesaikan.." name="count" >
-                            <span class="text-danger error-text count_error"></span>
+                            <label for="quantity" class="col-form-label">Jumlah Produk <span class="text-danger">*</span></label>
+                            <input type="text" id="quantity" class="form-control error_input_quantity" placeholder="Masukan Jumlah Produk yang diselesaikan.." name="quantity" >
+                            <span class="text-danger error-text quantity_error"></span>
                         </div>
                         <div class="form-group mb-1 ">
                             <label for="completed_date" class="col-form-label">Tanggal diselesaikan <span class="text-danger">*</span></label>
@@ -236,6 +247,9 @@
                             $('input.error_input_' + prefix).addClass('is-invalid');
                             $('select.error_input_' + prefix).addClass('is-invalid');
                             $('textarea.error_input_' + prefix).addClass('is-invalid');
+                            $(".select2").css("border", "1.5px solid red", "important");
+                            $(".select2").css("border-style", "solid double");
+                            $(".select2").css("border-radius", "5px");
                         });
                         alertToastInfo(data.msg)
                     } else {

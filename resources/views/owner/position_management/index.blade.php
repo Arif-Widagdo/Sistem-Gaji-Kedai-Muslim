@@ -7,9 +7,7 @@
     @endsection
 
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('User Positions Management') }}
-        </h2>
+        {{ __('User Positions Management') }}
     </x-slot>
 
     <div class="row d-none">
@@ -23,7 +21,6 @@
     <div class="row animate__animated animate__slideInLeft">     
         <!-- Left col -->
         <div class="col-md-12">
-            
             <div class="card card-purple card-outline">
                 <form method="post">
                     @method('delete')
@@ -100,7 +97,6 @@
                     @endif
                 </form>
             </div>
-          
         </div>
         <!-- /.col -->
     </div>
@@ -119,32 +115,31 @@
                 <form class="form-horizontal" method="POST" action="{{ route('positions.store') }}" id="form_create_position" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="form-group mb-1 ">
-                                    <label for="name" class="col-form-label">{{ __('Position Name') }} <span class="text-danger">*</span></label>
-                                    <input type="text" id="name" class="form-control error_input_name" placeholder="{{ __('Enter') }} {{ __('Position Name') }}" name="name">
-                                    <span class="text-danger error-text name_error"></span>
-                                </div>
-                                <div class="form-group mb-1 ">
-                                    <div class="col-form-label d-flex justify-content-between align-items-center">
-                                        <label for="slug" class="col-form-label col-2 ">{{ __('Slug') }} <span class="text-danger">*</span></label>
-                                        <small class="col-10 text-right">{{ __('Press') }} <kbd>Tab</kbd> {{ __('or switch columns to insert slug values automatically') }}</small>
-                                    </div>
-
-                                    <input type="disabled" id="slug" class="form-control error_input_slug" placeholder="{{ __('Automatically') }}" name="slug" disable readonly>
-                                    <span class="text-danger error-text slug_error"></span>
-                                </div>
-                                <div class="form-group mb-1">
-                                    <label for="status_act" class="col-form-label">{{ __('Status') }} <span class="text-danger">*</span></label>
-                                    <select class="form-control error_input_status_act" style="width: 100%;" name="status_act">
-                                        <option selected="selected" disabled>{{ __('Choose Status') }}</option>
-                                        <option value="1">{{ __('Active') }}</option>
-                                        <option value="0">{{ __('Not Active') }}</option>
-                                    </select>
-                                    <span class="text-danger error-text status_act_error"></span>
-                                </div>
+                        <div class="border-bottom text-danger" style="border-color: #6F42C1 !important">
+                            {{ __('* required fileds') }}
+                        </div>
+                        <div class="form-group mb-1 ">
+                            <label for="name" class="col-form-label">{{ __('Position Name') }} <span class="text-danger">*</span></label>
+                            <input type="text" id="name" class="form-control error_input_name" placeholder="{{ __('Enter') }} {{ __('Position Name') }}" name="name">
+                            <span class="text-danger error-text name_error"></span>
+                        </div>
+                        <div class="form-group mb-1 ">
+                            <div class="col-form-label d-flex justify-content-between align-items-center">
+                                <label for="slug" class="col-form-label col-2 ">{{ __('Slug') }} <span class="text-danger">*</span></label>
+                                <small class="col-10 text-right">{{ __('Press') }} <kbd>Tab</kbd> {{ __('or switch columns to insert slug values automatically') }}</small>
                             </div>
+
+                            <input type="disabled" id="slug" class="form-control error_input_slug" placeholder="{{ __('Automatically') }}" name="slug" disable readonly>
+                            <span class="text-danger error-text slug_error"></span>
+                        </div>
+                        <div class="form-group mb-1">
+                            <label for="status_act" class="col-form-label">{{ __('Status') }} <span class="text-danger">*</span></label>
+                            <select class="form-control error_input_status_act" style="width: 100%;" name="status_act">
+                                <option selected="selected" disabled>{{ __('Choose Status') }}</option>
+                                <option value="1">{{ __('Active') }}</option>
+                                <option value="0">{{ __('Not Active') }}</option>
+                            </select>
+                            <span class="text-danger error-text status_act_error"></span>
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between">
@@ -176,36 +171,35 @@
                     @csrf
                     @method('PATCH')
                     <div class="modal-body">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="form-group mb-1 ">
-                                    <label for="name_edit" class="col-form-label">{{ __('Position Name') }} <span class="text-danger">*</span></label>
-                                    <input type="text" id="name_edit{{ $loop->iteration }}" class="form-control error_input_name_edit" placeholder="{{ __('Enter') }} {{ __('Position Name') }}" name="name" value="{{ $position_edit->name }}">
-                                    <span class="text-danger error-text name_edit_error"></span>
-                                </div>
-                                <div class="form-group mb-1 ">
-                                    <div class="col-form-label d-flex justify-content-between align-items-center">
-                                        <label for="slug_edit" class="col-form-label col-2 ">{{ __('Slug') }} <span class="text-danger">*</span></label>
-                                        <small class="col-10 text-right">{{ __('Press') }} <kbd>Tab</kbd> {{ __('or switch columns to insert slug values automatically') }}</small>
-                                    </div>
-                                    <input type="disabled" id="slug_edit{{ $loop->iteration }}" class="form-control error_input_slug_edit" placeholder="{{ __('Automatically') }}" name="slug" disable readonly value="{{ $position_edit->slug }}">
-                                    <span class="text-danger error-text slug_edit_error"></span>
-                                </div>
-                                <div class="form-group mb-1">
-                                    <label for="status_actEdit" class="col-form-label">{{ __('Status') }} <span class="text-danger">*</span></label>
-                                    <select class="form-control error_input_status_actEdit" style="width: 100%;" name="status_act">
-                                        {{-- <option selected="selected" disabled>{{ __('Choose Status') }}</option> --}}
-                                        @if($position_edit->status_act == 1)
-                                        <option value="1" selected="selected">{{ __('Active') }}</option> 
-                                        <option value="0">{{ __('Not Active') }}</option> 
-                                        @else
-                                        <option value="1">{{ __('Active') }}</option>
-                                        <option value="0" selected="selected">{{ __('Not Active') }}</option>
-                                        @endif
-                                    </select>
-                                    <span class="text-danger error-text status_actEdit_error"></span>
-                                </div>
+                        <div class="border-bottom border-dark text-danger">
+                            {{ __('* required fileds') }}
+                        </div>
+                        <div class="form-group mb-1 ">
+                            <label for="name_edit" class="col-form-label">{{ __('Position Name') }} <span class="text-danger">*</span></label>
+                            <input type="text" id="name_edit{{ $loop->iteration }}" class="form-control error_input_name_edit" placeholder="{{ __('Enter') }} {{ __('Position Name') }}" name="name" value="{{ $position_edit->name }}">
+                            <span class="text-danger error-text name_edit_error"></span>
+                        </div>
+                        <div class="form-group mb-1 ">
+                            <div class="col-form-label d-flex justify-content-between align-items-center">
+                                <label for="slug_edit" class="col-form-label col-2 ">{{ __('Slug') }} <span class="text-danger">*</span></label>
+                                <small class="col-10 text-right">{{ __('Press') }} <kbd>Tab</kbd> {{ __('or switch columns to insert slug values automatically') }}</small>
                             </div>
+                            <input type="disabled" id="slug_edit{{ $loop->iteration }}" class="form-control error_input_slug_edit" placeholder="{{ __('Automatically') }}" name="slug" disable readonly value="{{ $position_edit->slug }}">
+                            <span class="text-danger error-text slug_edit_error"></span>
+                        </div>
+                        <div class="form-group mb-1">
+                            <label for="status_actEdit" class="col-form-label">{{ __('Status') }} <span class="text-danger">*</span></label>
+                            <select class="form-control error_input_status_actEdit" style="width: 100%;" name="status_act">
+                                {{-- <option selected="selected" disabled>{{ __('Choose Status') }}</option> --}}
+                                @if($position_edit->status_act == 1)
+                                <option value="1" selected="selected">{{ __('Active') }}</option> 
+                                <option value="0">{{ __('Not Active') }}</option> 
+                                @else
+                                <option value="1">{{ __('Active') }}</option>
+                                <option value="0" selected="selected">{{ __('Not Active') }}</option>
+                                @endif
+                            </select>
+                            <span class="text-danger error-text status_actEdit_error"></span>
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between">

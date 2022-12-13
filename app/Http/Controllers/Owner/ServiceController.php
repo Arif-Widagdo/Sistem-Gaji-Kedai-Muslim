@@ -44,6 +44,7 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
             'id_position' => ['required'],
             'id_category' => ['required'],
@@ -53,16 +54,22 @@ class ServiceController extends Controller
         if (!$validator->passes()) {
             return response()->json(['status' => 0, 'error' => $validator->errors()->toArray(), 'msg' => 'Kurang Lengkap']);
         } else {
-            $store = Service::create([
-                'id' => Uuid::uuid4()->toString(),
-                'id_position' => $request->id_position,
-                'id_category' => $request->id_category,
-                'sallary' => $request->sallary
-            ]);
-            if (!$store->save()) {
-                return response()->json(['status' => 0, 'msg' => 'Something Wrong']);
+            $exists = Service::where('id_position', $request->id_position)->where('id_category', $request->id_category)->first();
+
+            if ($exists) {
+                return response()->json(['status' => 'exists', 'msg' => 'Data Sudah Ada']);
             } else {
-                return response()->json(['status' => 1, 'msg' => 'Success']);
+                $store = Service::create([
+                    'id' => Uuid::uuid4()->toString(),
+                    'id_position' => $request->id_position,
+                    'id_category' => $request->id_category,
+                    'sallary' => $request->sallary
+                ]);
+                if (!$store->save()) {
+                    return response()->json(['status' => 0, 'msg' => 'Something Wrong']);
+                } else {
+                    return response()->json(['status' => 1, 'msg' => 'Success']);
+                }
             }
         }
     }

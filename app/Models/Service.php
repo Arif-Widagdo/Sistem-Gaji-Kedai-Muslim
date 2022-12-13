@@ -19,6 +19,8 @@ class Service extends Model
         'sallary'
     ];
 
+    // protected $with = ['position', 'category'];
+
     public function position()
     {
         return $this->belongsTo(Position::class, 'id_position');

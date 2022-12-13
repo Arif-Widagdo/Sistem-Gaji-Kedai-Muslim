@@ -31,7 +31,7 @@
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         @if(Auth::user()->userPosition->name === 'Owner')
-        <ul class="nav nav-pills nav-sidebar flex-column mb-10" data-widget="treeview" role="menu" data-accordion="false">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
             <a href="{{ route('dashboard') }}" class="nav-link {{ request()->is('owner/dashboard') ? 'active' : '' }}">
               <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -93,7 +93,6 @@
               </li>
             </ul>
           </li>
-          
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-file-invoice-dollar"></i>
@@ -120,16 +119,23 @@
         </ul>
         @else
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-            <li class="nav-item">
-              <a href="#" class="nav-link {{ request()->is('employee/dashboard') ? 'active' : '' }}">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
-                <p>
-                  {{ __('Dashboard') }}
-                </p>
-              </a>
-            </li>
+          <li class="nav-item">
+            <a href="{{ route('employee.dashboard') }}" class="nav-link {{ request()->is('employee/dashboard') ? 'active' : '' }}">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                {{ __('Dashboard') }}
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-history"></i>
+              <p>
+                {{ __('History') }}
+              </p>
+            </a>
+          </li>
         </ul>
-          
         @endif
       </nav>
       <!-- /.sidebar-menu -->
