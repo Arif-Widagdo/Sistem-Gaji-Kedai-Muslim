@@ -62,7 +62,10 @@
 
 </head>
 
-<body class="hold-transition sidebar-mini {{ (request()->is('**/profile')) || (request()->is('owner/positions/**')) ? 'sidebar-collapse' : '' }}">
+<body class="hold-transition sidebar-mini {{ (request()->is('**/profile')) 
+|| (request()->is('owner/positions/**')) 
+|| (request()->is('owner/products')) 
+? 'sidebar-collapse' : '' }}">
     <!-- Site wrapper -->
     <div class="wrapper">
 

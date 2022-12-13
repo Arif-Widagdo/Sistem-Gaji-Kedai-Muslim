@@ -90,7 +90,6 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
     }
 
     /**
@@ -102,7 +101,28 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'id_category' => ['required'],
+            'id_user' => ['required'],
+            'name' => ['required', 'max:100'],
+            'quantity' => ['required', 'min:1'],
+        ]);
+
+        if (!$validator->passes()) {
+            return response()->json(['status' => 0, 'error' => $validator->errors()->toArray(), 'msg' => 'Kurang Lengkap']);
+        } else {
+            $update = Product::find($product->id)->update([
+                'id_category' => $request->id_category,
+                'id_user' => $request->id_user,
+                'name' => $request->name,
+                'quantity' => $request->quantity,
+            ]);
+            if (!$update) {
+                return response()->json(['status' => 0, 'msg' => 'Something Wrong']);
+            } else {
+                return response()->json(['status' => 1, 'msg' => 'Success']);
+            }
+        }
     }
 
     /**
@@ -119,6 +139,16 @@ class ProductController extends Controller
             return redirect()->back()->with('success', 'Success');
         } else {
             return redirect()->back()->with('error', 'Failed');
+        }
+    }
+
+    public function deleteAll(Request $request)
+    {
+        $delete = Product::destroy($request->ids);
+        if ($delete) {
+            return redirect()->back()->with('success', 'Success');
+        } else {
+            return redirect()->back()->with('error', 'Error');
         }
     }
 }

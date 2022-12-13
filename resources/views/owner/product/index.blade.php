@@ -10,6 +10,12 @@
     <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
     @endsection
    
+    <div class="row d-none">
+        <div class="col-12">
+            <input type="text" id="countProduct" class="w-100" value="{{ $products->count() }}">
+        </div>
+    </div>
+
     <x-slot name="header">
         {{ __('List of Product') }}
     </x-slot>
@@ -27,7 +33,7 @@
                     @method('delete')
                     @csrf
                     <div class="card-header">
-                        <button formaction="" class="btn btn-danger float-left" type="submit" hidden id="btn-delet-all" onclick="return confirm('{{ __('Are you sure?') }}')">
+                        <button formaction="{{ route('owner.product.deleteAll') }}" class="btn btn-danger float-left" type="submit" hidden id="btn-delet-all" onclick="return confirm('{{ __('Are you sure?') }}')">
                             <i class="fas fa-solid fa-trash"></i> {{ __('Delete All Selected') }}
                         </button>
                         <button type="button" class="btn btn-purple float-right" data-toggle="modal"
@@ -41,6 +47,7 @@
                             <thead>
                                 <tr>
                                     <th class="text-center"><input type="checkbox" class="selectall" style="max-width: 15px !important;"></th>
+                                    <th>Judul Produk</th>
                                     <th>Pekerja</th>
                                     <th>Kategori Produk</th>
                                     <th>Jumlah</th>
@@ -52,6 +59,9 @@
                                 @foreach ($products as $product)
                                 <tr>
                                     <td class="text-center" style="width: 15px !important;"><input type="checkbox" name="ids[]" class="selectbox" value="{{ $product->id }}"></td>
+                                    <td>
+                                        {{ $product->name }}
+                                    </td>
                                     <td>
                                         {{ $product->worker->name }}
                                     </td>
@@ -66,9 +76,9 @@
                                     </td>
                                     <td class="text-center">
                                         <div class="d-inline-flex align-items-center text-center">
-                                            {{-- <a data-toggle="modal" data-target="#modal-edit{{ $product->id }}" class="btn btn-sm btn-warning ml-1 d-inline-flex align-items-center font-small">
+                                            <a data-toggle="modal" data-target="#modal-edit{{ $product->id }}" class="btn btn-sm btn-warning ml-1 d-inline-flex align-items-center font-small">
                                                 {{ __('Edit') }} <i class="fas fa-edit ml-2"></i>
-                                            </a> --}}
+                                            </a>
                                             <form method="post" class="d-inline">
                                                 @method('delete')
                                                 @csrf
@@ -91,7 +101,7 @@
     </div>
     <!-- /.row -->
 
-    <!--- Modal -->
+    <!--- Modal Creat -->
     <div class="modal fade" id="modal-create-user">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
@@ -155,6 +165,86 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
+    <!-- /.modal -->
+
+    <!--- Modal Edit -->
+    @foreach ($products as $product_edit)
+    <div class="modal fade" id="modal-edit{{ $product_edit->id }}">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-dark" style="border-bottom:2px solid #FFC107 !important;">
+                    <h3 class="modal-title">
+                        <span class="badge badge-warning"><i class="fas fa-edit"></i> 
+                            {{ $product_edit->name }}
+                        </span>
+                    </h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color:#FFC107">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form class="form-horizontal" method="POST" action="{{ route('products.update', $product_edit->id) }}" id="form_edit_product{{ $loop->iteration }}"
+                    enctype="multipart/form-data">
+                    @csrf
+                    @method('PATCH')
+                    <div class="modal-body">
+                        <div class="border-bottom text-danger" style="border-color: #6F42C1 !important">
+                            {{ __('* required fileds') }}
+                        </div>
+                        <div class="form-group mb-1">
+                            <label for="id_user" class="col-form-label">Pekerja <span class="text-danger">*</span></label>
+                            <select class="form-control error_input_id_user select2" style="width: 100%;" name="id_user">
+                                <option selected="selected" disabled>Pilih Pekerja</option>
+                                @foreach ($users as $user)
+                                    @if(old('id_user', $product_edit->worker->id) == $user->id)
+                                        <option value="{{ $user->id }}" selected>{{ $user->name }}</option>
+                                    @else
+                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                            <span class="text-danger error-text id_user_error"></span>
+                        </div>
+                       
+                        <div class="form-group mb-1">
+                            <label for="id_category" class="col-form-label">Kategori Produk <span class="text-danger">*</span></label>
+                            <select class="form-control error_input_id_category select2" style="width: 100%;" name="id_category">
+                                <option selected="selected" disabled>Pilih Kategori Produk</option>
+                                @foreach ($categories as $category)
+                                    @if(old('id_user', $product_edit->category->id) == $category->id)
+                                        <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+                                    @else
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                            <span class="text-danger error-text id_category_error"></span>
+                        </div>
+                        <div class="form-group mb-1 ">
+                            <label for="name" class="col-form-label">Nama Produk <span class="text-danger">*</span></label>
+                            <input type="text" id="name" class="form-control error_input_name" placeholder="Masukan nama produk.." name="name" value="{{ $product_edit->name }}">
+                            <span class="text-danger error-text name_error"></span>
+                        </div>
+                        <div class="form-group mb-1 ">
+                            <label for="quantity" class="col-form-label">Jumlah Produk <span class="text-danger">*</span></label>
+                            <input type="number" min="1" id="quantity" class="form-control error_input_quantity" placeholder="Masukan Jumlah Produk yang diselesaikan.." name="quantity" value="{{ $product_edit->quantity }}"  >
+                            <span class="text-danger error-text quantity_error"></span>
+                        </div>
+                        {{-- <div class="form-group mb-1 ">
+                            <label for="completed_date" class="col-form-label">Tanggal diselesaikan <span class="text-danger">*</span></label>
+                            {{ $product_edit->completed_date }}
+                            <input type="date" id="completed_date" class="form-control error_input_completed_date" placeholder="Masukan Jumlah Produk yang diselesaikan.." name="completed_date" value="{{ $product_edit->completed_date }}"  >
+                            <span class="text-danger error-text completed_date_error"></span>
+                        </div> --}}
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Cancel') }}</button>
+                        <button type="submit" class="btn btn-dark">{{ __('Submit') }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    @endforeach
     <!-- /.modal -->
 
     @section('scripts')
@@ -265,6 +355,49 @@
                 }
             });
         });
+
+
+        const countProduct = document.querySelector('#countProduct');
+
+        for (let i = 1; i <= countProduct.value; i++) {
+            $('#form_edit_product'+i).on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: $(this).attr('action'),
+                    method: $(this).attr('method'),
+                    data: new FormData(this),
+                    processData: false,
+                    dataType: 'json',
+                    contentType: false,
+                    beforeSend: function () {
+                        $(document).find('span.error-text').text('');
+                    },
+                    success: function (data) {
+                        if (data.status == 0) {
+                            $.each(data.error, function (prefix, val) {
+                                $('span.' + prefix + '_error').text(val[0]);
+                                $('input.error_input_' + prefix).addClass('is-invalid');
+                                $('select.error_input_' + prefix).addClass('is-invalid');
+                                $('textarea.error_input_' + prefix).addClass('is-invalid');
+                                $(".select2").css("border", "1.5px solid red", "important");
+                                $(".select2").css("border-style", "solid double");
+                                $(".select2").css("border-radius", "5px");
+                            });
+                            alertToastInfo(data.msg)
+                        } else {
+                            $('#form_edit_product'+i)[0].reset();
+                            setTimeout(function () {
+                                location.reload(true);
+                            }, 1000);
+                            alertToastSuccess(data.msg)
+                        }
+                    },
+                    error: function (xhr) {
+                        Swal.fire(xhr.statusText, '{{ __('Wait a few minutes to try again ') }}', 'error')
+                    }
+                });
+            });
+        }
     </script>
     @endsection
 

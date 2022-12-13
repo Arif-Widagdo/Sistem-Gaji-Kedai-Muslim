@@ -10,6 +10,11 @@
     <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
     @endsection
 
+    <div class="row d-none">
+        <div class="col-12">
+            <input type="text" id="countPosition" class="w-100" value="{{ $services->count() }}">
+        </div>
+    </div>
 
     <x-slot name="header">
         {{ __('List of Sallary by Product and Position') }}
@@ -28,7 +33,7 @@
                     @method('delete')
                     @csrf
                     <div class="card-header">
-                        <button formaction="" class="btn btn-danger float-left" type="submit" hidden id="btn-delet-all" onclick="return confirm('{{ __('Are you sure?') }}')">
+                        <button formaction="{{ route('owner.service.deleteAll') }}" class="btn btn-danger float-left" type="submit" hidden id="btn-delet-all" onclick="return confirm('{{ __('Are you sure?') }}')">
                             <i class="fas fa-solid fa-trash"></i> {{ __('Delete All Selected') }}
                         </button>
                         <button type="button" class="btn btn-purple float-right" data-toggle="modal"
@@ -63,9 +68,9 @@
                                     </td>
                                     <td class="text-center">
                                         <div class="d-inline-flex align-items-center text-center">
-                                            {{-- <a data-toggle="modal" data-target="#modal-edit{{ $service->id }}" class="btn btn-sm btn-warning ml-1 d-inline-flex align-items-center font-small">
+                                            <a data-toggle="modal" data-target="#modal-edit{{ $service->id }}" class="btn btn-sm btn-warning ml-1 d-inline-flex align-items-center font-small">
                                                 {{ __('Edit') }} <i class="fas fa-edit ml-2"></i>
-                                            </a> --}}
+                                            </a>
                                             <form method="post" class="d-inline">
                                                 @method('delete')
                                                 @csrf
@@ -79,7 +84,6 @@
                                 @endforeach
                             </tbody>
                         </table>
-                       
                     </div>
                     @else
                     @endif
@@ -149,6 +153,81 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
+    <!-- /.modal -->
+
+    <!--- Modal Edit -->
+    @foreach ($services as $service_edit)
+    <div class="modal fade" id="modal-edit{{ $service_edit->id }}">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-dark" style="border-bottom:2px solid #FFC107 !important;">
+                    <h3 class="modal-title">
+                        <span class="badge badge-warning"><i class="fas fa-edit"></i> 
+                            {{ $service_edit->position->name }}
+                        </span>
+                    </h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color:#FFC107">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form class="form-horizontal" method="POST" action="{{ route('services.update', $service_edit->id) }}" id="form_edit_position{{ $loop->iteration }}"
+                    enctype="multipart/form-data">
+                    @csrf
+                    @method('PATCH')
+                    <div class="modal-body">
+                        <div class="border-bottom border-dark text-danger">
+                            {{ __('* required fileds') }}
+                        </div>
+                        <div class="form-group mb-1">
+                            <label for="id_position" class="col-form-label">{{ __('Position') }} <span class="text-danger">*</span></label>
+                            <select class="form-control error_input_id_position select2" style="width: 100%;" name="id_position">
+                                <option selected="selected" disabled>{{ __('Select User Position') }}</option>
+                                @foreach ($positions as $position)
+                                    @if(old('id_position', $service_edit->position->id) == $position->id)
+                                        <option value="{{ $position->id }}" selected>{{ $position->name }}</option>
+                                    @else
+                                        <option value="{{ $position->id }}">{{ $position->name }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                            <span class="text-danger error-text id_position_error"></span>
+                        </div>
+                        <div class="form-group mb-1">
+                            <label for="id_category" class="col-form-label">{{ __('Category') }} <span class="text-danger">*</span></label>
+                            <select class="form-control error_input_id_category select2" style="width: 100%;" name="id_category">
+                                <option selected="selected" disabled>{{ __('Select User Position') }}</option>
+                                @foreach ($categories as $category)
+                                    @if(old('id_category', $service_edit->category->id) == $category->id)
+                                        <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+                                    @else
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                            <span class="text-danger error-text id_category_error"></span>
+                        </div>
+                        <div class="form-group row">
+                            <label for="sallary" class="col-sm-3 col-form-label">{{ __('Sallary') }} <span class="text-danger">*</span></label>
+                            <div class="col-sm-12">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Rp. </span>
+                                    </div>
+                                    <input class="form-control square error_input_sallary" name="sallary" type="number" min="0" placeholder="{{ __('Enter') }} {{ __('Sallary') }}" value="{{ $service_edit->sallary }}">
+                                </div>
+                                <span class="text-danger error-text sallary_error"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Cancel') }}</button>
+                        <button type="submit" class="btn btn-dark">{{ __('Submit') }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    @endforeach
     <!-- /.modal -->
 
     @section('scripts')
@@ -259,6 +338,47 @@
                 }
             });
         });
+
+        const countPosition = document.querySelector('#countPosition');
+
+        for (let i = 1; i <= countPosition.value; i++) {
+            $('#form_edit_position'+i).on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: $(this).attr('action'),
+                    method: $(this).attr('method'),
+                    data: new FormData(this),
+                    processData: false,
+                    dataType: 'json',
+                    contentType: false,
+                    beforeSend: function () {
+                        $(document).find('span.error-text').text('');
+                    },
+                    success: function (data) {
+                        if (data.status == 0) {
+                            $.each(data.error, function (prefix, val) {
+                                $('span.' + prefix + '_edit_error').text(val[0]);
+                                $('input.error_input_edit_' + prefix).addClass('is-invalid');
+                            });
+                            alertToastInfo(data.msg)
+                        } 
+                        else if (data.status == 'exists') {
+                            alertToastError(data.msg)
+                        } else {
+                            $('#form_edit_position')[0].reset();
+                            setTimeout(function () {
+                                location.reload(true);
+                            }, 1000);
+                            alertToastSuccess(data.msg)
+                        }
+                    },
+                    error: function (xhr) {
+                        Swal.fire(xhr.statusText, '{{ __('Wait a few minutes to try again ') }}', 'error')
+                    }
+                });
+            });
+        }
+
     </script>
     @endsection
 

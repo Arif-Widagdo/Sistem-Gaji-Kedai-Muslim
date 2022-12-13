@@ -93,7 +93,6 @@ class ServiceController extends Controller
      */
     public function edit(Service $service)
     {
-        //
     }
 
     /**
@@ -105,7 +104,34 @@ class ServiceController extends Controller
      */
     public function update(Request $request, Service $service)
     {
-        //
+
+        $validator = Validator::make($request->all(), [
+            'id_position' => ['required'],
+            'id_category' => ['required'],
+            'sallary' => ['required', 'min:0']
+        ]);
+
+        if (!$validator->passes()) {
+            return response()->json(['status' => 0, 'error' => $validator->errors()->toArray(), 'msg' => __('Please complete the input on the form provided')]);
+        } else {
+
+            $exists = Service::where('id_position', $request->id_position)->where('id_category', $request->id_category)->first();
+
+            if ($exists) {
+                return response()->json(['status' => 'exists', 'msg' => 'Data Sudah Ada']);
+            } else {
+                $update = Service::find($service->id)->update([
+                    'id_position' => $request->id_position,
+                    'id_category' => $request->id_category,
+                    'sallary' => $request->sallary
+                ]);
+                if (!$update) {
+                    return response()->json(['status' => 0, 'msg' => 'Something Wrong']);
+                } else {
+                    return response()->json(['status' => 1, 'msg' => 'Success']);
+                }
+            }
+        }
     }
 
     /**
@@ -122,6 +148,17 @@ class ServiceController extends Controller
             return redirect()->back()->with('success', 'Success');
         } else {
             return redirect()->back()->with('error', 'Failed');
+        }
+    }
+
+
+    public function deleteAll(Request $request)
+    {
+        $delete = Service::destroy($request->ids);
+        if ($delete) {
+            return redirect()->back()->with('success', 'Success');
+        } else {
+            return redirect()->back()->with('error', 'Error');
         }
     }
 }

@@ -72,8 +72,11 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
         // Route Service Management
         Route::resource('/services', ServiceController::class)->except(['create', 'edit']);
+        Route::delete('/services-management-deleteAll', [ServiceController::class, 'deleteAll'])->name('owner.service.deleteAll');
+
         // Route Product Management
         Route::resource('/products', ProductController::class)->except(['create', 'edit']);
+        Route::delete('/products-management-deleteAll', [ProductController::class, 'deleteAll'])->name('owner.product.deleteAll');
     });
 
 
