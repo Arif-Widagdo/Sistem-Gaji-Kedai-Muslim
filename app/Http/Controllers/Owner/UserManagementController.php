@@ -58,10 +58,12 @@ class UserManagementController extends Controller
             $picture = $createAvatar == true ? $newAvatarName : '';
 
             $telp = $request->telp;
-            if ($request->telp[0] == 0) {
-                $telp = '62' . substr($request->telp, strlen(0));
-            } else if ($request->telp[0] == 8) {
-                $telp = '62' . $request->telp;
+            if ($telp) {
+                if ($request->telp[0] == 0) {
+                    $telp = '62' . substr($request->telp, strlen(0));
+                } else if ($request->telp[0] == 8) {
+                    $telp = '62' . $request->telp;
+                }
             }
 
             $user = User::create([

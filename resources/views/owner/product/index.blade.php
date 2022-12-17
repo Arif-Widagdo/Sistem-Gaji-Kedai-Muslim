@@ -281,7 +281,7 @@
             ],
             "order": [],
             "columnDefs": [{
-                "targets": [0, 3],
+                "targets": [0, 6],
                 "orderable": false,
             }],
             "oLanguage": {

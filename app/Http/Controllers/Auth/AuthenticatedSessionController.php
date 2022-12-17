@@ -39,7 +39,7 @@ class AuthenticatedSessionController extends Controller
                 Auth::guard('web')->logout();
                 $request->session()->invalidate();
                 $request->session()->regenerateToken();
-                return redirect('/login')->with('status', 'User Blocked');
+                return redirect('/login')->with('status', __('User Account Blocked'));
             }
         } else {
             if (Auth::user()->status_act == 1 && auth()->user()->userPosition->status_act == 1) {
@@ -49,7 +49,7 @@ class AuthenticatedSessionController extends Controller
             Auth::guard('web')->logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
-            return redirect('/login')->with('status', 'Jabatan dinonaktifkan');
+            return redirect('/login')->with('status', __('Position User Disabled'));
         }
         // return redirect()->intended(RouteServiceProvider::HOME);
     }

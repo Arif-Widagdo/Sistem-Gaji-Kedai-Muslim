@@ -29,12 +29,12 @@
         <div class="col-md-12">
            
             <div class="card card-purple card-outline">
-                <form method="post">
+                <form method="post" action="{{ route('owner.category.deleteAll') }}" id="form_deleteAll_product">
                     @method('delete')
                     @csrf
                     <div class="card-header">
-                        <button formaction="{{ route('owner.category.deleteAll') }}" class="btn btn-danger float-left" type="submit" hidden id="btn-delet-all" onclick="return confirm('{{ __('Are you sure?') }}')">
-                            <i class="fas fa-solid fa-trash"></i> {{ __('Delete All Selected') }}
+                        <button class="btn btn-danger float-left" type="submit" hidden id="btn_delete_all">
+                            <i class="fas fa-solid fa-trash-alt"></i> {{ __('Delete All Selected') }}
                         </button>
                         <button type="button" class="btn btn-purple float-right" data-toggle="modal" data-target="#modal-create">
                             {{ __('Create New Category') }} <i class="fas fa-plus-circle"></i>
@@ -45,7 +45,7 @@
                         <table id="table-categories" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th class="text-center"><input type="checkbox" class="selectall" style="max-width: 15px !important;"></th>
+                                    <th class="text-center"><input type="checkbox" class="selectall" style="max-width: 15px !important; cursor: pointer;"></th>
                                     <th>{{ __('Category Names') }}</th>
                                     <th>{{ __('Created date') }}</th>
                                     <th class="text-center">{{ __('Actions') }}</th>
@@ -54,7 +54,7 @@
                             <tbody>
                                 @foreach ($categories as $category)
                                 <tr>
-                                    <td class="text-center" style="width: 15px !important;"><input type="checkbox" name="ids[]" class="selectbox" value="{{ $category->id }}"></td>
+                                    <td class="text-center" style="width: 15px !important;"><input type="checkbox" name="ids[]" class="selectbox" value="{{ $category->id }}" style="cursor: pointer;"></td>
                                     <td class="fw-500">
                                         @if(Str::length($category->name) > 20)
                                         {{ substr( $category->name, 0, 20) }} ...
@@ -71,13 +71,10 @@
                                                 class="btn btn-sm btn-warning ml-1 d-inline-flex align-items-center font-small">
                                                 {{ __('Edit') }} <i class="fas fa-edit ml-2"></i>
                                             </a>
-                                            <form method="post" class="d-inline">
+                                            <form method="post" class="d-inline" action="{{ route('categories.destroy', $category->slug) }}" id="form_delete_product{{ $loop->iteration }}">
                                                 @method('delete')
                                                 @csrf
-                                                <button
-                                                    formaction="{{ route('categories.destroy', $category->slug) }}"
-                                                    class="btn btn-sm btn-danger ml-1 d-inline-flex align-items-center font-small"
-                                                    onclick="return confirm('{{ __('Are you sure?') }}')">
+                                                <button class="btn btn-sm btn-danger ml-1 d-inline-flex align-items-center font-small" id="btn_delete{{ $loop->iteration }}">
                                                     {{ __('Remove') }} <i class="fas fa-solid fa-trash-alt ml-2"></i>
                                                 </button>
                                             </form>
@@ -279,7 +276,7 @@
 
             $('.selectall').click(function () {
                 $('.selectbox').prop('checked', $(this).prop('checked'));
-                $("#btn-delet-all").prop("hidden", !$(this).prop('checked'));
+                $("#btn_delete_all").prop("hidden", !$(this).prop('checked'));
             });
 
             $('.selectbox').change(function () {
@@ -290,7 +287,7 @@
                 } else {
                     $('.selectall').prop('checked', false);
                 }
-                $("#btn-delet-all").prop("hidden", !$('.selectbox:checked').length);
+                $("#btn_delete_all").prop("hidden", !$('.selectbox:checked').length);
             });
 
             // Edit Posiitions
@@ -338,10 +335,47 @@
                         }
                     });
                 });
+
+                $('#btn_delete'+i).on('click',function(e){
+                    e.preventDefault();
+                    swal.fire({
+                        title: "{{ __('Are you sure?') }}",
+                        text: "{{ __('You wont be able to revert this') }}",
+                        icon: 'warning',
+                        iconColor: '#FD7E14',
+                        showCancelButton: true,
+                        confirmButtonColor: '#6F42C1',
+                        cancelButtonColor: '#DC3545',
+                        confirmButtonText: "{{ __('Yes, deleted it') }}",
+                        cancelButtonText: "{{ __('Cancel') }}"
+                    }).then((result) => {
+                        if (result.isConfirmed){
+                            document.getElementById('form_delete_product'+i).submit();
+                        }
+                    });
+                });
                 
             }
             
 
+            $('#btn_delete_all').on('click',function(e){
+                e.preventDefault();
+                swal.fire({
+                    title: "{{ __('Are you sure?') }}",
+                    text: "{{ __('You wont be able to revert this') }}",
+                    icon: 'warning',
+                    iconColor: '#FD7E14',
+                    showCancelButton: true,
+                    confirmButtonColor: '#6F42C1',
+                    cancelButtonColor: '#DC3545',
+                    confirmButtonText: "{{ __('Yes, deleted it') }}",
+                    cancelButtonText: "{{ __('Cancel') }}"
+                }).then((result) => {
+                    if (result.isConfirmed){
+                        document.getElementById('form_deleteAll_product').submit();
+                    }
+                });
+            });
 
         
     </script>

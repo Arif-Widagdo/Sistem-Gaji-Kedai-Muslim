@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use Ramsey\Uuid\Uuid;
+use App\Models\Position;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
 use App\Http\Controllers\Controller;
@@ -21,7 +22,9 @@ class RegisteredUserController extends Controller
      */
     public function create()
     {
-        return view('auth.register');
+        return view('auth.register', [
+            'positions' => Position::where('name', '!=', 'Owner')->get()
+        ]);
     }
 
     /**
@@ -37,15 +40,15 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
+            'id_position' => ['required'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = User::create([
             'id' => Uuid::uuid4()->toString(),
-            'id_position' => '90bbb00b-35d0-41a2-96d7-606f7f010497',
+            'id_position' => $request->id_position,
             'name' => $request->name,
             'email' => $request->email,
-            'status_act' => 1,
             'password' => Hash::make($request->password),
         ]);
 

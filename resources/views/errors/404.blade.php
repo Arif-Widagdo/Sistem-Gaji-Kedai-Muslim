@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Error 404 Halaman Tidak Ditemukan</title>
+    <title>{{ __('Page not found') }}</title>
     <!-- Favicons -->
     <link href="#" rel="icon">
     <link href="#" rel="apple-touch-icon">
@@ -25,11 +25,11 @@
           <div class="row">
             <div class="col-lg-12 d-flex flex-column text-center justify-content-center typograph">
               <h1>Oops!</h1>
-              <h2>404 - PAGE NOT FOUND</h2>
-              <p class=" mx-auto">The page you are looking for might have been removed had its name changed or is temporarily unvaliable</p>
+              <h2>{{ __('404 - PAGE NOT FOUND') }}</h2>
+              <p class=" mx-auto">{{ __('The page you are looking for might have been removed had its name changed or is temporarily unavailable') }}</p>
               <button class="shadow-sm bg-transparent  rounded-pill w-auto mx-auto" onclick="history.back()">
                 <i class="fas fa-arrow-circle-left"></i>
-                Back
+                {{ __('Back') }}
               </button>
                  
             </div>

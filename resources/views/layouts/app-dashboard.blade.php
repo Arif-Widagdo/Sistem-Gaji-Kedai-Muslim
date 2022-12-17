@@ -65,6 +65,7 @@
 <body class="hold-transition sidebar-mini {{ (request()->is('**/profile')) 
 || (request()->is('owner/positions/**')) 
 || (request()->is('owner/products')) 
+|| (request()->is('owner/users')) 
 ? 'sidebar-collapse' : '' }}">
     <!-- Site wrapper -->
     <div class="wrapper">
@@ -132,6 +133,7 @@
 
     <!-- jQuery -->
     <script src="{{ asset("plugins/jquery/jquery.min.js") }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <!-- Bootstrap -->
     <script src="{{ asset("plugins/bootstrap/js/bootstrap.bundle.min.js") }}"></script>
     <!-- overlayScrollbars -->
@@ -146,82 +148,86 @@
     <script src="{{ asset('dist/js/toastr.min.js') }}"></script>
     <!-- Ring Notif -->
     <script src="{{ asset('dist/js/mk-notifications.js') }}"></script>
-
+    <!-- Input Mask -->
+    <script src="{{ asset('dist/js/jquery.inputmask.bundle.min.js') }}"></script>
 
 
     @yield('scripts')
     <script>
         // -- Custom JS Code --
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        function format(element) {
+            $(element).inputmask("numeric", {
+                radixPoint: ",",
+                groupSeparator: ".",
+                digits: 2,
+                autoGroup: true,
+                prefix: ' ',
+                rightAlign: false,
+                nullable: false,
+                clearMaskOnLostFocus: true
             });
+        }
         
-            var Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000
-            });
+        var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000
+        });
     
-            $('.successToast').each(function () {
-                document.getElementById('notifSucccess').play();
+        $('.successToast').each(function () {
+            document.getElementById('notifSucccess').play();
+            Toast.fire({
+                icon: 'success',
+                title: '{{ Session::get("success") }}'
+            })
+        });
+                
+        $('.errorToast').each(function () {
+            document.getElementById('notifFail').play();
+            Toast.fire({
+                icon: 'error',
+                title: '{{ Session::get("error") }}'
+            })
+        });
+        
+        function alertToastInfo(msg) {
+            $('#infoToast').addClass("infoToast");
+            document.getElementById('notifFail').play();
+            return $('.infoToast').each(function () {
+                Toast.fire({
+                    icon: 'info',
+                    title: msg
+                })
+            });
+        }
+        function alertToastSuccess(msg) {
+            $('#successToast').addClass("successToast");
+            document.getElementById('notifSucccess').play();
+            return $('.successToast').each(function () {
                 Toast.fire({
                     icon: 'success',
-                    title: '{{ Session::get("success") }}'
+                    title: msg
                 })
             });
-                
-            $('.errorToast').each(function () {
-                document.getElementById('notifFail').play();
+            
+        }
+        function alertToastError(msg) {
+            $('#errorToast').addClass("errorToast");
+            document.getElementById('notifFail').play();
+            return $('.errorToast').each(function () {
                 Toast.fire({
                     icon: 'error',
-                    title: '{{ Session::get("error") }}'
+                    title: msg
                 })
             });
-
-            
-
-            function alertToastInfo(msg) {
-                $('#infoToast').addClass("infoToast");
-                document.getElementById('notifFail').play();
-                return $('.infoToast').each(function () {
-                    Toast.fire({
-                        icon: 'info',
-                        title: msg
-                    })
-                });
-            }
-
-            function alertToastSuccess(msg) {
-                $('#successToast').addClass("successToast");
-                document.getElementById('notifSucccess').play();
-                return $('.successToast').each(function () {
-                    Toast.fire({
-                        icon: 'success',
-                        title: msg
-                    })
-                });
-                
-            }
-
-            function alertToastError(msg) {
-                $('#errorToast').addClass("errorToast");
-                document.getElementById('notifFail').play();
-                return $('.errorToast').each(function () {
-                    Toast.fire({
-                        icon: 'error',
-                        title: msg
-                    })
-                });
-            }
-
-          
-        </script>
-
-
-
+        }
+    </script>
 </body>
-
 </html>

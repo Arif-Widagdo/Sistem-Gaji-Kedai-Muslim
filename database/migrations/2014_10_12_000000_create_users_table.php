@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('telp')->nullable();
             $table->string('picture')->nullable();
             $table->enum('gender', ['F', 'M']);
-            $table->boolean('status_act');
+            $table->boolean('status_act')->default(1);
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

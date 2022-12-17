@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Error 404 Halaman Tidak Ditemukan</title>
+    <title>{{ __('Internal Server Error') }}</title>
     <!-- Favicons -->
     <link href="#" rel="icon">
     <link href="#" rel="apple-touch-icon">
@@ -25,11 +25,11 @@
           <div class="row">
             <div class="col-lg-12 d-flex flex-column text-center justify-content-center typograph">
               <h1>Oops!</h1>
-              <h2>500 - Internal Server Error.</h2>
-              <p class=" mx-auto">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum libero quibusdam nam doloremque omnis velit?</p>
+              <h2>{{ __('500 - Internal Server Error.') }}</h2>
+              <p class=" mx-auto">{{ __('Wait a few moments to try again') }}</p>
               <button class="shadow-sm bg-transparent  rounded-pill w-auto mx-auto" onclick="history.back()">
                 <i class="fas fa-arrow-circle-left"></i>
-                Back
+                {{ __('Back') }}
               </button>
             </div>
           </div>

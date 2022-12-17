@@ -85,7 +85,7 @@ class CategoryController extends Controller
             if (!$update) {
                 return response()->json(['status' => 0, 'msg' => __('Something went wrong when updating positions')]);
             } else {
-                return response()->json(['status' => 1, 'msg' => __('Position edited successfully')]);
+                return response()->json(['status' => 1, 'msg' => __('Category edited successfully')]);
             }
         }
     }

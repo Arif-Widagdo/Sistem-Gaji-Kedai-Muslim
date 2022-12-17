@@ -6,11 +6,12 @@ use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\RouterController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Owner\OwnerController;
-use App\Http\Controllers\Employee\EmployeeController;
+use App\Http\Controllers\Owner\ProductController;
+use App\Http\Controllers\Owner\SallaryController;
+use App\Http\Controllers\Owner\ServiceController;
 use App\Http\Controllers\Owner\CategoryController;
 use App\Http\Controllers\Owner\PositionController;
-use App\Http\Controllers\Owner\ProductController;
-use App\Http\Controllers\Owner\ServiceController;
+use App\Http\Controllers\Employee\EmployeeController;
 use App\Http\Controllers\Owner\UserManagementController;
 
 /*
@@ -77,6 +78,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         // Route Product Management
         Route::resource('/products', ProductController::class)->except(['create', 'edit']);
         Route::delete('/products-management-deleteAll', [ProductController::class, 'deleteAll'])->name('owner.product.deleteAll');
+
+        // Route Sallary
+        Route::resource('/sallaries', SallaryController::class);
     });
 
 

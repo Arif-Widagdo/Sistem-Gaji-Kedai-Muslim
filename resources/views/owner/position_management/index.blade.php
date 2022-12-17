@@ -22,12 +22,12 @@
         <!-- Left col -->
         <div class="col-md-12">
             <div class="card card-purple card-outline">
-                <form method="post">
+                <form method="post" id="form_deleteAll_position" action="{{ route('owner.position.deleteAll') }}">
                     @method('delete')
                     @csrf
                     <div class="card-header">
-                        <button formaction="{{ route('owner.position.deleteAll') }}" class="btn btn-danger float-left" type="submit" hidden id="btn-delet-all" onclick="return confirm('{{ __('Are you sure?') }}')">
-                            <i class="fas fa-solid fa-trash"></i> {{ __('Delete All Selected') }}
+                        <button id="btn_delete_all" class="btn btn-danger float-left" type="submit" hidden>
+                            <i class="fas fa-solid fa-trash-alt"></i> {{ __('Delete All Selected') }}
                         </button>
                         <button type="button" class="btn btn-purple float-right" data-toggle="modal" data-target="#modal-create">
                             {{ __('Create New Position') }} <i class="fas fa-plus-circle"></i>
@@ -38,7 +38,7 @@
                         <table id="table-positions" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th class="text-center"><input type="checkbox" class="selectall" style="max-width: 15px !important;"></th>
+                                    <th class="text-center"><input type="checkbox" class="selectall" style="max-width: 15px !important; cursor: pointer;"></th>
                                     <th>{{ __('Position Names') }}</th>
                                     <th>{{ __('Created date') }}</th>
                                     <th class="text-center">{{ __('Status') }}</th>
@@ -48,7 +48,7 @@
                             <tbody>
                                 @foreach ($positions as $position)
                                 <tr>
-                                    <td class="text-center" style="width: 15px !important;"><input type="checkbox" name="ids[]" class="selectbox" value="{{ $position->id }}"></td>
+                                    <td class="text-center" style="width: 15px !important;"><input type="checkbox" name="ids[]" class="selectbox" value="{{ $position->id }}" style="cursor: pointer;"></td>
                                     <td class="fw-500">
                                         @if(Str::length($position->name) > 20)
                                         {{ substr( $position->name, 0, 20) }} ...
@@ -76,13 +76,10 @@
                                                 class="btn btn-sm btn-warning ml-1 d-inline-flex align-items-center font-small">
                                                 {{ __('Edit') }} <i class="fas fa-edit ml-2"></i>
                                             </a>
-                                            <form method="post" class="d-inline">
+                                            <form method="post" action="{{ route('positions.destroy', $position->slug) }}" class="d-inline" id="form_delete_position{{ $loop->iteration }}">
                                                 @method('delete')
                                                 @csrf
-                                                <button
-                                                    formaction="{{ route('positions.destroy', $position->slug) }}"
-                                                    class="btn btn-sm btn-danger ml-1 d-inline-flex align-items-center font-small"
-                                                    onclick="return confirm('{{ __('Are you sure?') }}')">
+                                                <button class="btn btn-sm btn-danger ml-1 d-inline-flex align-items-center font-small" id="btn_delete{{ $loop->iteration }}">
                                                     {{ __('Remove') }} <i class="fas fa-solid fa-trash-alt ml-2"></i>
                                                 </button>
                                             </form>
@@ -204,7 +201,7 @@
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Cancel') }}</button>
-                        <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
+                        <button type="submit" class="btn btn-dark">{{ __('Save Change') }}</button>
                     </div>
                 </form>
             </div>
@@ -310,7 +307,7 @@
 
             $('.selectall').click(function () {
                 $('.selectbox').prop('checked', $(this).prop('checked'));
-                $("#btn-delet-all").prop("hidden", !$(this).prop('checked'));
+                $("#btn_delete_all").prop("hidden", !$(this).prop('checked'));
             });
 
             $('.selectbox').change(function () {
@@ -321,7 +318,7 @@
                 } else {
                     $('.selectall').prop('checked', false);
                 }
-                $("#btn-delet-all").prop("hidden", !$('.selectbox:checked').length);
+                $("#btn_delete_all").prop("hidden", !$('.selectbox:checked').length);
             });
 
             // Edit Posiitions
@@ -369,11 +366,48 @@
                         }
                     });
                 });
+
+                $('#btn_delete'+i).on('click',function(e){
+                    e.preventDefault();
+                    swal.fire({
+                        title: "{{ __('Are you sure?') }}",
+                        text: "{{ __('You wont be able to revert this') }}",
+                        icon: 'warning',
+                        iconColor: '#FD7E14',
+                        showCancelButton: true,
+                        confirmButtonColor: '#6F42C1',
+                        cancelButtonColor: '#DC3545',
+                        confirmButtonText: "{{ __('Yes, deleted it') }}",
+                        cancelButtonText: "{{ __('Cancel') }}"
+                    }).then((result) => {
+                        if (result.isConfirmed){
+                            document.getElementById('form_delete_position'+i).submit();
+                        }
+                    });
+                });
             }
+
+            $('#btn_delete_all').on('click',function(e){
+                e.preventDefault();
+                swal.fire({
+                    title: "{{ __('Are you sure?') }}",
+                    text: "{{ __('You wont be able to revert this') }}",
+                    icon: 'warning',
+                    iconColor: '#FD7E14',
+                    showCancelButton: true,
+                    confirmButtonColor: '#6F42C1',
+                    cancelButtonColor: '#DC3545',
+                    confirmButtonText: "{{ __('Yes, deleted it') }}",
+                    cancelButtonText: "{{ __('Cancel') }}"
+                }).then((result) => {
+                    if (result.isConfirmed){
+                        document.getElementById('form_deleteAll_position').submit();
+                    }
+                });
+            });
             
-
-
-        
+           
+            
     </script>
     @endsection
 </x-app-dashboard>

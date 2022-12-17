@@ -29,12 +29,12 @@
     <div class="row animate__animated animate__slideInUp">
         <div class="col-md-12">
             <div class="card card-purple card-outline">
-                <form method="post">
+                <form method="post" action="{{ route('owner.service.deleteAll') }}" id="form_deleteAll_service">
                     @method('delete')
                     @csrf
                     <div class="card-header">
-                        <button formaction="{{ route('owner.service.deleteAll') }}" class="btn btn-danger float-left" type="submit" hidden id="btn-delet-all" onclick="return confirm('{{ __('Are you sure?') }}')">
-                            <i class="fas fa-solid fa-trash"></i> {{ __('Delete All Selected') }}
+                        <button class="btn btn-danger float-left" type="submit" hidden id="btn_delete_all">
+                            <i class="fas fa-solid fa-trash-alt"></i> {{ __('Delete All Selected') }}
                         </button>
                         <button type="button" class="btn btn-purple float-right" data-toggle="modal"
                             data-target="#modal-create-user">
@@ -46,9 +46,9 @@
                         <table id="table-service" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th class="text-center"><input type="checkbox" class="selectall" style="max-width: 15px !important;"></th>
-                                    <th class="text-center">{{ __('Positions') }}</th>
-                                    <th class="text-center">{{ __('Categories') }}</th>
+                                    <th class="text-center"><input type="checkbox" class="selectall" style="max-width: 15px !important; cursor: pointer;" ></th>
+                                    <th>{{ __('Positions') }}</th>
+                                    <th>{{ __('Categories') }}</th>
                                     <th>{{ __('Sallary') }}</th>
                                     <th class="text-center">{{ __('Actions') }}</th>
                                 </tr>
@@ -56,7 +56,7 @@
                             <tbody>
                                 @foreach ($services as $service)
                                 <tr>
-                                    <td class="text-center" style="width: 15px !important;"><input type="checkbox" name="ids[]" class="selectbox" value="{{ $service->id }}"></td>
+                                    <td class="text-center" style="width: 15px !important;"><input type="checkbox" name="ids[]" class="selectbox" value="{{ $service->id }}" style="cursor: pointer;"></td>
                                     <td>
                                         {{ $service->position->name }}
                                     </td>
@@ -71,10 +71,10 @@
                                             <a data-toggle="modal" data-target="#modal-edit{{ $service->id }}" class="btn btn-sm btn-warning ml-1 d-inline-flex align-items-center font-small">
                                                 {{ __('Edit') }} <i class="fas fa-edit ml-2"></i>
                                             </a>
-                                            <form method="post" class="d-inline">
+                                            <form method="post" class="d-inline" action="{{ route('services.destroy', $service->id) }}" id="form_delete_service{{ $loop->iteration }}">
                                                 @method('delete')
                                                 @csrf
-                                                <button formaction="{{ route('services.destroy', $service->id) }}" class="btn btn-sm btn-danger ml-1 d-inline-flex align-items-center font-small" onclick="return confirm('{{ __('Are you sure?') }}')">
+                                                <button class="btn btn-sm btn-danger ml-1 d-inline-flex align-items-center font-small" id="btn_delete{{ $loop->iteration }}">
                                                     {{ __('Remove') }} <i class="fas fa-solid fa-trash-alt ml-2"></i>
                                                 </button>
                                             </form>
@@ -85,7 +85,6 @@
                             </tbody>
                         </table>
                     </div>
-                    @else
                     @endif
                 </form>
             </div>
@@ -137,7 +136,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">Rp. </span>
                                     </div>
-                                    <input class="form-control square error_input_sallary" name="sallary" type="number" min="0" placeholder="{{ __('Enter') }} {{ __('Sallary') }}" value="{{ Auth::user()->telp }}">
+                                    <input class="form-control square error_input_sallary" name="sallary" type="text" placeholder="{{ __('Enter') }} {{ __('Sallary') }}" value="{{ Auth::user()->telp }}" oninput="format(this)">
                                 </div>
                                 <span class="text-danger error-text sallary_error"></span>
                             </div>
@@ -170,7 +169,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form class="form-horizontal" method="POST" action="{{ route('services.update', $service_edit->id) }}" id="form_edit_position{{ $loop->iteration }}"
+                <form class="form-horizontal" method="POST" action="{{ route('services.update', $service_edit->id) }}" id="form_edit_service{{ $loop->iteration }}"
                     enctype="multipart/form-data">
                     @csrf
                     @method('PATCH')
@@ -213,7 +212,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">Rp. </span>
                                     </div>
-                                    <input class="form-control square error_input_sallary" name="sallary" type="number" min="0" placeholder="{{ __('Enter') }} {{ __('Sallary') }}" value="{{ $service_edit->sallary }}">
+                                    <input class="form-control square error_input_sallary" name="sallary" type="text" placeholder="{{ __('Enter') }} {{ __('Sallary') }}" value="{{ number_format($service->sallary) }}" oninput="format(this)">
                                 </div>
                                 <span class="text-danger error-text sallary_error"></span>
                             </div>
@@ -221,7 +220,7 @@
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Cancel') }}</button>
-                        <button type="submit" class="btn btn-dark">{{ __('Submit') }}</button>
+                        <button type="submit" class="btn btn-dark">{{ __('Save Change') }}</button>
                     </div>
                 </form>
             </div>
@@ -280,14 +279,44 @@
                 "sInfoEmpty": "{{ __('DataTableInfoEmpty') }}",
                 "sInfoFiltered": "{{ __('DataTabelInfoFiltered') }}"
             },
-        });
+            "buttons": [{
+                        "extend": 'copy',
+                        "title": "{{ __('List of Sallary by Product and Position') }}",
+                        "exportOptions": {
+                            "columns": [1, 2, 3]
+                        }
+                    },
+                    {
+                        "extend": 'pdf',
+                        "title": "{{ __('List of Sallary by Product and Position') }}",
+                        "exportOptions": {
+                            "columns": [1, 2, 3]
+                        }
+                    },
+                    {
+                        "extend": 'excel',
+                        "title": "{{ __('List of Sallary by Product and Position') }}",
+                        "exportOptions": {
+                            "columns": [1, 2, 3]
+                        }
+                    },
+                    {
+                        "extend": 'print',
+                        "title": "{{ __('List of Sallary by Product and Position') }}",
+                        "exportOptions": {
+                            "columns": [1, 2, 3]
+                        }
+                    },
+                    "colvis"
+                ]
+        }).buttons().container().appendTo('#table-service_wrapper .col-md-6:eq(0)');
 
         //Initialize Select2 Elements
         $('.select2').select2()
 
         $('.selectall').click(function () {
             $('.selectbox').prop('checked', $(this).prop('checked'));
-            $("#btn-delet-all").prop("hidden", !$(this).prop('checked'));
+            $("#btn_delete_all").prop("hidden", !$(this).prop('checked'));
         });
 
         $('.selectbox').change(function () {
@@ -298,7 +327,7 @@
             } else {
                 $('.selectall').prop('checked', false);
             }
-            $("#btn-delet-all").prop("hidden", !$('.selectbox:checked').length);
+            $("#btn_delete_all").prop("hidden", !$('.selectbox:checked').length);
         });
 
         $('#form_create_service').on('submit', function (e) {
@@ -342,7 +371,7 @@
         const countPosition = document.querySelector('#countPosition');
 
         for (let i = 1; i <= countPosition.value; i++) {
-            $('#form_edit_position'+i).on('submit', function (e) {
+            $('#form_edit_service'+i).on('submit', function (e) {
                 e.preventDefault();
                 $.ajax({
                     url: $(this).attr('action'),
@@ -365,7 +394,7 @@
                         else if (data.status == 'exists') {
                             alertToastError(data.msg)
                         } else {
-                            $('#form_edit_position')[0].reset();
+                            $('#form_edit_service'+i)[0].reset();
                             setTimeout(function () {
                                 location.reload(true);
                             }, 1000);
@@ -377,7 +406,45 @@
                     }
                 });
             });
+
+            $('#btn_delete'+i).on('click',function(e){
+                e.preventDefault();
+                swal.fire({
+                    title: "{{ __('Are you sure?') }}",
+                    text: "{{ __('You wont be able to revert this') }}",
+                    icon: 'warning',
+                    iconColor: '#FD7E14',
+                    showCancelButton: true,
+                    confirmButtonColor: '#6F42C1',
+                    cancelButtonColor: '#DC3545',
+                    confirmButtonText: "{{ __('Yes, deleted it') }}",
+                    cancelButtonText: "{{ __('Cancel') }}"
+                }).then((result) => {
+                    if (result.isConfirmed){
+                        document.getElementById('form_delete_service'+i).submit();
+                    }
+                });
+            });
         }
+
+        $('#btn_delete_all').on('click',function(e){
+            e.preventDefault();
+            swal.fire({
+                title: "{{ __('Are you sure?') }}",
+                text: "{{ __('You wont be able to revert this') }}",
+                icon: 'warning',
+                iconColor: '#FD7E14',
+                showCancelButton: true,
+                confirmButtonColor: '#6F42C1',
+                cancelButtonColor: '#DC3545',
+                confirmButtonText: "{{ __('Yes, deleted it') }}",
+                cancelButtonText: "{{ __('Cancel') }}"
+            }).then((result) => {
+                if (result.isConfirmed){
+                    document.getElementById('form_deleteAll_service').submit();
+                }
+            });
+        });
 
     </script>
     @endsection

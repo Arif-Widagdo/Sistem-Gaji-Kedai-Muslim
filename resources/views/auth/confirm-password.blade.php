@@ -1,35 +1,33 @@
-<x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
-
-        <div class="mb-4 text-sm text-gray-600">
+<x-guest-layout title="{{ __('Confirm Password') }}">
+    <div class="card-header py-2 border-info">
+        <h4 style="font-family: 'Poppins', cursive; font-weight: 700 !important;">{{ __('Confirm Password') }}</h4>
+        <p class="mt-4" style="font-family: 'Poppins', cursive; font-weight: 500 !important;">
             {{ __('This is a secure area of the application. Please confirm your password before continuing.') }}
+        </p>
+        <div class="text-danger text-sm text-bold">
+            {{ __('* required fileds') }}
         </div>
-
-        <form method="POST" action="{{ route('password.confirm') }}">
-            @csrf
-
-            <!-- Password -->
-            <div>
-                <x-input-label for="password" :value="__('Password')" />
-
-                <x-text-input id="password" class="block mt-1 w-full"
-                                type="password"
-                                name="password"
-                                required autocomplete="current-password" />
-
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
+    </div>
+    <form class="form-horizontal" action="{{ route('password.confirm') }}" method="POST">
+        @csrf
+        <div class="card-body ">
+            <div class="form-group mb-4">
+                <label for="password" class="col-form-label">{{ __('Password') }} <span class="text-danger text-bold">*</span></label>
+                <span class="text-danger text-bold error-text password_error"></span>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                    </div>
+                    <input type="password" name="password" class="form-control" placeholder="Password" required autocomplete="current-password">
+                </div>
+                @error('password')
+                <span class="text-danger error-text">{{ $message }}</span>
+                @enderror
             </div>
-
-            <div class="flex justify-end mt-4">
-                <x-primary-button>
-                    {{ __('Confirm') }}
-                </x-primary-button>
-            </div>
-        </form>
-    </x-auth-card>
+        </div>
+        <div class="modal-footer justify-content-between border-info">
+            <a href="{{ route('register') }}" class="btn btn-default">{{ __('Register') }}</a>
+            <button type="submit" class="btn btn-primary">{{ __('Login') }}</button>
+        </div>
+    </form>
 </x-guest-layout>
