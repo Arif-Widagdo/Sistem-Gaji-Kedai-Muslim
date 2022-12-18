@@ -41,7 +41,7 @@
     "Create New Position" : "Buat Jabatan Baru",
     "Delete All Selected" : "Hapus Semua yang Dipilih",
     "Show" : "Lihat",
-    "Edit" : "Sunting",
+    "Edit" : "Edit",
     "Remove" : "Hapus",
     "Automatically" : "Secara Otomatis",
     "Submit" : "Kirim",
@@ -127,7 +127,22 @@
     "Data deleted successfully" : "Data berhasil dihapus",
     "Failed to delete data" : "Data gagal dihapus",
     "Category edited successfully" : "Kategori berhasil diperbaharui",
+    "Product Category" : "Kategori Produk",
+    "Select Product Category" : "Pilih Kategori Produk",
+    "Salary Edit Form" : "Formulir Edit Gaji",
 
+  
+    "Product Title" : "Judul Produk",
+    "Product Titles" : "Judul Produk",
+    "Workers" : "Pekerja",
+    "Worker" : "Pekerja",
+    "Quantity" : "Jumlah",
+    "Quantities" : "Jumlah",
+    "Worked Date" : "Tanggal Dikerjakan",
+    "New Product Form" : "Formulir Produk Baru",
+    "Select Worker" : "Pilih Pekerja",
+    "Product Quantity" : "Jumlah Produk",
+    "Product Edit Form" : "Formulir Edit Produk",
 
 
 

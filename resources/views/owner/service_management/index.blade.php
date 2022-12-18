@@ -29,12 +29,15 @@
     <div class="row animate__animated animate__slideInUp">
         <div class="col-md-12">
             <div class="card card-purple card-outline">
-                <form method="post" action="{{ route('owner.service.deleteAll') }}" id="form_deleteAll_service">
+                <form method="post" >
                     @method('delete')
                     @csrf
                     <div class="card-header">
-                        <button class="btn btn-danger float-left" type="submit" hidden id="btn_delete_all">
+                        <a class="btn btn-danger float-left" id="btn_delete_all" hidden>
                             <i class="fas fa-solid fa-trash-alt"></i> {{ __('Delete All Selected') }}
+                        </a>
+                        <button formaction="{{ route('owner.service.deleteAll') }}" id="form_deleteAll_service" type="submit" class="d-none">
+                            {{ __('Delete All Selected') }}
                         </button>
                         <button type="button" class="btn btn-purple float-right" data-toggle="modal"
                             data-target="#modal-create-user">
@@ -71,10 +74,14 @@
                                             <a data-toggle="modal" data-target="#modal-edit{{ $service->id }}" class="btn btn-sm btn-warning ml-1 d-inline-flex align-items-center font-small">
                                                 {{ __('Edit') }} <i class="fas fa-edit ml-2"></i>
                                             </a>
-                                            <form method="post" class="d-inline" action="{{ route('services.destroy', $service->id) }}" id="form_delete_service{{ $loop->iteration }}">
+                                            <a class="btn btn-sm btn-danger ml-1 d-inline-flex align-items-center font-small" id="btn_delete{{ $loop->iteration }}">
+                                                {{ __('Remove') }} <i class="fas fa-solid fa-trash-alt ml-2"></i>
+                                            </a>
+                                            <form method="post" class="d-none">
                                                 @method('delete')
                                                 @csrf
-                                                <button class="btn btn-sm btn-danger ml-1 d-inline-flex align-items-center font-small" id="btn_delete{{ $loop->iteration }}">
+                                                <button formaction="{{ route('services.destroy', $service->id) }}" 
+                                                    class="d-none" id="form_delete_service{{ $loop->iteration }}">
                                                     {{ __('Remove') }} <i class="fas fa-solid fa-trash-alt ml-2"></i>
                                                 </button>
                                             </form>
@@ -120,9 +127,9 @@
                             <span class="text-danger error-text id_position_error"></span>
                         </div>
                         <div class="form-group mb-1">
-                            <label for="id_category" class="col-form-label">{{ __('Category') }} <span class="text-danger">*</span></label>
+                            <label for="id_category" class="col-form-label">{{ __('Product Category') }} <span class="text-danger">*</span></label>
                             <select class="form-control error_input_id_category select2" style="width: 100%;" name="id_category">
-                                <option selected="selected" disabled>{{ __('Select User Position') }}</option>
+                                <option selected="selected" disabled>{{ __('Select Product Category') }}</option>
                                 @foreach ($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                                 @endforeach
@@ -157,12 +164,12 @@
     <!--- Modal Edit -->
     @foreach ($services as $service_edit)
     <div class="modal fade" id="modal-edit{{ $service_edit->id }}">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header bg-dark" style="border-bottom:2px solid #FFC107 !important;">
                     <h3 class="modal-title">
                         <span class="badge badge-warning"><i class="fas fa-edit"></i> 
-                            {{ $service_edit->position->name }}
+                            {{ __('Salary Edit Form') }}
                         </span>
                     </h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color:#FFC107">
@@ -192,9 +199,9 @@
                             <span class="text-danger error-text id_position_error"></span>
                         </div>
                         <div class="form-group mb-1">
-                            <label for="id_category" class="col-form-label">{{ __('Category') }} <span class="text-danger">*</span></label>
+                            <label for="id_category" class="col-form-label">{{ __('Product Category') }} <span class="text-danger">*</span></label>
                             <select class="form-control error_input_id_category select2" style="width: 100%;" name="id_category">
-                                <option selected="selected" disabled>{{ __('Select User Position') }}</option>
+                                <option selected="selected" disabled>{{ __('Select Product Category') }}</option>
                                 @foreach ($categories as $category)
                                     @if(old('id_category', $service_edit->category->id) == $category->id)
                                         <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
@@ -421,7 +428,7 @@
                     cancelButtonText: "{{ __('Cancel') }}"
                 }).then((result) => {
                     if (result.isConfirmed){
-                        document.getElementById('form_delete_service'+i).submit();
+                        $("#form_delete_service"+i).click();
                     }
                 });
             });
@@ -441,7 +448,7 @@
                 cancelButtonText: "{{ __('Cancel') }}"
             }).then((result) => {
                 if (result.isConfirmed){
-                    document.getElementById('form_deleteAll_service').submit();
+                    $("#form_deleteAll_service").click();
                 }
             });
         });

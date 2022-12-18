@@ -28,12 +28,15 @@
     <div class="row animate__animated animate__slideInUp">
         <div class="col-md-12">
             <div class="card card-purple card-outline">
-                <form method="post" action="{{ route('owner.users.deleteAll') }}" id="form_deleteAll_user">
+                <form method="post">
                     @method('delete')
                     @csrf
                     <div class="card-header">
-                        <button class="btn btn-danger float-left" type="submit" hidden id="btn_delete_all">
+                        <a class="btn btn-danger float-left" id="btn_delete_all" hidden>
                             <i class="fas fa-solid fa-trash-alt"></i> {{ __('Delete All Selected') }}
+                        </a>
+                        <button formaction="{{ route('owner.users.deleteAll') }}" class="d-none" type="submit" id="form_deleteAll_user">
+                            {{ __('Delete All Selected') }}
                         </button>
                         <button type="button" class="btn btn-purple float-right" data-toggle="modal"
                             data-target="#modal-create-user">
@@ -105,10 +108,14 @@
                                             <a data-toggle="modal" data-target="#modal-edit{{ $user->id }}" class="btn btn-sm btn-warning ml-1 d-inline-flex align-items-center font-small">
                                                 {{ __('Edit') }} <i class="fas fa-edit ml-2"></i>
                                             </a>
-                                            <form method="post" class="d-inline" action="{{ route('users.destroy', $user->id) }}" id="form_delete_user{{ $loop->iteration }}">
+                                            <a class="btn btn-sm btn-danger ml-1 d-inline-flex align-items-center font-small" id="btn_delete{{ $loop->iteration }}">
+                                                {{ __('Remove') }} <i class="fas fa-solid fa-trash-alt ml-2"></i>
+                                            </a>
+                                            <form method="post" class="d-none">
                                                 @method('delete')
                                                 @csrf
-                                                <button class="btn btn-sm btn-danger ml-1 d-inline-flex align-items-center font-small" id="btn_delete{{ $loop->iteration }}">
+                                                <button formaction="{{ route('users.destroy', $user->id) }}" 
+                                                    class="d-none" id="form_delete_user{{ $loop->iteration }}">
                                                     {{ __('Remove') }} <i class="fas fa-solid fa-trash-alt ml-2"></i>
                                                 </button>
                                             </form>
@@ -500,7 +507,7 @@
                     cancelButtonText: "{{ __('Cancel') }}"
                 }).then((result) => {
                     if (result.isConfirmed){
-                        document.getElementById('form_delete_user'+i).submit();
+                        $("#form_delete_user"+i).click();
                     }
                 });
             });
@@ -520,7 +527,7 @@
                 cancelButtonText: "{{ __('Cancel') }}"
             }).then((result) => {
                 if (result.isConfirmed){
-                    document.getElementById('form_deleteAll_user').submit();
+                    $("#form_deleteAll_user").click();
                 }
             });
         });

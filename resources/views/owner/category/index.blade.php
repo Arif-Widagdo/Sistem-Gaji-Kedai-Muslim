@@ -27,14 +27,16 @@
     <div class="row animate__animated animate__slideInLeft">     
         <!-- Left col -->
         <div class="col-md-12">
-           
             <div class="card card-purple card-outline">
-                <form method="post" action="{{ route('owner.category.deleteAll') }}" id="form_deleteAll_product">
+                <form method="post">
                     @method('delete')
                     @csrf
                     <div class="card-header">
-                        <button class="btn btn-danger float-left" type="submit" hidden id="btn_delete_all">
+                        <a class="btn btn-danger float-left" id="btn_delete_all" hidden>
                             <i class="fas fa-solid fa-trash-alt"></i> {{ __('Delete All Selected') }}
+                        </a>
+                        <button formaction="{{ route('owner.category.deleteAll') }}" id="form_deleteAll_category_product" type="submit" class="d-none">
+                            {{ __('Delete All Selected') }}
                         </button>
                         <button type="button" class="btn btn-purple float-right" data-toggle="modal" data-target="#modal-create">
                             {{ __('Create New Category') }} <i class="fas fa-plus-circle"></i>
@@ -71,10 +73,14 @@
                                                 class="btn btn-sm btn-warning ml-1 d-inline-flex align-items-center font-small">
                                                 {{ __('Edit') }} <i class="fas fa-edit ml-2"></i>
                                             </a>
-                                            <form method="post" class="d-inline" action="{{ route('categories.destroy', $category->slug) }}" id="form_delete_product{{ $loop->iteration }}">
+                                            <a class="btn btn-sm btn-danger ml-1 d-inline-flex align-items-center font-small" id="btn_delete{{ $loop->iteration }}">
+                                                {{ __('Remove') }} <i class="fas fa-solid fa-trash-alt ml-2"></i>
+                                            </a>
+                                            <form method="post" class="d-none">
                                                 @method('delete')
                                                 @csrf
-                                                <button class="btn btn-sm btn-danger ml-1 d-inline-flex align-items-center font-small" id="btn_delete{{ $loop->iteration }}">
+                                                <button formaction="{{ route('categories.destroy', $category->slug) }}" 
+                                                    class="d-none" id="form_delete_category_product{{ $loop->iteration }}">
                                                     {{ __('Remove') }} <i class="fas fa-solid fa-trash-alt ml-2"></i>
                                                 </button>
                                             </form>
@@ -350,7 +356,7 @@
                         cancelButtonText: "{{ __('Cancel') }}"
                     }).then((result) => {
                         if (result.isConfirmed){
-                            document.getElementById('form_delete_product'+i).submit();
+                            $("#form_delete_category_product"+i).click();
                         }
                     });
                 });
@@ -372,7 +378,7 @@
                     cancelButtonText: "{{ __('Cancel') }}"
                 }).then((result) => {
                     if (result.isConfirmed){
-                        document.getElementById('form_deleteAll_product').submit();
+                        $("#form_deleteAll_category_product").click();
                     }
                 });
             });

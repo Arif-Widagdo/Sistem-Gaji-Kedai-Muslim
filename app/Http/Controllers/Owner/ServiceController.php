@@ -60,7 +60,7 @@ class ServiceController extends Controller
             $exists = Service::where('id_position', $request->id_position)->where('id_category', $request->id_category)->first();
 
             if ($exists) {
-                return response()->json(['status' => 'exists', 'msg' => __('The data has already been taken.')]);
+                return response()->json(['status' => 'exists', 'msg' => __('The data has already been taken')]);
             } else {
                 $store = Service::create([
                     'id' => Uuid::uuid4()->toString(),
@@ -124,7 +124,7 @@ class ServiceController extends Controller
             if ($request->id_position != $service->id_position || $request->id_category != $service->id_category) {
                 $exists = Service::where('id_position', $request->id_position)->where('id_category', $request->id_category)->first();
                 if ($exists) {
-                    return response()->json(['status' => 'exists', 'msg' => __('The data has already been taken.')]);
+                    return response()->json(['status' => 'exists', 'msg' => __('The data has already been taken')]);
                 }
             }
 

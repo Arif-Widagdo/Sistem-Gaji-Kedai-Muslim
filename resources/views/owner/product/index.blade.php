@@ -33,8 +33,11 @@
                     @method('delete')
                     @csrf
                     <div class="card-header">
-                        <button formaction="{{ route('owner.product.deleteAll') }}" class="btn btn-danger float-left" type="submit" hidden id="btn-delet-all" onclick="return confirm('{{ __('Are you sure?') }}')">
-                            <i class="fas fa-solid fa-trash"></i> {{ __('Delete All Selected') }}
+                        <a class="btn btn-danger float-left" id="btn_delete_all" hidden>
+                            <i class="fas fa-solid fa-trash-alt"></i> {{ __('Delete All Selected') }}
+                        </a>
+                        <button formaction="{{ route('owner.product.deleteAll') }}" id="form_deleteAll_product" type="submit" class="d-none">
+                            {{ __('Delete All Selected') }}
                         </button>
                         <button type="button" class="btn btn-purple float-right" data-toggle="modal"
                             data-target="#modal-create-user">
@@ -46,19 +49,19 @@
                         <table id="table_product" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th class="text-center"><input type="checkbox" class="selectall" style="max-width: 15px !important;"></th>
-                                    <th>Judul Produk</th>
-                                    <th>Pekerja</th>
-                                    <th>Kategori Produk</th>
-                                    <th>Jumlah</th>
-                                    <th>Tanggal Dikerjakan</th>
+                                    <th class="text-center"><input type="checkbox" class="selectall" style="max-width: 15px !important; cursor:pointer;"></th>
+                                    <th>{{ __('Product Titles') }}</th>
+                                    <th>{{ __('Workers') }}</th>
+                                    <th>{{ __('Product Categories') }}</th>
+                                    <th>{{ __('Quantity') }}</th>
+                                    <th>{{ __('Worked Date') }}</th>
                                     <th class="text-center">{{ __('Actions') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($products as $product)
                                 <tr>
-                                    <td class="text-center" style="width: 15px !important;"><input type="checkbox" name="ids[]" class="selectbox" value="{{ $product->id }}"></td>
+                                    <td class="text-center" style="width: 15px !important;"><input type="checkbox" name="ids[]" class="selectbox" value="{{ $product->id }}" style="cursor:pointer;"></td>
                                     <td>
                                         {{ $product->name }}
                                     </td>
@@ -69,7 +72,7 @@
                                         {{ $product->category->name }}
                                     </td>
                                     <td>
-                                        {{ $product->quantity }}
+                                        {{ number_format($product->quantity) }}
                                     </td>
                                     <td>
                                         {{ $product->completed_date }}
@@ -79,10 +82,14 @@
                                             <a data-toggle="modal" data-target="#modal-edit{{ $product->id }}" class="btn btn-sm btn-warning ml-1 d-inline-flex align-items-center font-small">
                                                 {{ __('Edit') }} <i class="fas fa-edit ml-2"></i>
                                             </a>
-                                            <form method="post" class="d-inline">
+                                            <a class="btn btn-sm btn-danger ml-1 d-inline-flex align-items-center font-small" id="btn_delete{{ $loop->iteration }}">
+                                                {{ __('Remove') }} <i class="fas fa-solid fa-trash-alt ml-2"></i>
+                                            </a>
+                                            <form method="post" class="d-none">
                                                 @method('delete')
                                                 @csrf
-                                                <button formaction="{{ route('products.destroy', $product->id) }}" class="btn btn-sm btn-danger ml-1 d-inline-flex align-items-center font-small" onclick="return confirm('{{ __('Are you sure?') }}')">
+                                                <button formaction="{{ route('products.destroy', $product->id) }}" 
+                                                    class="d-none" id="form_delete_product{{ $loop->iteration }}">
                                                     {{ __('Remove') }} <i class="fas fa-solid fa-trash-alt ml-2"></i>
                                                 </button>
                                             </form>
@@ -119,9 +126,9 @@
                             {{ __('* required fileds') }}
                         </div>
                         <div class="form-group mb-1">
-                            <label for="id_user" class="col-form-label">Pekerja <span class="text-danger">*</span></label>
+                            <label for="id_user" class="col-form-label">{{ __('Worker') }} <span class="text-danger">*</span></label>
                             <select class="form-control error_input_id_user select2" style="width: 100%;" name="id_user">
-                                <option selected="selected" disabled>Pilih Pekerja</option>
+                                <option selected="selected" disabled>{{ __('Select Worker') }}</option>
                                 @foreach ($users as $user)
                                 <option value="{{ $user->id }}">{{ $user->name }}</option>
                                 @endforeach
@@ -130,9 +137,9 @@
                         </div>
                        
                         <div class="form-group mb-1">
-                            <label for="id_category" class="col-form-label">Kategori Produk <span class="text-danger">*</span></label>
+                            <label for="id_category" class="col-form-label">{{ __('Product Category') }} <span class="text-danger">*</span></label>
                             <select class="form-control error_input_id_category select2" style="width: 100%;" name="id_category">
-                                <option selected="selected" disabled>Pilih Kategori Produk</option>
+                                <option selected="selected" disabled>{{ __('Select Product Category') }}</option>
                                 @foreach ($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                                 @endforeach
@@ -140,18 +147,18 @@
                             <span class="text-danger error-text id_category_error"></span>
                         </div>
                         <div class="form-group mb-1 ">
-                            <label for="name" class="col-form-label">Nama Produk <span class="text-danger">*</span></label>
-                            <input type="text" id="name" class="form-control error_input_name" placeholder="Masukan nama produk.." name="name" >
+                            <label for="name" class="col-form-label">{{ __('Product Title') }} <span class="text-danger">*</span></label>
+                            <input type="text" id="name" class="form-control error_input_name" placeholder="{{ __('Enter') }} {{ __('Product Title') }} .." name="name" >
                             <span class="text-danger error-text name_error"></span>
                         </div>
                         <div class="form-group mb-1 ">
-                            <label for="quantity" class="col-form-label">Jumlah Produk <span class="text-danger">*</span></label>
-                            <input type="text" id="quantity" class="form-control error_input_quantity" placeholder="Masukan Jumlah Produk yang diselesaikan.." name="quantity" >
+                            <label for="quantity" class="col-form-label">{{ __('Product Quantity') }}<span class="text-danger">*</span></label>
+                            <input type="text" id="quantity" class="form-control error_input_quantity" placeholder="{{ __('Enter') }} {{ __('Product Quantity') }}.." name="quantity" oninput="format(this)">
                             <span class="text-danger error-text quantity_error"></span>
                         </div>
                         <div class="form-group mb-1 ">
-                            <label for="completed_date" class="col-form-label">Tanggal diselesaikan <span class="text-danger">*</span></label>
-                            <input type="date" id="completed_date" class="form-control error_input_completed_date" placeholder="Masukan Jumlah Produk yang diselesaikan.." name="completed_date" >
+                            <label for="completed_date" class="col-form-label">{{ __('Worked Date') }} <span class="text-danger">*</span></label>
+                            <input type="date" id="completed_date" class="form-control error_input_completed_date" name="completed_date" >
                             <span class="text-danger error-text completed_date_error"></span>
                         </div>
                     </div>
@@ -175,7 +182,7 @@
                 <div class="modal-header bg-dark" style="border-bottom:2px solid #FFC107 !important;">
                     <h3 class="modal-title">
                         <span class="badge badge-warning"><i class="fas fa-edit"></i> 
-                            {{ $product_edit->name }}
+                            {{ __('Product Edit Form') }}
                         </span>
                     </h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color:#FFC107">
@@ -191,9 +198,9 @@
                             {{ __('* required fileds') }}
                         </div>
                         <div class="form-group mb-1">
-                            <label for="id_user" class="col-form-label">Pekerja <span class="text-danger">*</span></label>
+                            <label for="id_user" class="col-form-label">{{ __('Worker') }} <span class="text-danger">*</span></label>
                             <select class="form-control error_input_id_user select2" style="width: 100%;" name="id_user">
-                                <option selected="selected" disabled>Pilih Pekerja</option>
+                                <option selected="selected" disabled>{{ __('Select Worker') }}</option>
                                 @foreach ($users as $user)
                                     @if(old('id_user', $product_edit->worker->id) == $user->id)
                                         <option value="{{ $user->id }}" selected>{{ $user->name }}</option>
@@ -206,9 +213,9 @@
                         </div>
                        
                         <div class="form-group mb-1">
-                            <label for="id_category" class="col-form-label">Kategori Produk <span class="text-danger">*</span></label>
+                            <label for="id_category" class="col-form-label">{{ __('Product Category') }} <span class="text-danger">*</span></label>
                             <select class="form-control error_input_id_category select2" style="width: 100%;" name="id_category">
-                                <option selected="selected" disabled>Pilih Kategori Produk</option>
+                                <option selected="selected" disabled>{{ __('Select Product Category') }}</option>
                                 @foreach ($categories as $category)
                                     @if(old('id_user', $product_edit->category->id) == $category->id)
                                         <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
@@ -220,21 +227,15 @@
                             <span class="text-danger error-text id_category_error"></span>
                         </div>
                         <div class="form-group mb-1 ">
-                            <label for="name" class="col-form-label">Nama Produk <span class="text-danger">*</span></label>
-                            <input type="text" id="name" class="form-control error_input_name" placeholder="Masukan nama produk.." name="name" value="{{ $product_edit->name }}">
+                            <label for="name" class="col-form-label">{{ __('Product Title') }} <span class="text-danger">*</span></label>
+                            <input type="text" id="name" class="form-control error_input_name" placeholder="{{ __('Enter') }} {{ __('Product Title') }} .." name="name" value="{{ $product_edit->name }}">
                             <span class="text-danger error-text name_error"></span>
                         </div>
                         <div class="form-group mb-1 ">
-                            <label for="quantity" class="col-form-label">Jumlah Produk <span class="text-danger">*</span></label>
-                            <input type="number" min="1" id="quantity" class="form-control error_input_quantity" placeholder="Masukan Jumlah Produk yang diselesaikan.." name="quantity" value="{{ $product_edit->quantity }}"  >
+                            <label for="quantity" class="col-form-label">{{ __('Product Quantity') }} <span class="text-danger">*</span></label>
+                            <input type="text" id="quantity" class="form-control error_input_quantity" placeholder="{{ __('Enter') }} {{ __('Product Quantity') }}..." name="quantity" value="{{ number_format($product_edit->quantity) }}"  oninput="format(this)">
                             <span class="text-danger error-text quantity_error"></span>
                         </div>
-                        {{-- <div class="form-group mb-1 ">
-                            <label for="completed_date" class="col-form-label">Tanggal diselesaikan <span class="text-danger">*</span></label>
-                            {{ $product_edit->completed_date }}
-                            <input type="date" id="completed_date" class="form-control error_input_completed_date" placeholder="Masukan Jumlah Produk yang diselesaikan.." name="completed_date" value="{{ $product_edit->completed_date }}"  >
-                            <span class="text-danger error-text completed_date_error"></span>
-                        </div> --}}
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Cancel') }}</button>
@@ -304,7 +305,7 @@
 
         $('.selectall').click(function () {
             $('.selectbox').prop('checked', $(this).prop('checked'));
-            $("#btn-delet-all").prop("hidden", !$(this).prop('checked'));
+            $("#btn_delete_all").prop("hidden", !$(this).prop('checked'));
         });
 
         $('.selectbox').change(function () {
@@ -315,7 +316,7 @@
             } else {
                 $('.selectall').prop('checked', false);
             }
-            $("#btn-delet-all").prop("hidden", !$('.selectbox:checked').length);
+            $("#btn_delete_all").prop("hidden", !$('.selectbox:checked').length);
         });
 
         $('#form_create_product').on('submit', function (e) {
@@ -342,6 +343,8 @@
                             $(".select2").css("border-radius", "5px");
                         });
                         alertToastInfo(data.msg)
+                    } else if (data.status == 'exists') {
+                        alertToastError(data.msg)
                     } else {
                         $('#form_create_product')[0].reset();
                         setTimeout(function () {
@@ -355,7 +358,6 @@
                 }
             });
         });
-
 
         const countProduct = document.querySelector('#countProduct');
 
@@ -384,6 +386,8 @@
                                 $(".select2").css("border-radius", "5px");
                             });
                             alertToastInfo(data.msg)
+                        } else if (data.status == 'exists') {
+                            alertToastError(data.msg)
                         } else {
                             $('#form_edit_product'+i)[0].reset();
                             setTimeout(function () {
@@ -397,7 +401,45 @@
                     }
                 });
             });
+
+            $('#btn_delete'+i).on('click',function(e){
+                e.preventDefault();
+                swal.fire({
+                    title: "{{ __('Are you sure?') }}",
+                    text: "{{ __('You wont be able to revert this') }}",
+                    icon: 'warning',
+                    iconColor: '#FD7E14',
+                    showCancelButton: true,
+                    confirmButtonColor: '#6F42C1',
+                    cancelButtonColor: '#DC3545',
+                    confirmButtonText: "{{ __('Yes, deleted it') }}",
+                    cancelButtonText: "{{ __('Cancel') }}"
+                }).then((result) => {
+                    if (result.isConfirmed){
+                        $("#form_delete_product"+i).click();
+                    }
+                });
+            });
         }
+
+        $('#btn_delete_all').on('click',function(e){
+            e.preventDefault();
+            swal.fire({
+                title: "{{ __('Are you sure?') }}",
+                text: "{{ __('You wont be able to revert this') }}",
+                icon: 'warning',
+                iconColor: '#FD7E14',
+                showCancelButton: true,
+                confirmButtonColor: '#6F42C1',
+                cancelButtonColor: '#DC3545',
+                confirmButtonText: "{{ __('Yes, deleted it') }}",
+                cancelButtonText: "{{ __('Cancel') }}"
+            }).then((result) => {
+                if (result.isConfirmed){
+                    $("#form_deleteAll_product").click();
+                }
+            });
+        });
     </script>
     @endsection
 
