@@ -57,64 +57,31 @@
               </p>
             </a>
           </li>
-          <li class="nav-header">{{ __('Sallary') }}</li>
+          <li class="nav-item">
+            <a href="{{ route('categories.index') }}" class="nav-link {{ request()->is('owner/categories') ? 'active' : '' }}">
+              <i class="nav-icon fas fa-list-alt"></i>
+                <p>{{ __('Product Categories') }}</p>
+            </a>
+          </li>
           <li class="nav-item">
             <a href="{{ route('services.index') }}" class="nav-link {{ request()->is('owner/services') ? 'active' : '' }}">
               <i class="nav-icon fas fa-hand-holding-usd"></i>
-              <p>
-                {{ __('Sallaries Management') }}
-              </p>
+              <p>{{ __('Sallaries Management') }}</p>
             </a>
-          </li>
-          <li class="nav-header">{{ __('Product') }}</li>
-          <li class="nav-item {{ (request()->is('owner/categories'))
-          || (request()->is('owner/products'))  
-              ? 
-            'menu-open' : '' }}">
-            <a href="{{ route('categories.index') }}" class="nav-link {{ request()->is('owner/categories') || (request()->is('owner/products'))   ? 'active' : '' }}">
-              <i class="nav-icon fas fa-boxes"></i>
-              <p>
-                {{ __('Products Management') }}
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{ route('categories.index') }}" class="nav-link {{ request()->is('owner/categories') ? 'active' : '' }}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>{{ __('Product Categories') }}</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ route('products.index') }}" class="nav-link {{ request()->is('owner/products') ? 'active' : '' }}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>{{ __('Products') }}</p>
-                </a>
-              </li>
-            </ul>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('products.index') }}" class="nav-link {{ request()->is('owner/products') ? 'active' : '' }}">
+              <i class="nav-icon fas fa-boxes"></i>
+              <p>{{ __('Products') }}</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route('owner.sallary.index') }}" class="nav-link {{ request()->is('owner/sallaries') ? 'active' : '' }}">
               <i class="nav-icon fas fa-file-invoice-dollar"></i>
               <p>
                 {{ __('Invoices') }}
-                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{ route('sallaries.index') }}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>{{ __('Create Invoice') }}</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../charts/flot.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>{{ __('Invoice Histories') }}</p>
-                </a>
-              </li>
-            </ul>
           </li>
         </ul>
         @else

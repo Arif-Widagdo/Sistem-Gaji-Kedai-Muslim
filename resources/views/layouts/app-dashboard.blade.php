@@ -63,9 +63,7 @@
 </head>
 
 <body class="hold-transition sidebar-mini {{ (request()->is('**/profile')) 
-|| (request()->is('owner/positions/**')) 
-|| (request()->is('owner/products')) 
-|| (request()->is('owner/users')) 
+|| (request()->is('owner/sallaries/**')) 
 ? 'sidebar-collapse' : '' }}">
     <!-- Site wrapper -->
     <div class="wrapper">

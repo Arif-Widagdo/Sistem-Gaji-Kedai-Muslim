@@ -13,12 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sallaries', function (Blueprint $table) {
+        Schema::create('sub_sallaries', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('id_user')->index()->references('id')->on('users')->onDelete('cascade');
-            $table->date('periode');
-            $table->timestamp('payroll_time')->nullable();
-            $table->enum('order_status', ['paid', 'not_paid'])->nullable();
+            $table->foreignUuid('id_sallary')->index()->references('id')->on('sallaries')->onDelete('cascade');
+            $table->string('product_category');
+            $table->integer('quantity');
+            $table->double('subtotal');
+            $table->double('total');
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sallaries');
+        Schema::dropIfExists('sub_sallaries');
     }
 };

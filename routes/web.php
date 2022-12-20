@@ -80,7 +80,11 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::delete('/products-management-deleteAll', [ProductController::class, 'deleteAll'])->name('owner.product.deleteAll');
 
         // Route Sallary
-        Route::resource('/sallaries', SallaryController::class);
+        Route::resource('/sallaries', SallaryController::class)->names([
+            'index' => 'owner.sallary.index',
+            'create' => 'owner.sallary.create',
+        ]);
+        // Route::get('/sallaries/create/{id_user}/{periode}', [SallaryController::class, 'create'])->name('owner.sallary.create');
     });
 
 

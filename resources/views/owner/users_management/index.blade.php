@@ -1,4 +1,4 @@
-<x-app-dashboard title="{{ __('User Positions Management') }}">
+<x-app-dashboard title="{{ __('User Management') }}">
     @section('links')
     <!-- DataTables -->
     <link rel="stylesheet" href={{ asset("plugins/datatables-bs4/css/dataTables.bootstrap4.min.css") }}>

@@ -124,7 +124,7 @@
                         </div>
                         <div class="form-group mb-1 ">
                             <label for="name" class="col-form-label">{{ __('Position Name') }} <span class="text-danger">*</span></label>
-                            <input type="text" id="name" class="form-control error_input_name" placeholder="{{ __('Enter') }} {{ __('Position Name') }}" name="name">
+                            <input type="text" id="name" class="form-control error_input_name" placeholder="{{ __('Enter') }} {{ __('Position Name') }}" name="name" required>
                             <span class="text-danger error-text name_error"></span>
                         </div>
                         <div class="form-group mb-1 ">
