@@ -18,7 +18,9 @@ return new class extends Migration
             $table->foreignUuid('id_user')->index()->references('id')->on('users')->onDelete('cascade');
             $table->date('periode');
             $table->timestamp('payroll_time')->nullable();
-            $table->enum('order_status', ['paid', 'not_paid'])->nullable();
+            $table->integer('quantity');
+            $table->double('total');
+            $table->enum('payment_status', ['paid', 'not_paid'])->nullable();
             $table->timestamps();
         });
     }

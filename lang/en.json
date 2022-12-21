@@ -141,8 +141,14 @@
     "Select Worker" : "Select Worker",
     "Product Quantity" : "Product Quantity",
     "Product Edit Form" : "Product Edit Form",
-
-
+    "Payment Status" : "Payment Status",
+    "Select Status" : "Select Status",
+    "Paid" : "Paid",
+    "Not Paid" : "Not Paid",
+    "Date" : "Date",
+    "From" : "From",
+    "To" : "To",
+    "Save" : "Save",
 
 
 

@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
-use App\Models\SubSallary;
+use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -16,16 +16,18 @@ class Sallary extends Model
         'id_user',
         'periode',
         'payroll_time',
-        'order_status'
+        'quantity',
+        'total',
+        'payment_status'
     ];
+
+    public function getPeriodeAttribute()
+    {
+        return Carbon::parse($this->attributes['periode'])->translatedFormat('F Y');
+    }
 
     public function userSallary()
     {
         return $this->belongsTo(User::class, 'id_user');
-    }
-
-    public function subSallary()
-    {
-        return $this->hasMany(SubSallary::class);
     }
 }

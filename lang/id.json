@@ -66,7 +66,7 @@
     "User Management" : "Manajemen Karyawan",
     "List of Users" : "Daftar Para Karyawan",
     "Create new user" : "Buat Karyawan Baru",
-    "User Names" : "Nama Para Karyawan",
+    "User Names" : "Nama Karyawan",
     "Email Address" : "Alamat E-Mail",
     "Positions" : "Jabatan",
     "New User Registration Form" : "Formulir Pendaftaran Karyawan Baru",
@@ -143,7 +143,14 @@
     "Select Worker" : "Pilih Karyawan",
     "Product Quantity" : "Jumlah Produk",
     "Product Edit Form" : "Formulir Edit Produk",
-
+    "Payment Status" : "Status Pembayaran",
+    "Select Status" : "Pilih Status",
+    "Paid" : "Dibayar (Lunas)",
+    "Not Paid" : "Belum dibayar" ,
+    "Date" : "Tanggal",
+    "From" : "Dari",
+    "To" : "Untuk",
+    "Save" : "Simpan",
 
 
 

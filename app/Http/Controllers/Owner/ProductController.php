@@ -21,9 +21,9 @@ class ProductController extends Controller
     public function index()
     {
         return view('owner.product.index', [
-            'products' => Product::latest()->get(),
-            'users' => User::all(),
-            'categories' => Category::all()
+            'products' => Product::orderBy('completed_date', 'desc')->get(),
+            'users' => User::latest()->get(),
+            'categories' => Category::latest()->get()
         ]);
     }
 

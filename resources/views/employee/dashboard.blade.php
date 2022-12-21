@@ -18,7 +18,7 @@
                 <div class="info-box-content">
                     <span class="info-box-text">Gaji yang diperkirakan pada Bulan {{ $monthNow}}</span>
                     <span class="info-box-number">
-                       IDR. {{ number_format( $totalCost,2,',','.') }}
+                       Rp. {{ number_format( $totalCost,2,',','.') }}
                     </span>
                 </div>
             </div>
@@ -64,12 +64,12 @@
                                             @foreach ($services->where('id_category', '=', $product->category->id) as $service)
                                             <p class="d-flex justify-content-between align-items-center w-100" style="line-height: 0;">
                                                 <span class="col-4">Harga Satuan</span>:
-                                                <span class="text-bold col-8">IDR. {{ number_format( $service->sallary,2,',','.') }}</span>
+                                                <span class="text-bold col-8">Rp. {{ number_format( $service->sallary,2,',','.') }}</span>
                                             </p>
                                             <hr>
                                             <p class="d-flex justify-content-between align-items-center w-100">
                                                 <span class="col-4">Total</span>:
-                                                <span class="text-bold col-8">IDR. {{ number_format( $product->quantity*$service->sallary,2,',','.') }}</span>
+                                                <span class="text-bold col-8">Rp. {{ number_format( $product->quantity*$service->sallary,2,',','.') }}</span>
                                             </p>
                                             @endforeach
                                         </li>
