@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Queue\SerializesModels;
 
 class SallaryMail extends Mailable
@@ -32,6 +33,7 @@ class SallaryMail extends Mailable
     public function envelope()
     {
         return new Envelope(
+            from: new Address('agqilafh@gmail.com', 'Agqila Fadiahaya'),
             subject: 'Sallary Mail',
         );
     }
@@ -44,7 +46,7 @@ class SallaryMail extends Mailable
     public function content()
     {
         return new Content(
-            view: 'email.sallary',
+            view: 'components.mail.test',
         );
     }
 

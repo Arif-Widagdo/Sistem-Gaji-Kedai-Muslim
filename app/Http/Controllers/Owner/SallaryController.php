@@ -97,8 +97,6 @@ class SallaryController extends Controller
                 }
             }
             $quantity = $productCost->sum('quantity');
-
-            // ------
         } else {
             $status = __('Please complete the input on the form provided');
         }
@@ -161,6 +159,56 @@ class SallaryController extends Controller
                     'payroll_time' => now(),
                 ]);
 
+
+
+                // -------- Buat Invoice Email
+                $periode = explode('-', $request->periode);
+                $user = User::where('id', $request->id_user)->first();
+
+                $products = Product::where('id_user', $user->id)
+                    ->whereMonth('completed_date',  $periode[1])
+                    ->whereYear('completed_date',  $periode[0])
+                    ->orderBy('name', 'ASC')->get(['quantity', 'id_category'])->groupBy(function ($item) {
+                        return $item->id_category;
+                    });
+
+                $services = Service::where('id_position',  $user->id_position)->get(['id_category', 'sallary']);
+
+                // ----- Hitung Gaji
+                $productCost  = Product::where('id_user', $user->id)
+                    ->whereMonth('completed_date', $periode[1])
+                    ->whereYear('completed_date', $periode[0])->get(['quantity', 'id_category']);
+
+                $quantity = $productCost->sum('quantity');
+                $totalCost = 0;
+
+                foreach ($productCost as $product) {
+                    foreach ($services->where('id_category', '=', $product->category->id) as  $service) {
+                        $sallary = $product->quantity * $service->sallary;
+                        $totalCost += $sallary;
+                    }
+                }
+                // return $user;
+                $categories = Category::all();
+                $isi_email = [
+                    'user' => $user,
+                    'status' => $request->payment_status,
+                    'products' => $products,
+                    'categories' => $categories,
+                    'services' => $services,
+                    'quantity' => $quantity,
+                    'totalCost' => $totalCost,
+                ];
+
+                // $title = 'Gagal';
+                $mail = Mail::to($user->email)->send(new SallaryMail($isi_email));
+
+                // if ($mail) {
+                //     $title = 'Berhasil';
+                // }
+
+                // -----------------------
+
                 if (!$store->save()) {
                     return response()->json(['status' => 0, 'msg' => 'Data Gaji Gagal Dikirim']);
                 } else {
@@ -168,21 +216,6 @@ class SallaryController extends Controller
                 }
             }
         }
-        // $isi_email = [
-        //     'title' => 'Invoices Desember Pengguna',
-        //     'body' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui totam vero quas hic voluptatem sed amet cumque placeat et animi quasi veniam earum aut harum dignissimos doloremque quaerat, beatae dicta facilis accusantium dolorum atque reprehenderit doloribus velit. Maxime, ipsa? Excepturi nulla consequatur quos? Provident illo fuga repellendus, ducimus ut qui. Quod commodi impedit debitis. Assumenda error illum dolores magni quae numquam vitae exercitationem corrupti necessitatibus modi, enim, distinctio deleniti dolor tenetur debitis possimus aspernatur aliquid ullam ratione ipsam quia repellat nostrum nulla. Iste dolorum libero perspiciatis obcaecati quod, labore adipisci molestias earum fugiat inventore. Eius, voluptas? Quasi autem suscipit dolores.'
-        // ];
-
-        // $title = '';
-        // $mail = Mail::to('sistemgaji.km@gmail.com')->send(new SallaryMail($isi_email));
-
-        // if ($mail) {
-        //     $title = $title . 'Berhasil';
-        // }
-
-        // return view('owner.sallary.index', [
-        //     'message' => $title
-        // ]);
     }
 
     /**
