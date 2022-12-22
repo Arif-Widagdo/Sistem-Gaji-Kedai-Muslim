@@ -38,10 +38,7 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Route::get('/test-mail', function () {
-    return view('components.mail.test');
-    // return redirect()->route('login');
-});
+
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');

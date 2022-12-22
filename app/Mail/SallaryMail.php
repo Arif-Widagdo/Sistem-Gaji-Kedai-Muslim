@@ -46,7 +46,7 @@ class SallaryMail extends Mailable
     public function content()
     {
         return new Content(
-            view: 'components.mail.test',
+            view: 'mail.sallary_mail',
         );
     }
 
