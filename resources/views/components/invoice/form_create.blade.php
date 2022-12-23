@@ -7,11 +7,10 @@
     <input type="hidden" name="payment_status" id="payment_status" value="{{ request('payment_status') }}" required="required">
     <div class="row no-print">
         <div class="col-12">
-            @if($id_exist == '')
+            <a href="{{ route('owner.sallary.index') }}" rel="noopener" class="btn btn-default"><i class="fas fa-arrow-circle-left"></i> {{ __('Cancel') }}</a>
             <button type="submit" class="btn btn-success float-right"><i class="far fa-credit-card"></i>
-                {{ __('Save') }}
+                {{ __('Send') }}
             </button>
-            @endif
             <a href="{{ route('owner.sallary.print') }}?email={{ request('email') }}&periode={{ request('periode') }}&payment_status={{ request('payment_status') }}" 
                 rel="noopener" target="_blank" 
                 class="btn btn-primary float-right"

@@ -1,4 +1,4 @@
-<x-app-dashboard title="Buat Gaji">
+<x-app-dashboard title="{{ __('Create Sallary') }}">
     @section('links')
     <!-- Select2 -->
     <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
@@ -6,19 +6,19 @@
     @endsection
 
     <x-slot name="header">
-        Buat Gaji
+        {{ __('Create Sallary') }}
     </x-slot>
     <x-slot name="links">
         <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item active"><a href="{{ route('owner.sallary.index') }}">Daftar Gaji</a></li>
-            <li class="breadcrumb-item active">Buat Gaji</li>
+            <li class="breadcrumb-item active"><a href="{{ route('owner.sallary.index') }}">{{ __('Pay List') }}</a></li>
+            <li class="breadcrumb-item active">{{ __('Create Sallary') }}</li>
         </ol>
     </x-slot>
 
     <div class="row">
         <div class="col-12">
             <form action="{{ route('owner.sallary.create') }}">
-                <div class="card card-outline">
+                <div class="card card-outline card-purple">
                     <div class="card-body border">
                         @if($status == __('Please complete the input on the form provided'))
                         <div class="row">
@@ -30,7 +30,7 @@
                         </div>
                         @endif
                         <div class="row">
-                            <div class="form-group col-sm-4 mb-1 border pb-2">
+                            <div class="form-group col-sm-6 mb-1 border pb-2">
                                 <label for="email" class="col-form-label">{{ __('Worker') }} <span class="text-danger">*</span></label>
                                 <select name="email" id="email" class="form-control select2" required style="width: 100%;" onchange="submitButton()">
                                     <option value="" disabled selected>{{ __('Select Worker') }}</option>
@@ -44,37 +44,13 @@
                                 </select>
                                 <span class="text-danger error-text email_error"></span>
                             </div>
-                            <div class="form-group col-sm-4 mb-1 border pb-2">
+                            <div class="form-group col-sm-6 mb-1 border pb-2">
                                 <label for="periode" class="col-form-label">{{ __('Periode') }} <span class="text-danger">*</span></label>
                                 <input type="month" id="periode" class="form-control error_input_periode" value="{{ request('periode') }}" required="required" name="periode" onchange="submitButton()">
                                 <span class="text-danger error-text periode_error"></span>
                             </div>
-                            <div class="form-group col-sm-4 mb-1 border pb-2">
-                                <label for="payment_status" class="col-form-label">{{ __('Payment Status') }} <span class="text-danger">*</span></label>
-                                <select id="payment_status" name="payment_status" required  class="form-control" onchange="submitButton()">
-                                    <option value="" disabled selected>{{ __('Select Status') }}</option>
-                                    @if(request('payment_status') == 'not_paid')
-                                        <option value="not_paid" selected>{{ __('Not Paid') }}</option>
-                                        <option value="paid">{{ __('Paid') }}</option>
-                                    @elseif(request('payment_status') == 'paid')
-                                        <option value="paid" selected>{{ __('Paid') }}</option>
-                                        <option value="not_paid">{{ __('Not Paid') }}</option>
-                                    @else
-                                        <option value="paid">{{ __('Paid') }}</option>
-                                        <option value="not_paid">{{ __('Not Paid') }}</option>
-                                    @endif
-                                </select>
-                                <span class="text-danger error-text payment_status_error"></span>
-                            </div>
                         </div>
-                    </div>
-                    <div class="card-footer bg-light border d-flex justify-content-end">
-                        <a href="{{ route('owner.sallary.index') }}" 
-                        class="btn btn-default "
-                        style="margin-right: 5px;">
-                        {{ __('Cancel') }}
-                        </a>
-                        <button type="submit" class="btn bg-purple float-right" id="filterSallary">{{ __('Submit') }}</button>
+                        <button type="submit" class="d-none" id="filterSallary">{{ __('Submit') }}</button>
                     </div>
                 </div>
             </form>
@@ -98,13 +74,7 @@
                 <div class="card-footer">
                     @if($products)
                         @if($products->count() > 0)
-                            @if($status_exist == 'paid' || $status_exist == '')
-                                @include('components.invoice.form_create')
-                            @else
-                                @if($status_exist !== '' && $id_exist !== '')
-                                    @include('components.invoice.form_edit')
-                                @endif
-                            @endif
+                            @include('components.invoice.form_create')
                         @endif
                     @endif
                 </div>

@@ -18,7 +18,6 @@ class Sallary extends Model
         'payroll_time',
         'quantity',
         'total',
-        'payment_status'
     ];
 
     public function getPeriodeAttribute()

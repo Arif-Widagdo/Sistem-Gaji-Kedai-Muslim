@@ -1,4 +1,4 @@
-<x-app-dashboard title="Daftar Gaji">
+<x-app-dashboard title="{{ __('Pay List') }}">
     @section('links')
     <!-- DataTables -->
     <link rel="stylesheet" href={{ asset("plugins/datatables-bs4/css/dataTables.bootstrap4.min.css") }}>
@@ -11,12 +11,7 @@
 
 
     <x-slot name="header">
-        Daftar Gaji
-    </x-slot>
-    <x-slot name="links">
-        <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item active">{{ __('........') }}</li>
-        </ol>
+        {{ __('Pay List') }}
     </x-slot>
 
     <div class="row d-none">
@@ -40,7 +35,7 @@
                             {{ __('Delete All Selected') }}
                         </button>
                         <a class="btn btn-purple float-right" href="{{ route('owner.sallary.create') }}">
-                            {{ __('Buat Gaji') }} <i class="fas fa-plus-circle"></i>
+                            {{ __('Create Sallary') }} <i class="fas fa-plus-circle"></i>
                         </a>
                     </div>
                     <div class="card-body">
@@ -49,9 +44,8 @@
                                 <tr>
                                     <th class="text-center"><input type="checkbox" class="selectall" style="max-width: 15px !important; cursor: pointer;"></th>
                                     <th>{{ __('User Names') }}</th>
-                                    <th>Periode</th>
+                                    <th>{{ __('Periode') }}</th>
                                     <th class="text-center">{{ __('Total') }}</th>
-                                    <th class="text-center">{{ __('Status') }}</th>
                                     <th class="text-center">{{ __('Actions') }}</th>
                                 </tr>
                             </thead>
@@ -69,23 +63,10 @@
                                         Rp. {{ number_format($salary->total,2,',','.') }}
                                     </td>
                                     <td class="text-center">
-                                        @if($salary->payment_status == 'paid')
-                                        <i class="fas fa-check-circle text-success text-lg rounded-circle"></i> <br>
-                                        {{ __('Paid') }}
-                                        @else
-                                        <i class="fas fa-times-circle text-danger text-lg rounded-circle"></i> <br>
-                                        {{ __('Not Paid') }}
-                                        @endif
-                                       
-                                    </td>
-                                    <td class="text-center">
                                         <div class="d-inline-flex align-items-center text-center">
-                                            {{-- <a class="btn btn-sm btn-info ml-1 d-inline-flex align-items-center font-small" data-toggle="modal" data-target="#modal-show">
+                                            <a class="btn btn-sm btn-info ml-1 d-inline-flex align-items-center font-small" href="{{ route('owner.sallary.show', $salary->id) }}">
                                                 {{ __('Show') }} <i class="fas fa-eye ml-2"></i>
-                                            </a> --}}
-                                            {{-- <a data-toggle="modal" data-target="#modal-edit" class="btn btn-sm btn-warning ml-1 d-inline-flex align-items-center font-small">
-                                                {{ __('Edit') }} <i class="fas fa-edit ml-2"></i>
-                                            </a> --}}
+                                            </a>
                                             <a class="btn btn-sm btn-danger ml-1 d-inline-flex align-items-center font-small" id="btn_delete{{ $loop->iteration }}">
                                                 {{ __('Remove') }} <i class="fas fa-solid fa-trash-alt ml-2"></i>
                                             </a>
@@ -141,7 +122,7 @@
             ],
             "order": [],
             "columnDefs": [{
-                "targets": [0, 5],
+                "targets": [0, 4],
                 "orderable": false,
             }],
             "oLanguage": {
@@ -159,13 +140,6 @@
             },
             "buttons": [{
                         "extend": 'copy',
-                        "title": "{{ __('List of Users') }}",
-                        "exportOptions": {
-                            "columns": [1, 2, 3]
-                        }
-                    },
-                    {
-                        "extend": 'pdf',
                         "title": "{{ __('List of Users') }}",
                         "exportOptions": {
                             "columns": [1, 2, 3]

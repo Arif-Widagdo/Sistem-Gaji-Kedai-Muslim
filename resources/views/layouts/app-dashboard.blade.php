@@ -60,6 +60,7 @@
     <!-- Toaster -->
     <link rel="stylesheet" href="{{ asset('plugins/toastr/toastr.min.css') }}">
 
+
 </head>
 
 <body class="hold-transition sidebar-mini {{ (request()->is('**/profile')) 

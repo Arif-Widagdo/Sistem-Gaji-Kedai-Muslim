@@ -68,17 +68,30 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        $position_arif = \App\Models\Position::where('slug', '=', 'finishing')->first();
+        $position_id = \App\Models\Position::where('slug', '=', 'finishing')->first();
 
         \App\Models\User::factory()->create([
             'id' => Uuid::uuid4()->toString(),
-            'id_position' => $position_arif->id,
+            'id_position' => $position_id->id,
             'name' => 'Arif Widagdo',
             'email' => 'arifwidagdo24@gmail.com',
             'status_act' => 1,
             'gender' => 'M',
             'telp' => '089623085349',
             'address' => 'Jl. Serdang Baru XII, RT.005/RW.05, Kec. Kemayoran, Kel.Serdang, DKI Jakarta, Jakarta Pusat (10650)',
+            'password' => Hash::make('password'),
+            'email_verified_at' => now(),
+        ]);
+
+        \App\Models\User::factory()->create([
+            'id' => Uuid::uuid4()->toString(),
+            'id_position' => $position_id->id,
+            'name' => 'Agqila Fadiahaya',
+            'email' => 'agqilafh@gmail.com',
+            'status_act' => 1,
+            'gender' => 'F',
+            'telp' => '6288287853101',
+            'address' => 'Jl. Kota Bandung',
             'password' => Hash::make('password'),
             'email_verified_at' => now(),
         ]);

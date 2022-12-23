@@ -87,8 +87,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
             'create' => 'owner.sallary.create',
             'store' => 'owner.sallary.store',
             'destroy' => 'owner.sallary.destroy',
-            'update' => 'owner.sallary.update',
-        ]);
+            'show' => 'owner.sallary.show',
+        ])->except(['edit', 'update']);
         Route::get('/sallary-print', [SallaryController::class, 'print'])->name('owner.sallary.print');
         // Route::get('/sallaries/create/{id_user}/{periode}', [SallaryController::class, 'create'])->name('owner.sallary.create');
     });

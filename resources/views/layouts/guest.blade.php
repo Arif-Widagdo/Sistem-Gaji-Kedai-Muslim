@@ -23,16 +23,14 @@
 <body class="d-flex flex-column align-items-center justify-content-center py-4" style="min-height: 100vh; width:100%;">
     <div class="text-xl col-lg-6 col-10 mb-4">
         <a href="/" class="d-flex flex-lg-row flex-column align-items-center justify-content-center" style="color:#6F42C1 !important;">
-            {{-- <img src="{{ asset('dist/img/logos/logo.png') }}" alt="Logo" width="100" height="100" class="img-circle "> --}}
-            <span class="ml-2 h1 text-lg-center text-center" style="text-shadow: 0 0 1px #0a0a0a, 0 2px 2px;"><b>{{ __('Muslim Tavern Salary System') }}</b></span>
+            <img src="{{ asset('dist/img/logos/purpleLogo.png') }}" alt="Logo" width="80" height="80" class="img-circle shadow">
+            <span class="ml-2 h1 text-lg-left text-center " style="text-shadow: 0 0 2px #000000, 0 1px 1px;"><b>{{ __('Muslim Tavern Salary System') }}</b></span>
         </a>
     </div>
        
-   
     <div class="card col-lg-6 col-10 shadow rounded-xl p-0 card-outline card-purple">
         {{ $slot }}
     </div>
-
 
     <!-- /.login-logo -->
     {{-- {{ $slot }} --}}

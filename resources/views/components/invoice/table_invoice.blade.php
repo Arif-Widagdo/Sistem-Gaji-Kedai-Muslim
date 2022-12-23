@@ -33,7 +33,7 @@
                         @endforeach
                     @else
                         <tr>
-                            <td colspan="4" class="text-center">Data Perkerjaan Kosong, Mungkin Dia Lelah</td>
+                            <td colspan="4" class="text-center">{{ __('Data is Empty') }} {{ __('You Need to Calm Down') }}</td>
                         </tr>
                     @endif
                 @endif

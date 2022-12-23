@@ -33,8 +33,8 @@ class SallaryMail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            from: new Address('agqilafh@gmail.com', 'Agqila Fadiahaya'),
-            subject: 'Sallary Mail',
+            from: new Address('sistemgaji.km@gmail.com', 'Sistem Gaji Kedai Muslim'),
+            subject: __('Sallary Mail'),
         );
     }
 

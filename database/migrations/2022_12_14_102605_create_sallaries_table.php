@@ -20,7 +20,6 @@ return new class extends Migration
             $table->timestamp('payroll_time')->nullable();
             $table->integer('quantity');
             $table->double('total');
-            $table->enum('payment_status', ['paid', 'not_paid'])->nullable();
             $table->timestamps();
         });
     }

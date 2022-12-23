@@ -38,29 +38,17 @@ class SallaryController extends Controller
      */
     public function create()
     {
-        $id_exist = '';
         $status = '';
-        $status_exist = '';
         $user = [];
         $products = [];
         $services = [];
         $totalCost = 0;
         $quantity = 0;
 
-        if (request('email') && request('periode') && request('payment_status')) {
+        if (request('email') && request('periode')) {
             $temp = explode('-', request('periode'));
             $user = User::where('email', '=', request('email'))->first();
 
-            // Sudah Ada Gaji
-            $exist = Sallary::where('id_user', $user->id)
-                ->whereMonth('periode',  $temp[1])
-                ->whereYear('periode',  $temp[0])
-                ->first();
-
-            if ($exist) {
-                $status_exist = $exist->payment_status;
-                $id_exist = $exist->id;
-            }
 
 
             // ---------- Belom Ada Gaji
@@ -100,8 +88,6 @@ class SallaryController extends Controller
             'services' => $services,
             'totalCost' => $totalCost,
             'quantity' => $quantity,
-            'status_exist' => $status_exist,
-            'id_exist' => $id_exist,
         ]);
     }
 
@@ -119,28 +105,27 @@ class SallaryController extends Controller
             'periode' => ['required'],
             'quantity' => ['required'],
             'total' => ['required'],
-            'payment_status' => ['required'],
         ]);
 
         if (!$validator->passes()) {
-            return response()->json(['status' => 0, 'error' => $validator->errors()->toArray(), 'msg' => 'Kesalahan Internal']);
+            return response()->json(['status' => 0, 'error' => $validator->errors()->toArray(), 'msg' => __('Wait a few minutes to try again ')]);
         } else {
             $temp = explode('-', $request->periode);
+
             $exists = Sallary::where('id_user', $request->id_user)
                 ->whereMonth('periode',  $temp[1])
                 ->whereYear('periode',  $temp[0])
                 ->first();
 
             if ($exists) {
-                return response()->json(['status' => 'exists', 'msg' => __('The data has already been taken')]);
+                return response()->json(['status' => 'exists', 'msg' => __('Sallary Mail is Already and has been Receving')]);
             } else {
                 // -------- Buat Invoice Email
-                $periode = explode('-', $request->periode);
                 $user = User::where('id', $request->id_user)->first();
 
                 $products = Product::where('id_user', $user->id)
-                    ->whereMonth('completed_date',  $periode[1])
-                    ->whereYear('completed_date',  $periode[0])
+                    ->whereMonth('completed_date',  $temp[1])
+                    ->whereYear('completed_date',  $temp[0])
                     ->orderBy('name', 'ASC')->get(['quantity', 'id_category'])->groupBy(function ($item) {
                         return $item->id_category;
                     });
@@ -149,8 +134,8 @@ class SallaryController extends Controller
 
                 // ----- Hitung Gaji
                 $productCost  = Product::where('id_user', $user->id)
-                    ->whereMonth('completed_date', $periode[1])
-                    ->whereYear('completed_date', $periode[0])->get(['quantity', 'id_category']);
+                    ->whereMonth('completed_date', $temp[1])
+                    ->whereYear('completed_date', $temp[0])->get(['quantity', 'id_category']);
 
                 $quantity = $productCost->sum('quantity');
                 $totalCost = 0;
@@ -161,27 +146,26 @@ class SallaryController extends Controller
                         $totalCost += $sallary;
                     }
                 }
+
                 // return $user;
                 $categories = Category::all();
                 $sallaryMonth = Carbon::parse($request->periode)->translatedFormat('F Y');
+
+
                 $isi_email = [
+                    'sallaryMonth' => $sallaryMonth,
                     'user' => $user,
-                    'status' => $request->payment_status,
                     'products' => $products,
                     'categories' => $categories,
                     'services' => $services,
                     'quantity' => $quantity,
                     'totalCost' => $totalCost,
-                    'sallaryMonth' => $sallaryMonth
                 ];
 
-                // $title = 'Gagal';
-                if ($request->payment_status === 'paid') {
-                    Mail::to($user->email)->send(new SallaryMail($isi_email));
-                }
+                Mail::to($user->email)->send(new SallaryMail($isi_email));
 
-                $temp = explode('-', now());
-                $time = $request->periode . '-' . $temp[2];
+                $times = explode('-', now());
+                $time = $request->periode . '-' . $times[2];
 
                 $store = Sallary::create([
                     'id' => Uuid::uuid4()->toString(),
@@ -189,14 +173,13 @@ class SallaryController extends Controller
                     'periode' => $time,
                     'quantity' => $request->quantity,
                     'total' => $request->total,
-                    'payment_status' => $request->payment_status,
                     'payroll_time' => now(),
                 ]);
 
                 if (!$store->save()) {
-                    return response()->json(['status' => 0, 'msg' => 'Data Gaji Gagal Dikirim']);
+                    return response()->json(['status' => 0, 'msg' => __('Sallary Mail Receving is Done')]);
                 } else {
-                    return response()->json(['status' => 1, 'msg' => 'Data Gaji Berhasil Dikirim']);
+                    return response()->json(['status' => 1, 'msg' => __('Sallary Mail Failed to Receve')]);
                 }
             }
         }
@@ -213,16 +196,6 @@ class SallaryController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Sallary  $sallary
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Sallary $sallary)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -330,7 +303,6 @@ class SallaryController extends Controller
 
     public function print()
     {
-        $status_exist = '';
         $status = '';
         $user = [];
         $products = [];
@@ -338,19 +310,10 @@ class SallaryController extends Controller
         $totalCost = 0;
         $quantity = 0;
 
-        if (request('email') && request('periode') && request('payment_status')) {
+        if (request('email') && request('periode')) {
             $user = User::where('email', '=', request('email'))->first();
             $temp = explode('-', request('periode'));
 
-            // Sudah Ada Gaji
-            $exist = Sallary::where('id_user', $user->id)
-                ->whereMonth('periode',  $temp[1])
-                ->whereYear('periode',  $temp[0])
-                ->first();
-
-            if ($exist) {
-                $status_exist = $exist->payment_status;
-            }
 
             $products = Product::where('id_user', $user->id)
                 ->whereMonth('completed_date',  $temp[1])
@@ -373,8 +336,6 @@ class SallaryController extends Controller
                 }
             }
             $quantity = $productCost->sum('quantity');
-
-            // ------
         } else {
             $status = __('Please complete the input on the form provided');
         }
@@ -391,7 +352,6 @@ class SallaryController extends Controller
             'services' => $services,
             'totalCost' => $totalCost,
             'quantity' => $quantity,
-            'status_exist' => $status_exist
         ]);
     }
 }

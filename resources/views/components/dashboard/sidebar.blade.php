@@ -72,7 +72,7 @@
           <li class="nav-item">
             <a href="{{ route('products.index') }}" class="nav-link {{ request()->is('owner/products') ? 'active' : '' }}">
               <i class="nav-icon fas fa-boxes"></i>
-              <p>{{ __('Products') }}</p>
+              <p>{{ __('Production') }}</p>
             </a>
           </li>
           <li class="nav-item">

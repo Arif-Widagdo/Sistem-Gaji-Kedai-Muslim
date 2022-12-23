@@ -37,15 +37,6 @@
         {{ __('Date') }}:
         <address>
             <strong>{{ now()->format('d, F Y') }}</strong>
-            @if($status_exist !== '')
-            <div class="mt-1" >
-                @if($status_exist == 'paid')
-                <img src="{{ asset('dist/img/lunas.png') }}" alt="{{ __('Paid') }}" style="width: 35%;" >
-                @elseif($status_exist == 'not_paid')
-                <img src="{{ asset('dist/img/tidak.png') }}" alt="{{ __('Paid') }}" style="width: 65%;" >
-                @endif
-            </div>
-            @endif
         </address>
     </div>
 </div>

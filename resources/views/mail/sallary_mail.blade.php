@@ -74,19 +74,7 @@
                                                         {{ $isi_email['user']->address }}
                                                     </address>
                                                 </td>
-                                                <td width="30%">
-                                                    <address>
-                                                        @if($isi_email['status'] !== '')
-                                                        <div class="mt-1">
-                                                            @if($isi_email['status'] == 'paid')
-                                                            <img src="{{ $message->embed('dist/img/lunas.png') }}" alt="{{ __('Paid') }}" style="width: 50%;">
-                                                            @elseif($isi_email['status'] == 'not_paid')
-                                                            <img src="{{ $message->embed('dist/img/tidak.png') }}" alt="{{ __('Not Paid') }}" style="width: 80%;">
-                                                            @endif
-                                                        </div>
-                                                        @endif
-                                                    </address>
-                                                </td>
+                                                <td width="30%"></td>
                                             </tr>
                                         </table>
                                     </td>
@@ -111,33 +99,33 @@
                                                 </th>
                                             </tr>
                                             @if($isi_email['products'])
-                                            @if($isi_email['products']->count() > 0)
-                                            @foreach ($isi_email['products'] as $key => $product)
-                                            <tr>
-                                                <td width="10%" align="left" style="font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
-                                                    {{ $loop->iteration }}
-                                                </td>
-                                                @foreach ($isi_email['categories']->where('id', $key) as $category)
-                                                <td width="30%" align="left" style="font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
-                                                    {{ $category->name }}
-                                                </td>
-                                                @endforeach
-                                               
-                                                <td width="30%" align="left" style="font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
-                                                    {{ $product->sum('quantity') }} Item
-                                                </td>
-                                                @foreach ($isi_email['services']->where('id_category', $category->id) as $service)
-                                                <td width="30%" align="left" style="font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
-                                                    Rp. {{ number_format($service->sallary*$product->sum('quantity'),2,',','.') }}
-                                                </td>
-                                                @endforeach
-                                            </tr>
-                                            @endforeach
-                                            @else
-                                            <tr>
-                                                <td colspan="4" class="text-center" style="font-family: 'Kalam', cursive;">Data Perkerjaan Kosong, Mungkin Dia Lelah</td>
-                                            </tr>
-                                            @endif
+                                                @if($isi_email['products']->count() > 0)
+                                                    @foreach ($isi_email['products'] as $key => $product)
+                                                    <tr>
+                                                        <td width="10%" align="left" style="font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
+                                                            {{ $loop->iteration }}
+                                                        </td>
+                                                        @foreach ($isi_email['categories']->where('id', $key) as $category)
+                                                        <td width="30%" align="left" style="font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
+                                                            {{ $category->name }}
+                                                        </td>
+                                                        @endforeach
+                                                    
+                                                        <td width="30%" align="left" style="font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
+                                                            {{ $product->sum('quantity') }} Item
+                                                        </td>
+                                                        @foreach ($isi_email['services']->where('id_category', $category->id) as $service)
+                                                        <td width="30%" align="left" style="font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
+                                                            Rp. {{ number_format($service->sallary*$product->sum('quantity'),2,',','.') }}
+                                                        </td>
+                                                        @endforeach
+                                                    </tr>
+                                                    @endforeach
+                                                @else
+                                                <tr>
+                                                    <td colspan="4" class="text-center" class="text-center" style="font-family: 'Kalam', cursive;">{{ __('Data is Empty') }} {{ __('You Need to Calm Down') }}</td>
+                                                </tr>
+                                                @endif
                                             @endif
                                         </table>
                                     </td>
