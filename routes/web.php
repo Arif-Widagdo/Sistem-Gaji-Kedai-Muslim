@@ -96,6 +96,10 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
     Route::group(['prefix' => 'employee', 'middleware' => 'isEmployee'], function () {
         Route::get('/dashboard', [EmployeeController::class, 'index'])->name('employee.dashboard');
+
+        Route::get('/history', [EmployeeController::class, 'history'])->name('employee.history');
+
+
         Route::get('/profile', [ProfileController::class, 'edit'])->name('employee.profile.edit');
     });
 
