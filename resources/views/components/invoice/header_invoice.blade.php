@@ -1,12 +1,19 @@
 <!-- title row -->
 <div class="row">
     <div class="col-12">
-        <div class="d-flex align-items-end">
-            <img src="{{ asset('dist/img/logos/purpleLogo.png') }}" alt="" width="80" class="mr-2"> 
-            <h3 class="page-header" style="font-family: 'Kalam', cursive; font-weight: 700 !important; line-height:25px; ">
-                Kedai Muslim <br>
-                Collection
-            </h3>
+        <div class="row">
+            <div class="col-6 d-flex align-items-end">
+                <img src="{{ asset('dist/img/logos/purpleLogo.png') }}" alt="" width="80" class="mr-2"> 
+                <h3 class="page-header" style="font-family: 'Kalam', cursive; font-weight: 700 !important; line-height:25px; ">
+                    Kedai Muslim <br>
+                    Collection
+                </h3>
+            </div>
+            <div class="col-6 d-flex align-items-center justify-content-end">
+                <h3 class="page-header" style="font-family: 'Kalam', cursive; font-weight: 700 !important; line-height:25px; ">
+                    {{ __('Salary in') }} {{ $sallaryMonth }}
+                </h3>
+            </div>
         </div>
     </div>
 </div>

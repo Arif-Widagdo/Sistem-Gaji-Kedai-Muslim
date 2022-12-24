@@ -76,7 +76,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('owner.sallary.index') }}" class="nav-link {{ request()->is('owner/sallaries/**') ? 'active' : '' }}">
+            <a href="{{ route('owner.sallary.index') }}" class="nav-link {{ request()->is('owner/sallaries') || request()->is('owner/sallaries/**') ? 'active' : '' }}">
               <i class="nav-icon fas fa-file-invoice-dollar"></i>
               <p>
                 {{ __('Invoices') }}

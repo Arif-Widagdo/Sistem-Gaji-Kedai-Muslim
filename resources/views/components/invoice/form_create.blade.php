@@ -11,7 +11,7 @@
             <button type="submit" class="btn btn-success float-right"><i class="far fa-credit-card"></i>
                 {{ __('Send') }}
             </button>
-            <a href="{{ route('owner.sallary.print') }}?email={{ request('email') }}&periode={{ request('periode') }}&payment_status={{ request('payment_status') }}" 
+            <a href="{{ route('owner.sallary.print') }}?email={{ request('email') }}&periode={{ request('periode') }}" 
                 rel="noopener" target="_blank" 
                 class="btn btn-primary float-right"
                 style="margin-right: 5px;">

@@ -49,8 +49,6 @@ class SallaryController extends Controller
             $temp = explode('-', request('periode'));
             $user = User::where('email', '=', request('email'))->first();
 
-
-
             // ---------- Belom Ada Gaji
             $products = Product::where('id_user', $user->id)
                 ->whereMonth('completed_date',  $temp[1])
@@ -80,6 +78,7 @@ class SallaryController extends Controller
         $categories = Category::all();
 
         return view('owner.sallary.created', [
+            'sallaryMonth' =>  Carbon::parse(request('periode'))->translatedFormat('F Y'),
             'workers' => User::all(),
             'user' => $user,
             'products' => $products,
@@ -99,7 +98,6 @@ class SallaryController extends Controller
      */
     public function store(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'id_user' => ['required'],
             'periode' => ['required'],
@@ -193,7 +191,73 @@ class SallaryController extends Controller
      */
     public function show(Sallary $sallary)
     {
-        //
+        $user = User::where('id', $sallary->id_user)->first();
+
+        $temp = explode(' ',  $sallary->periode);
+        $month = 0;
+        if ($temp[0] == 'January' || $temp[0] == 'Januari') {
+            $month = 1;
+        } elseif ($temp[0] == 'February' || $temp[0] == 'Februari') {
+            $month = 2;
+        } elseif ($temp[0] == 'March' || $temp[0] == 'Maret') {
+            $month = 3;
+        } elseif ($temp[0] == 'April' || $temp[0] == 'April') {
+            $month = 4;
+        } elseif ($temp[0] == 'May' || $temp[0] == 'Mei') {
+            $month = 5;
+        } elseif ($temp[0] == 'June' || $temp[0] == 'Juni') {
+            $month = 6;
+        } elseif ($temp[0] == 'July' || $temp[0] == 'Juli') {
+            $month = 7;
+        } elseif ($temp[0] == 'August' || $temp[0] == 'Agustus') {
+            $month = 8;
+        } elseif ($temp[0] == 'September' || $temp[0] == 'September') {
+            $month = 9;
+        } elseif ($temp[0] == 'October' || $temp[0] == 'Oktober') {
+            $month = 10;
+        } elseif ($temp[0] == 'November' || $temp[0] == 'November') {
+            $month = 1;
+        } elseif ($temp[0] == 'December' || $temp[0] == 'Desember') {
+            $month = 12;
+        }
+
+        $products = Product::where('id_user', $user->id)
+            ->whereMonth('completed_date',  $month)
+            ->whereYear('completed_date',  $temp[1])
+            ->orderBy('name', 'ASC')->get(['quantity', 'id_category'])->groupBy(function ($item) {
+                return $item->id_category;
+            });
+
+        $categories = Category::all();
+        $services = Service::where('id_position',  $user->id_position)->get(['id_category', 'sallary']);
+
+        // ----- Hitung Gaji
+        $productCost  = Product::where('id_user', $user->id)
+            ->whereMonth('completed_date', $month)
+            ->whereYear('completed_date', $temp[1])->get(['quantity', 'id_category']);
+
+        $quantity = $productCost->sum('quantity');
+        $totalCost = 0;
+        foreach ($productCost as $product) {
+            foreach ($services->where('id_category', '=', $product->category->id) as  $service) {
+                $totalSallary = $product->quantity * $service->sallary;
+                $totalCost += $totalSallary;
+            }
+        }
+        // return $sallary->periode;
+        // return $products;
+
+        return view('owner.sallary.show', [
+            'sallaryMonth' => $sallary->periode,
+            'periode' => $temp[1] . '-' . $month,
+            'user' => $user,
+            'products' => $products,
+            'categories' => $categories,
+            'services' => $services,
+            'quantity' => $quantity,
+            'totalCost' => $totalCost
+        ]);
+        // return $sallary;
     }
 
 
@@ -258,6 +322,7 @@ class SallaryController extends Controller
                 $totalCost += $totalSallary;
             }
         }
+
 
         $categories = Category::all();
         $isi_email = [
@@ -344,6 +409,7 @@ class SallaryController extends Controller
 
 
         return view('print.invoice_print', [
+            'sallaryMonth' =>  Carbon::parse(request('periode'))->translatedFormat('F Y'),
             'workers' => User::all(),
             'user' => $user,
             'products' => $products,

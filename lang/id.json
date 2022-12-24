@@ -161,8 +161,23 @@
     "Sallary Mail" : "Slip Penggajian",
     "Sallary Mail Receving is Done" : "Slip Gaji Telah Dikirim",
     "Sallary Mail Failed to Receve" : "Slip Gaji Gagal Dikirim",
-    "Sallary Mail is Already and has been Receving" : "Slip Gaji Telah Ada dan telah Dikirim",
-    
+    "Sallary Mail is Already and has been Receving" : "Slip Gaji Telah Ada dan Telah Dikirim",
+
+    "January" : "JAN",
+    "February" : "FEB",
+    "March": "MAR",
+    "April" : "APRIL",
+    "May" : "MEI",
+    "June" : "JUN",
+    "July": "JUL",
+    "August" : "AGUS",
+    "September" : "SEP",
+    "October" : "OKT",
+    "November" : "NOV",
+    "December": "DES",
+    "Salary Expenditures in the Previous Month" : "Pengeluaran Gaji Dibulan Sebelumnya",
+    "Monthly Salary Recap Report" : "Laporan Rekap Gaji Bulanan",
+    "Monthly Production Report" : "Laporan Produksi Bulanan",
  
 
 
