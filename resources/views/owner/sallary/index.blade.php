@@ -31,7 +31,7 @@
                         <a class="btn btn-danger float-left" id="btn_delete_all" hidden>
                             <i class="fas fa-solid fa-trash-alt"></i> {{ __('Delete All Selected') }}
                         </a>
-                        <button formaction="{{ route('owner.users.deleteAll') }}" class="d-none" type="submit" id="form_deleteAll_user">
+                        <button formaction="{{ route('owner.sallary.deleteAll') }}" class="d-none" type="submit" id="form_deleteAll_sallary">
                             {{ __('Delete All Selected') }}
                         </button>
                         <a class="btn btn-purple float-right" href="{{ route('owner.sallary.create') }}">
@@ -52,7 +52,7 @@
                             <tbody>
                                 @foreach ($sallaries as $salary)
                                 <tr>
-                                    <td class="text-center" style="width: 15px !important;"><input type="checkbox" name="ids[]" class="selectbox" value="" style="cursor: pointer;"></td>
+                                    <td class="text-center" style="width: 15px !important;"><input type="checkbox" name="ids[]" class="selectbox" value="{{ $salary->id }}" style="cursor: pointer;"></td>
                                     <td>
                                        {{ $salary->userSallary->name }}
                                     </td>
@@ -202,6 +202,25 @@
                 });
             });
         }
+
+        $('#btn_delete_all').on('click',function(e){
+            e.preventDefault();
+            swal.fire({
+                title: "{{ __('Are you sure?') }}",
+                text: "{{ __('You wont be able to revert this') }}",
+                icon: 'warning',
+                iconColor: '#FD7E14',
+                showCancelButton: true,
+                confirmButtonColor: '#6F42C1',
+                cancelButtonColor: '#DC3545',
+                confirmButtonText: "{{ __('Yes, deleted it') }}",
+                cancelButtonText: "{{ __('Cancel') }}"
+            }).then((result) => {
+                if (result.isConfirmed){
+                    $("#form_deleteAll_sallary").click();
+                }
+            });
+        });
 
         // $('#form_create_sallary').on('submit', function (e) {
         //     e.preventDefault();

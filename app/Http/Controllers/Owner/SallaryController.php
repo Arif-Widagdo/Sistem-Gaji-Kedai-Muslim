@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Sallary;
 use App\Models\Service;
 use App\Models\Category;
+use App\Models\Position;
 use App\Mail\SallaryMail;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -38,6 +39,9 @@ class SallaryController extends Controller
      */
     public function create()
     {
+        $owner = Position::where('slug', '=', 'owner')->first();
+        $workers = User::where('id_position', '!=', $owner->id)->get();
+
         $status = '';
         $user = [];
         $products = [];
@@ -79,7 +83,7 @@ class SallaryController extends Controller
 
         return view('owner.sallary.created', [
             'sallaryMonth' =>  Carbon::parse(request('periode'))->translatedFormat('F Y'),
-            'workers' => User::all(),
+            'workers' => $workers,
             'user' => $user,
             'products' => $products,
             'status' => $status,
@@ -175,9 +179,9 @@ class SallaryController extends Controller
                 ]);
 
                 if (!$store->save()) {
-                    return response()->json(['status' => 0, 'msg' => __('Sallary Mail Receving is Done')]);
+                    return response()->json(['status' => 0, 'msg' => __('Sallary Mail Failed to Receve')]);
                 } else {
-                    return response()->json(['status' => 1, 'msg' => __('Sallary Mail Failed to Receve')]);
+                    return response()->json(['status' => 1, 'msg' => __('Sallary Mail Receving is Done')]);
                 }
             }
         }
@@ -360,9 +364,9 @@ class SallaryController extends Controller
         $delete = Sallary::destroy($sallary->id);
 
         if ($delete) {
-            return redirect()->back()->with('success', 'Data Gaji Gagal Dihapus');
+            return redirect()->back()->with('success', __('Sallary has been deleted'));
         } else {
-            return redirect()->back()->with('error', 'Data Gaji Berhasil Dihapus');
+            return redirect()->back()->with('error', __('Failed to delete data'));
         }
     }
 
@@ -419,5 +423,15 @@ class SallaryController extends Controller
             'totalCost' => $totalCost,
             'quantity' => $quantity,
         ]);
+    }
+
+    public function deleteAll(Request $request)
+    {
+        $delete = Sallary::destroy($request->ids);
+        if ($delete) {
+            return redirect()->back()->with('success', __('Sallary has been deleted'));
+        } else {
+            return redirect()->back()->with('error', __('Failed to delete data'));
+        }
     }
 }

@@ -128,8 +128,6 @@
                 }
             });
         });
-
-
     </script>
     @endsection
 

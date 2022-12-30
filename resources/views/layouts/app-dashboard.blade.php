@@ -60,7 +60,13 @@
     <!-- Toaster -->
     <link rel="stylesheet" href="{{ asset('plugins/toastr/toastr.min.css') }}">
 
-
+    <style>
+        .page-item.active .page-link {
+            color: #fff !important;
+            background-color: #6F42C1 !important;
+            border-color: #6F42C1 !important; 
+        }
+    </style>
 </head>
 
 <body class="hold-transition sidebar-mini {{ (request()->is('**/profile')) 

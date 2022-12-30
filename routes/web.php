@@ -90,6 +90,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
             'show' => 'owner.sallary.show',
         ])->except(['edit', 'update']);
         Route::get('/sallary-print', [SallaryController::class, 'print'])->name('owner.sallary.print');
+        Route::delete('/sallary-management-deleteAll', [SallaryController::class, 'deleteAll'])->name('owner.sallary.deleteAll');
         // Route::get('/sallaries/create/{id_user}/{periode}', [SallaryController::class, 'create'])->name('owner.sallary.create');
     });
 
