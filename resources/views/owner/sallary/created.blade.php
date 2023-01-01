@@ -95,39 +95,39 @@
             $("#filterSallary").click();
         }
 
-        $('#form_create_sallary').on('submit', function (e) {
-            e.preventDefault();
-            $.ajax({
-                url: $(this).attr('action'),
-                method: $(this).attr('method'),
-                data: new FormData(this),
-                processData: false,
-                dataType: 'json',
-                contentType: false,
-                beforeSend: function () {
-                    $(document).find('span.error-text').text('');
-                },
-                success: function (data) {
-                    if (data.status == 0) {
-                        $.each(data.error, function (prefix, val) {
-                            $('span.' + prefix + '_error').text(val[0]);
-                            $('input.error_input_' + prefix).addClass('is-invalid');
-                        });
-                    alertToastInfo(data.msg)
-                    }  else if (data.status == 'exists') {
-                    alertToastError(data.msg)
-                    } else {
-                        setTimeout(function () {
-                            location.reload(true);
-                        }, 1000);
-                        alertToastSuccess(data.msg)
-                    }
-                },
-                error: function (xhr) {
-                    Swal.fire(xhr.statusText, '{{ __('Wait a few minutes to try again ') }}', 'error')
-                }
-            });
-        });
+        // $('#form_create_sallary').on('submit', function (e) {
+        //     e.preventDefault();
+        //     $.ajax({
+        //         url: $(this).attr('action'),
+        //         method: $(this).attr('method'),
+        //         data: new FormData(this),
+        //         processData: false,
+        //         dataType: 'json',
+        //         contentType: false,
+        //         beforeSend: function () {
+        //             $(document).find('span.error-text').text('');
+        //         },
+        //         success: function (data) {
+        //             if (data.status == 0) {
+        //                 $.each(data.error, function (prefix, val) {
+        //                     $('span.' + prefix + '_error').text(val[0]);
+        //                     $('input.error_input_' + prefix).addClass('is-invalid');
+        //                 });
+        //             alertToastInfo(data.msg)
+        //             }  else if (data.status == 'exists') {
+        //             alertToastError(data.msg)
+        //             } else {
+        //                 setTimeout(function () {
+        //                     location.reload(true);
+        //                 }, 1000);
+        //                 alertToastSuccess(data.msg)
+        //             }
+        //         },
+        //         error: function (xhr) {
+        //             Swal.fire(xhr.statusText, '{{ __('Wait a few minutes to try again ') }}', 'error')
+        //         }
+        //     });
+        // });
     </script>
     @endsection
 

@@ -4,7 +4,7 @@
     <input type="hidden" value="{{ request('periode') }}" name="periode">
     <input type="hidden" name="quantity" id="quantity" value="{{ $quantity }}" required="required" >
     <input type="hidden" name="total" id="total" value="{{ $totalCost }}" required="required" >
-    <input type="hidden" name="payment_status" id="payment_status" value="{{ request('payment_status') }}" required="required">
+    {{-- <input type="hidden" name="payment_status" id="payment_status" value="{{ request('payment_status') }}" required="required"> --}}
     <div class="row no-print">
         <div class="col-12">
             <a href="{{ route('owner.sallary.index') }}" rel="noopener" class="btn btn-default"><i class="fas fa-arrow-circle-left"></i> {{ __('Cancel') }}</a>

@@ -21,7 +21,7 @@
     </div>
 
     <!-- Main row -->
-    <div class="row animate__animated animate__slideInUp">
+    <div class="row animate__animated animate__slideInLeft">
         <div class="col-md-12">
             <div class="card card-purple card-outline">
                 <form method="post">
@@ -116,10 +116,7 @@
             "responsive": true,
             "lengthChange": true,
             "autoWidth": false,
-            "lengthMenu": [
-                [10, 25, 50, -1],
-                [10, 25, 50, "{{ __('All') }}"]
-            ],
+            "lengthMenu": [ [-1, 100, 50, 25, 10, 5], ["{{ __('All') }}", 100, 50, 25, 10, 5] ],
             "order": [],
             "columnDefs": [{
                 "targets": [0, 4],

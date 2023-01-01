@@ -131,7 +131,7 @@
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Cancel') }}</button>
-                        <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
+                        <button type="submit" class="btn bg-purple">{{ __('Submit') }}</button>
                     </div>
                 </form>
             </div>
@@ -216,7 +216,7 @@
                 "responsive": true,
                 "lengthChange": true,
                 "autoWidth": false,
-                "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "{{ __('All') }}"] ],
+                "lengthMenu": [ [-1, 100, 50, 25, 10, 5], ["{{ __('All') }}", 100, 50, 25, 10, 5] ],
                 "order": [],
                 "columnDefs": [{
                     "targets": [0, 3],
@@ -235,7 +235,30 @@
                     "sInfoEmpty": "{{ __('DataTableInfoEmpty') }}",
                     "sInfoFiltered" : "{{ __('DataTabelInfoFiltered') }}"
                 },
-            });
+                "buttons": [{
+                        "extend": 'copy',
+                        "title": "{{ __('Product Category List') }}",
+                        "exportOptions": {
+                            "columns": [1, 2]
+                        }
+                    },
+                    {
+                        "extend": 'excel',
+                        "title": "{{ __('Product Category List') }}",
+                        "exportOptions": {
+                            "columns": [1, 2]
+                        }
+                    },
+                    {
+                        "extend": 'print',
+                        "title": "{{ __('Product Category List') }}",
+                        "exportOptions": {
+                            "columns": [1, 2]
+                        }
+                    },
+                    "colvis"
+                ]
+            }).buttons().container().appendTo('#table-categories_wrapper .col-md-6:eq(0)');
 
             // CheckSlug
             const name = document.querySelector('#name');

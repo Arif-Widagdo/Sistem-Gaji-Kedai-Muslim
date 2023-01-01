@@ -26,7 +26,7 @@
     </x-slot>
 
     <!-- Main row -->
-    <div class="row animate__animated animate__slideInUp">
+    <div class="row animate__animated animate__slideInLeft">
         <div class="col-md-12">
             <div class="card card-purple card-outline">
                 <form method="post">
@@ -71,7 +71,7 @@
                                     <td>
                                         {{ $product->category->name }}
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         {{ number_format($product->quantity) }}
                                     </td>
                                     <td>
@@ -164,7 +164,7 @@
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Cancel') }}</button>
-                        <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
+                        <button type="submit" class="btn bg-purple">{{ __('Submit') }}</button>
                     </div>
                 </form>
             </div>
@@ -276,10 +276,7 @@
             "responsive": true,
             "lengthChange": true,
             "autoWidth": false,
-            "lengthMenu": [
-                [10, 25, 50, -1],
-                [10, 25, 50, "{{ __('All') }}"]
-            ],
+            "lengthMenu": [ [-1, 100, 50, 25, 10, 5], ["{{ __('All') }}", 100, 50, 25, 10, 5] ],
             "order": [],
             "columnDefs": [{
                 "targets": [0, 6],
@@ -298,7 +295,30 @@
                 "sInfoEmpty": "{{ __('DataTableInfoEmpty') }}",
                 "sInfoFiltered": "{{ __('DataTabelInfoFiltered') }}"
             },
-        });
+            "buttons": [{
+                        "extend": 'copy',
+                        "title": "{{ __('List of Product') }}",
+                        "exportOptions": {
+                            "columns": [1, 2, 3, 4, 5]
+                        }
+                    },
+                    {
+                        "extend": 'excel',
+                        "title": "{{ __('List of Product') }}",
+                        "exportOptions": {
+                            "columns": [1, 2, 3, 4, 5]
+                        }
+                    },
+                    {
+                        "extend": 'print',
+                        "title": "{{ __('List of Product') }}",
+                        "exportOptions": {
+                            "columns": [1, 2, 3, 4, 5]
+                        }
+                    },
+                    "colvis"
+                ]
+        }).buttons().container().appendTo('#table_product_wrapper .col-md-6:eq(0)');
 
         //Initialize Select2 Elements
         $('.select2').select2()

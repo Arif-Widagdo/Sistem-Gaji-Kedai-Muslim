@@ -16,9 +16,12 @@ class OwnerController extends Controller
     public function index()
     {
         $now = Carbon::now();
-        $year =  $now->year;
 
-        $prevMonth = now()->subMonth();
+        $year =  $now->year;
+        // $year =  2022;
+
+        $month = $now->month;
+        // $month =  12;
 
         $productionJan = Product::whereYear('completed_date', '=', $year)->whereMonth('completed_date', '=', 1)->get();
         $productionFeb = Product::whereYear('completed_date', '=', $year)->whereMonth('completed_date', '=', 2)->get();
@@ -33,7 +36,6 @@ class OwnerController extends Controller
         $productionNov = Product::whereYear('completed_date', '=', $year)->whereMonth('completed_date', '=', 11)->get();
         $productionDes = Product::whereYear('completed_date', '=', $year)->whereMonth('completed_date', '=', 12)->get();
 
-
         $salJan = Sallary::whereYear('periode', '=', $year)->whereMonth('periode', '=', 1)->get();
         $salFeb = Sallary::whereYear('periode', '=', $year)->whereMonth('periode', '=', 2)->get();
         $salMar = Sallary::whereYear('periode', '=', $year)->whereMonth('periode', '=', 3)->get();
@@ -47,16 +49,17 @@ class OwnerController extends Controller
         $salNov = Sallary::whereYear('periode', '=', $year)->whereMonth('periode', '=', 11)->get();
         $salDes = Sallary::whereYear('periode', '=', $year)->whereMonth('periode', '=', 12)->get();
 
-        $prev =  Sallary::whereYear('periode', '=', $year)->whereMonth('periode', '=', $prevMonth)->get();
+        $prodcution = Product::whereYear('completed_date', '=', $year)->get();
+        $sallaries = sallary::whereYear('periode', '=', $year)->get();
 
-        $prodcution = Product::all();
+        $salaryThisMonth =  Sallary::whereYear('periode', '=', $year)->whereMonth('periode', '=', $month)->get();
 
         return view('owner.dashboard', [
             'prodcution' => $prodcution->sum('quantity'),
-            'positions' => Position::all(),
-            'users' => User::where('id', '!=', auth()->user()->id)->get(),
-            'category' => Category::all(),
+            'sallaries' => $sallaries->sum('total'),
+            'salaryThisMonth' => $salaryThisMonth->sum('total'),
             'year' =>  $year,
+            'month' => Carbon::parse($month)->translatedFormat('F'),
 
             'prodJan' => $productionJan->sum('quantity'),
             'prodFeb' => $productionFeb->sum('quantity'),
@@ -85,8 +88,6 @@ class OwnerController extends Controller
             'salOct' => $salOct->sum('total'),
             'salNov' => $salNov->sum('total'),
             'salDes' => $salDes->sum('total'),
-
-            'sallaryPrev' => $prev->sum('total'),
         ]);
     }
 }

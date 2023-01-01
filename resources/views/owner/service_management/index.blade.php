@@ -26,7 +26,7 @@
     </x-slot>
 
     <!-- Main row -->
-    <div class="row animate__animated animate__slideInUp">
+    <div class="row animate__animated animate__slideInLeft">
         <div class="col-md-12">
             <div class="card card-purple card-outline">
                 <form method="post" >
@@ -151,7 +151,7 @@
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Cancel') }}</button>
-                        <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
+                        <button type="submit" class="btn bg-purple">{{ __('Submit') }}</button>
                     </div>
                 </form>
             </div>
@@ -264,13 +264,10 @@
             "responsive": true,
             "lengthChange": true,
             "autoWidth": false,
-            "lengthMenu": [
-                [10, 25, 50, -1],
-                [10, 25, 50, "{{ __('All') }}"]
-            ],
+            "lengthMenu": [ [-1, 100, 50, 25, 10, 5], ["{{ __('All') }}", 100, 50, 25, 10, 5] ],
             "order": [],
             "columnDefs": [{
-                "targets": [0, 3],
+                "targets": [0, 4],
                 "orderable": false,
             }],
             "oLanguage": {
@@ -288,13 +285,6 @@
             },
             "buttons": [{
                         "extend": 'copy',
-                        "title": "{{ __('List of Sallary by Product and Position') }}",
-                        "exportOptions": {
-                            "columns": [1, 2, 3]
-                        }
-                    },
-                    {
-                        "extend": 'pdf',
                         "title": "{{ __('List of Sallary by Product and Position') }}",
                         "exportOptions": {
                             "columns": [1, 2, 3]

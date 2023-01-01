@@ -5,7 +5,7 @@
             <div class="info-box">
                 <span class="info-box-icon bg-info elevation-1"><i class="fas fa-box-open"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">Jumlah Produk yang dikerjakan Bulan {{ $monthNow}}</span>
+                    <span class="info-box-text">{{ __('Products Work on') }} {{ $monthNow }}</span>
                     <span class="info-box-number">
                         {{ $quantityWorked }} Item
                     </span>
@@ -16,7 +16,7 @@
             <div class="info-box">
                 <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-coins"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">Gaji yang diperkirakan pada Bulan {{ $monthNow}}</span>
+                    <span class="info-box-text">{{ __('Salary Expected to be Received in') }} {{ $monthNow }}</span>
                     <span class="info-box-number">
                        Rp. {{ number_format( $totalCost,2,',','.') }}
                     </span>

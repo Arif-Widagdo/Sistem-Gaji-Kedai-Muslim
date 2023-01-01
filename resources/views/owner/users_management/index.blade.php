@@ -25,7 +25,7 @@
     </div>
 
     <!-- Main row -->
-    <div class="row animate__animated animate__slideInUp">
+    <div class="row animate__animated animate__slideInLeft">
         <div class="col-md-12">
             <div class="card card-purple card-outline">
                 <form method="post">
@@ -194,7 +194,7 @@
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Cancel') }}</button>
-                        <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
+                        <button type="submit" class="btn bg-purple">{{ __('Submit') }}</button>
                     </div>
                 </form>
             </div>
@@ -250,14 +250,14 @@
                                     </li>
                                     <li class="list-group-item d-flex align-items-center">
                                         <p class="col-lg-4 text-bold">{{ __('Telp') }}</p> 
-                                        <p class="col-lg-8">: {{ $user->telp }}
+                                        <p class="col-lg-8">: {{ $user->telp }} <br class="d-block d-md-none">
                                             @if($user->telp != '')
                                             <span>
                                                 <a href="https://api.whatsapp.com/send/?phone={{ $user->telp }}&text=Hello {{ $user->name }}&type=phone_number&app_absent=0" 
                                                     target="_blank" data-toggle="tooltip"
                                                     title="{{ __('Call') }}"  data-placement="right"
                                                     class="bg-primary pb-2 pt-2 pr-2 pl-1 rounded-pill">
-                                                    <i class="fas fa-phone bg-light rounded-circle p-2"></i> {{ __('Call') }} {{ $user->name }} {{ __('Now') }}
+                                                    <i class="fas fa-phone bg-light rounded-circle p-2"></i> {{ __('Call') }} {{ __('Now') }}
                                                 </a>
                                             </span>
                                             @endif
@@ -378,10 +378,7 @@
             "responsive": true,
             "lengthChange": true,
             "autoWidth": false,
-            "lengthMenu": [
-                [10, 25, 50, -1],
-                [10, 25, 50, "{{ __('All') }}"]
-            ],
+            "lengthMenu": [ [-1, 100, 50, 25, 10, 5], ["{{ __('All') }}", 100, 50, 25, 10, 5] ],
             "order": [],
             "columnDefs": [{
                 "targets": [0, 5],
@@ -402,13 +399,6 @@
             },
             "buttons": [{
                         "extend": 'copy',
-                        "title": "{{ __('List of Users') }}",
-                        "exportOptions": {
-                            "columns": [1, 2, 3]
-                        }
-                    },
-                    {
-                        "extend": 'pdf',
                         "title": "{{ __('List of Users') }}",
                         "exportOptions": {
                             "columns": [1, 2, 3]

@@ -110,6 +110,8 @@
                     <div class="successToast"></div>
                     @elseif(session()->has('error'))
                     <div class="errorToast"></div>
+                    @elseif(session()->has('info'))
+                    <div class="infoToast"></div>
                     @endif
                     
                     <div class="" id="successToast"></div>
@@ -191,6 +193,14 @@
             Toast.fire({
                 icon: 'success',
                 title: '{{ Session::get("success") }}'
+            })
+        });
+
+        $('.infoToast').each(function () {
+            document.getElementById('notifFail').play();
+            Toast.fire({
+                icon: 'info',
+                title: '{{ Session::get("info") }}'
             })
         });
                 

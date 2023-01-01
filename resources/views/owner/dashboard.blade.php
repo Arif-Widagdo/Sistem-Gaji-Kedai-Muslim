@@ -1,25 +1,28 @@
 <x-app-dashboard title="{{ __('Dashboard') }}">
 
     <!-- Info boxes -->
-    <div class="row">
-        <div class="col-12 col-sm-4">
+    <div class="row animate__animated animate__slideInDown">
+        <div class="col-12 col-sm-6">
           <div class="info-box">
-            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-user-tie"></i></span>
+            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-box-open"></i></span>
             <div class="info-box-content">
-                <span class="info-box-text">{{ __('User Position') }}</span>
-                <span class="info-box-number">{{ $positions->count() }}</span>
+                <span class="info-box-number">{{ __('Total Production in') }} {{ $year }}</span>
+                <span class="info-box-text">{{ $prodcution }} Item</span>
               </div>
           </div>
           <!-- /.info-box -->
         </div>
         <!-- /.col -->
-        <div class="col-12 col-sm-4">
+        <div class="clearfix hidden-md-up"></div>
+         <!-- /.col -->
+        <div class="col-12 col-sm-6">
           <div class="info-box mb-3">
             <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-boxes"></i></span>
             <div class="info-box-content">
-                <span class="info-box-text">{{ __('Production') }}</span>
-                <span class="info-box-number">
-                  {{ number_format($prodcution) }} Item
+                <span class="info-box-number">{{ __('Total Salary issued in') }} {{ $year }}</span>
+                <span class="info-box-text">
+                  Rp. {{ number_format($sallaries,2,',','.') }}
+                  {{-- {{ number_format($prodcution) }} Item --}}
                 </span>
               </div>
             
@@ -29,7 +32,7 @@
         </div>
         <!-- /.col -->
 
-        <!-- fix for small devices only -->
+        {{-- <!-- fix for small devices only -->
         <div class="clearfix hidden-md-up"></div>
         <!-- /.col -->
         <div class="col-12 col-sm-4">
@@ -43,15 +46,15 @@
           </div>
           <!-- /.info-box -->
         </div>
-        <!-- /.col -->
-      </div>
+        <!-- /.col --> --}}
+    </div>
       <!-- /.row -->
 
 
 
 
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-8 animate__animated animate__slideInLeft">
             <div class="card card-outline card-purple">
                 <div class="card-header">
                     <h3 class="card-title text-bold">{{ __('Monthly Salary Recap Report') }}</h3>
@@ -68,8 +71,8 @@
                 <div class="card-body">
                     <div class="d-flex">
                         <p class="d-flex flex-column">
-                            <span class="text-bold text-lg"> Rp. {{ number_format($sallaryPrev,2,',','.') }}</span>
-                            <span>{{ __('Salary Expenditures in the Previous Month') }}</span>
+                            <span class="text-bold text-lg"> Rp. {{ number_format($salaryThisMonth,2,',','.') }}</span>
+                            <span>{{ __('Salary must be issued in') }} <strong>{{ $month }}, {{ $year }}</strong></span>
                         </p>
                     </div>
                     <!-- /.d-flex -->
@@ -83,7 +86,7 @@
 
 
 
-        <div class="col-md-4">
+        <div class="col-md-4 animate__animated animate__slideInRight">
               <!-- DONUT CHART -->
               <div class="card card-purple">
                 <div class="card-header">
@@ -256,7 +259,7 @@
                     '#28a745', 
                     '#20c997', 
                     '#17a2b8', 
-                    '#fff', 
+                    '#F4F6F9', 
                     '#6c757d'
                     ],
                 }

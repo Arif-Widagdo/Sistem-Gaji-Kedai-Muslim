@@ -102,90 +102,177 @@ class SallaryController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $rules = ([
             'id_user' => ['required'],
             'periode' => ['required'],
             'quantity' => ['required'],
             'total' => ['required'],
         ]);
+        $validatedData = $request->validate($rules);
 
-        if (!$validator->passes()) {
-            return response()->json(['status' => 0, 'error' => $validator->errors()->toArray(), 'msg' => __('Wait a few minutes to try again ')]);
-        } else {
-            $temp = explode('-', $request->periode);
+        if (!$validatedData) {
+            return redirect()->back()->with('error', __('Wait a few minutes to try again '));
+        }
 
-            $exists = Sallary::where('id_user', $request->id_user)
-                ->whereMonth('periode',  $temp[1])
-                ->whereYear('periode',  $temp[0])
-                ->first();
+        $temp = explode('-', $request->periode);
 
-            if ($exists) {
-                return response()->json(['status' => 'exists', 'msg' => __('Sallary Mail is Already and has been Receving')]);
-            } else {
-                // -------- Buat Invoice Email
-                $user = User::where('id', $request->id_user)->first();
+        $exists = Sallary::where('id_user', $request->id_user)
+            ->whereMonth('periode',  $temp[1])
+            ->whereYear('periode',  $temp[0])
+            ->first();
 
-                $products = Product::where('id_user', $user->id)
-                    ->whereMonth('completed_date',  $temp[1])
-                    ->whereYear('completed_date',  $temp[0])
-                    ->orderBy('name', 'ASC')->get(['quantity', 'id_category'])->groupBy(function ($item) {
-                        return $item->id_category;
-                    });
+        if ($exists) {
+            return redirect()->back()->with('info', __('Sallary Mail is Already and has been Receving'));
+        }
 
-                $services = Service::where('id_position',  $user->id_position)->get(['id_category', 'sallary']);
+        // -------- Buat Invoice Email
+        $user = User::where('id', $request->id_user)->first();
 
-                // ----- Hitung Gaji
-                $productCost  = Product::where('id_user', $user->id)
-                    ->whereMonth('completed_date', $temp[1])
-                    ->whereYear('completed_date', $temp[0])->get(['quantity', 'id_category']);
+        $products = Product::where('id_user', $user->id)
+            ->whereMonth('completed_date',  $temp[1])
+            ->whereYear('completed_date',  $temp[0])
+            ->orderBy('name', 'ASC')->get(['quantity', 'id_category'])->groupBy(function ($item) {
+                return $item->id_category;
+            });
 
-                $quantity = $productCost->sum('quantity');
-                $totalCost = 0;
+        $services = Service::where('id_position',  $user->id_position)->get(['id_category', 'sallary']);
 
-                foreach ($productCost as $product) {
-                    foreach ($services->where('id_category', '=', $product->category->id) as  $service) {
-                        $sallary = $product->quantity * $service->sallary;
-                        $totalCost += $sallary;
-                    }
-                }
+        // ----- Hitung Gaji
+        $productCost  = Product::where('id_user', $user->id)
+            ->whereMonth('completed_date', $temp[1])
+            ->whereYear('completed_date', $temp[0])->get(['quantity', 'id_category']);
 
-                // return $user;
-                $categories = Category::all();
-                $sallaryMonth = Carbon::parse($request->periode)->translatedFormat('F Y');
+        $quantity = $productCost->sum('quantity');
+        $totalCost = 0;
 
-
-                $isi_email = [
-                    'sallaryMonth' => $sallaryMonth,
-                    'user' => $user,
-                    'products' => $products,
-                    'categories' => $categories,
-                    'services' => $services,
-                    'quantity' => $quantity,
-                    'totalCost' => $totalCost,
-                ];
-
-                Mail::to($user->email)->send(new SallaryMail($isi_email));
-
-                $times = explode('-', now());
-                $time = $request->periode . '-' . $times[2];
-
-                $store = Sallary::create([
-                    'id' => Uuid::uuid4()->toString(),
-                    'id_user' => $request->id_user,
-                    'periode' => $time,
-                    'quantity' => $request->quantity,
-                    'total' => $request->total,
-                    'payroll_time' => now(),
-                ]);
-
-                if (!$store->save()) {
-                    return response()->json(['status' => 0, 'msg' => __('Sallary Mail Failed to Receve')]);
-                } else {
-                    return response()->json(['status' => 1, 'msg' => __('Sallary Mail Receving is Done')]);
-                }
+        foreach ($productCost as $product) {
+            foreach ($services->where('id_category', '=', $product->category->id) as  $service) {
+                $sallary = $product->quantity * $service->sallary;
+                $totalCost += $sallary;
             }
         }
+
+        // return $user;
+        $categories = Category::all();
+        $sallaryMonth = Carbon::parse($request->periode)->translatedFormat('F Y');
+
+        $isi_email = [
+            'sallaryMonth' => $sallaryMonth,
+            'user' => $user,
+            'products' => $products,
+            'categories' => $categories,
+            'services' => $services,
+            'quantity' => $quantity,
+            'totalCost' => $totalCost,
+        ];
+
+        Mail::to($user->email)->send(new SallaryMail($isi_email));
+
+        $times = explode('-', now());
+        $time = $request->periode . '-' . $times[2];
+
+        $store = Sallary::create([
+            'id' => Uuid::uuid4()->toString(),
+            'id_user' => $request->id_user,
+            'periode' => $time,
+            'quantity' => $request->quantity,
+            'total' => $request->total,
+            'payroll_time' => now(),
+        ]);
+
+        if (!$store->save()) {
+            return redirect()->back()->with('error', __('Sallary Mail Failed to Receve'));
+        } else {
+            return redirect()->route('owner.sallary.index')->with('success', __('Sallary Mail Receving is Done'));
+        }
     }
+
+    // public function store(Request $request)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'id_user' => ['required'],
+    //         'periode' => ['required'],
+    //         'quantity' => ['required'],
+    //         'total' => ['required'],
+    //     ]);
+
+    //     if (!$validator->passes()) {
+    //         return response()->json(['status' => 0, 'error' => $validator->errors()->toArray(), 'msg' => __('Wait a few minutes to try again ')]);
+    //     } else {
+    //         $temp = explode('-', $request->periode);
+
+    //         $exists = Sallary::where('id_user', $request->id_user)
+    //             ->whereMonth('periode',  $temp[1])
+    //             ->whereYear('periode',  $temp[0])
+    //             ->first();
+
+    //         if ($exists) {
+    //             return response()->json(['status' => 'exists', 'msg' => __('Sallary Mail is Already and has been Receving')]);
+    //         } else {
+    //             // -------- Buat Invoice Email
+    //             $user = User::where('id', $request->id_user)->first();
+
+    //             $products = Product::where('id_user', $user->id)
+    //                 ->whereMonth('completed_date',  $temp[1])
+    //                 ->whereYear('completed_date',  $temp[0])
+    //                 ->orderBy('name', 'ASC')->get(['quantity', 'id_category'])->groupBy(function ($item) {
+    //                     return $item->id_category;
+    //                 });
+
+    //             $services = Service::where('id_position',  $user->id_position)->get(['id_category', 'sallary']);
+
+    //             // ----- Hitung Gaji
+    //             $productCost  = Product::where('id_user', $user->id)
+    //                 ->whereMonth('completed_date', $temp[1])
+    //                 ->whereYear('completed_date', $temp[0])->get(['quantity', 'id_category']);
+
+    //             $quantity = $productCost->sum('quantity');
+    //             $totalCost = 0;
+
+    //             foreach ($productCost as $product) {
+    //                 foreach ($services->where('id_category', '=', $product->category->id) as  $service) {
+    //                     $sallary = $product->quantity * $service->sallary;
+    //                     $totalCost += $sallary;
+    //                 }
+    //             }
+
+    //             // return $user;
+    //             $categories = Category::all();
+    //             $sallaryMonth = Carbon::parse($request->periode)->translatedFormat('F Y');
+
+
+    //             $isi_email = [
+    //                 'sallaryMonth' => $sallaryMonth,
+    //                 'user' => $user,
+    //                 'products' => $products,
+    //                 'categories' => $categories,
+    //                 'services' => $services,
+    //                 'quantity' => $quantity,
+    //                 'totalCost' => $totalCost,
+    //             ];
+
+    //             Mail::to($user->email)->send(new SallaryMail($isi_email));
+
+    //             $times = explode('-', now());
+    //             $time = $request->periode . '-' . $times[2];
+
+    //             $store = Sallary::create([
+    //                 'id' => Uuid::uuid4()->toString(),
+    //                 'id_user' => $request->id_user,
+    //                 'periode' => $time,
+    //                 'quantity' => $request->quantity,
+    //                 'total' => $request->total,
+    //                 'payroll_time' => now(),
+    //             ]);
+
+    //             if (!$store->save()) {
+    //                 return response()->json(['status' => 0, 'msg' => __('Sallary Mail Failed to Receve')]);
+    //             } else {
+    //                 return response()->json(['status' => 1, 'msg' => __('Sallary Mail Receving is Done')]);
+    //             }
+    //         }
+    //     }
+    // }
 
     /**
      * Display the specified resource.
