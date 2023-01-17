@@ -28,7 +28,7 @@ class SallaryController extends Controller
     {
         return view('owner.sallary.index', [
             'users' => User::all(),
-            'sallaries' => Sallary::latest()->get()
+            'sallaries' => Sallary::orderBy('periode', 'DESC')->get()
         ]);
     }
 

@@ -57,6 +57,7 @@
                                        {{ $salary->userSallary->name }}
                                     </td>
                                     <td>
+                                        {{-- {{  Carbon\Carbon::parse($salary->periode)->translatedFormat('F Y') }} --}}
                                         {{ $salary->periode }}
                                     </td>
                                     <td>
@@ -137,21 +138,21 @@
             },
             "buttons": [{
                         "extend": 'copy',
-                        "title": "{{ __('List of Users') }}",
+                        "title": "{{ __('Pay List') }}",
                         "exportOptions": {
                             "columns": [1, 2, 3]
                         }
                     },
                     {
                         "extend": 'excel',
-                        "title": "{{ __('List of Users') }}",
+                        "title": "{{ __('Pay List') }}",
                         "exportOptions": {
                             "columns": [1, 2, 3]
                         }
                     },
                     {
                         "extend": 'print',
-                        "title": "{{ __('List of Users') }}",
+                        "title": "{{ __('Pay List') }}",
                         "exportOptions": {
                             "columns": [1, 2, 3]
                         }

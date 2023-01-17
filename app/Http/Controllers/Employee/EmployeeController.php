@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Employee;
 
+use DateTime;
 use App\Models\Product;
 use App\Models\Service;
 use Illuminate\Http\Request;
@@ -14,26 +15,24 @@ class EmployeeController extends Controller
     public function index()
     {
         $now = Carbon::now();
-        // $year =  $now->year;
-        // $month =  $now->month;
-        // $weekOfYear =  $now->weekOfYear;
-        $month =  Carbon::parse($now)->translatedFormat('F Y');
-
+        $year =  $now->year;
+        // $year =  2022;
+        $month = $now->month;
+        // $month =  2;
 
         $products = Product::where('id_user', auth()->user()->id)
-            ->whereMonth('completed_date', date('m'))
-            ->whereYear('completed_date', date('Y'))
+            ->whereMonth('completed_date', $month)
+            ->whereYear('completed_date', $year)
             ->orderBy('completed_date', 'DESC')->get()->groupBy(function ($item) {
                 return $item->completed_date;
             });
 
         $services = Service::whereIdPosition(auth()->user()->userPosition->id)->get();
 
-
         // ----- Hitung Gaji
         $productSallaries = Product::where('id_user', auth()->user()->id)
-            ->whereMonth('completed_date', date('m'))
-            ->whereYear('completed_date', date('Y'))->get(['quantity', 'id_category']);
+            ->whereMonth('completed_date', $month)
+            ->whereYear('completed_date', $year)->get(['quantity', 'id_category']);
 
         $quantity = $productSallaries->sum('quantity');
         $totalCost = 0;
@@ -44,10 +43,11 @@ class EmployeeController extends Controller
                 $totalCost += $sallary;
             }
         }
-
+        $dateObj   = DateTime::createFromFormat('!m', $month);
+        $monthName = Carbon::parse($dateObj)->translatedFormat('F');
 
         return view('employee.dashboard', [
-            'monthNow' => $month,
+            'monthNow' => $monthName,
             'totalCost' => $totalCost,
             'quantityWorked' => $quantity,
             'products' =>  $products,

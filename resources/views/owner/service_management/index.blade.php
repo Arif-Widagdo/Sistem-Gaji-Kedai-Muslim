@@ -219,7 +219,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">Rp. </span>
                                     </div>
-                                    <input class="form-control square error_input_sallary" name="sallary" type="text" placeholder="{{ __('Enter') }} {{ __('Sallary') }}" value="{{ number_format($service->sallary) }}" oninput="format(this)">
+                                    <input class="form-control square error_input_sallary" name="sallary" type="text" placeholder="{{ __('Enter') }} {{ __('Sallary') }}" value="{{ number_format($service_edit->sallary) }}" oninput="format(this)">                                                   
                                 </div>
                                 <span class="text-danger error-text sallary_error"></span>
                             </div>

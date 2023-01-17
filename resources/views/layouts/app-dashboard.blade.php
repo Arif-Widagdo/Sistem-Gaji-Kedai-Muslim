@@ -70,7 +70,7 @@
 </head>
 
 <body class="hold-transition sidebar-mini {{ (request()->is('**/profile')) 
-|| (request()->is('owner/sallaries/**')) 
+|| (request()->is('owner/sallaries/**')) || (request()->is('owner/recap-sallary/**')) 
 ? 'sidebar-collapse' : '' }}">
     <!-- Site wrapper -->
     <div class="wrapper">

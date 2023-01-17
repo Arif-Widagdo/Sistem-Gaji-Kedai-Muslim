@@ -17,7 +17,7 @@
          <!-- /.col -->
         <div class="col-12 col-sm-6">
           <div class="info-box mb-3">
-            <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-boxes"></i></span>
+            <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-coins"></i></span>
             <div class="info-box-content">
                 <span class="info-box-number">{{ __('Total Salary issued in') }} {{ $year }}</span>
                 <span class="info-box-text">

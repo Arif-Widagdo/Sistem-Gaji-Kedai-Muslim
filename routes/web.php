@@ -12,6 +12,7 @@ use App\Http\Controllers\Owner\ServiceController;
 use App\Http\Controllers\Owner\CategoryController;
 use App\Http\Controllers\Owner\PositionController;
 use App\Http\Controllers\Employee\EmployeeController;
+use App\Http\Controllers\Owner\RecapSallaryController;
 use App\Http\Controllers\Owner\UserManagementController;
 
 /*
@@ -92,6 +93,11 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::get('/sallary-print', [SallaryController::class, 'print'])->name('owner.sallary.print');
         Route::delete('/sallary-management-deleteAll', [SallaryController::class, 'deleteAll'])->name('owner.sallary.deleteAll');
         // Route::get('/sallaries/create/{id_user}/{periode}', [SallaryController::class, 'create'])->name('owner.sallary.create');
+
+        // Route Recap Salary
+        Route::get('/recap-sallary', [RecapSallaryController::class, 'index'])->name('recap.sallary.index');
+        Route::get('/recap-sallary/{periode}', [RecapSallaryController::class, 'show'])->name('recap.sallary.show');
+        Route::get('/recap-sallary/{periode}/print', [RecapSallaryController::class, 'print'])->name('recap.sallary.print');
     });
 
 

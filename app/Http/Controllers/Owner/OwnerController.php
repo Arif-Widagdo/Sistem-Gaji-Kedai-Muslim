@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Owner;
 
+use DateTime;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\Sallary;
@@ -17,11 +18,11 @@ class OwnerController extends Controller
     {
         $now = Carbon::now();
 
-        $year =  $now->year;
-        // $year =  2022;
+        // $year =  $now->year;
+        $year =  2022;
 
-        $month = $now->month;
-        // $month =  12;
+        // $month = $now->month;
+        $month =  12;
 
         $productionJan = Product::whereYear('completed_date', '=', $year)->whereMonth('completed_date', '=', 1)->get();
         $productionFeb = Product::whereYear('completed_date', '=', $year)->whereMonth('completed_date', '=', 2)->get();
@@ -53,13 +54,15 @@ class OwnerController extends Controller
         $sallaries = sallary::whereYear('periode', '=', $year)->get();
 
         $salaryThisMonth =  Sallary::whereYear('periode', '=', $year)->whereMonth('periode', '=', $month)->get();
+        $dateObj   = DateTime::createFromFormat('!m', $month);
+        $monthName = Carbon::parse($dateObj)->translatedFormat('F');
 
         return view('owner.dashboard', [
             'prodcution' => $prodcution->sum('quantity'),
             'sallaries' => $sallaries->sum('total'),
             'salaryThisMonth' => $salaryThisMonth->sum('total'),
             'year' =>  $year,
-            'month' => Carbon::parse($month)->translatedFormat('F'),
+            'month' => $monthName,
 
             'prodJan' => $productionJan->sum('quantity'),
             'prodFeb' => $productionFeb->sum('quantity'),

@@ -75,13 +75,29 @@
               <p>{{ __('Production') }}</p>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="{{ route('owner.sallary.index') }}" class="nav-link {{ request()->is('owner/sallaries') || request()->is('owner/sallaries/**') ? 'active' : '' }}">
+          <li class="nav-item {{ request()->is('owner/sallaries') || request()->is('owner/sallaries/**') || request()->is('owner/recap-sallary') || request()->is('owner/recap-sallary/**')  ? 'menu-open' : '' }}">
+            <a class="nav-link {{ request()->is('owner/sallaries') || request()->is('owner/sallaries/**') || request()->is('owner/recap-sallary') || request()->is('owner/recap-sallary/**')  ? 'active' : '' }}" style="cursor: pointer">
               <i class="nav-icon fas fa-file-invoice-dollar"></i>
-              <p>
-                {{ __('Invoices') }}
-              </p>
+              <p>{{ __('Sallary') }} <i class="right fas fa-angle-left"></i></p>
             </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('owner.sallary.index') }}" class="nav-link {{ request()->is('owner/sallaries') ? 'active' : '' }}">
+                  <i class="nav-icon far fa-circle"></i>
+                  <p>
+                    {{ __('Sallary Employee') }}
+                  </p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('recap.sallary.index') }}" class="nav-link {{ request()->is('owner/recap-sallary') || request()->is('owner/recap-sallary/**') ? 'active' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>
+                    {{ __('Sallary Recap') }}
+                  </p>
+                </a>
+              </li>
+            </ul>
           </li>
         </ul>
         @else
