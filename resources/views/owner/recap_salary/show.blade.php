@@ -65,10 +65,10 @@
                                                 <b>Total</b>
                                             </td>
                                             <td>
-                                                <b>{{ $sallary->sum('quantity') }} Item</b>
+                                                <b>{{ $sallaries->sum('quantity') }} Item</b>
                                             </td>
                                             <td>
-                                                <b class="mr-4">Rp. {{ number_format($sallary->sum('total'),2,',','.') }}</b>
+                                                <b class="mr-4">Rp. {{ number_format($sallaries->sum('total'),2,',','.') }}</b>
                                             </td>
                                         </tr>
                                     </tfoot>
